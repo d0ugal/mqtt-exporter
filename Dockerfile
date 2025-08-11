@@ -25,9 +25,6 @@ WORKDIR /root/
 # Copy the binary from builder stage
 COPY --from=builder /app/mqtt-exporter .
 
-# Copy configuration file
-COPY config.yaml .
-
 # Expose port
 EXPOSE 8080
 
