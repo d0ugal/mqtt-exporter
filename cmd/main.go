@@ -15,6 +15,34 @@ import (
 	"github.com/d0ugal/mqtt-exporter/internal/server"
 )
 
+// hasEnvironmentVariables checks if any MQTT_EXPORTER_* environment variables are set
+func hasEnvironmentVariables() bool {
+	envVars := []string{
+		"MQTT_EXPORTER_SERVER_HOST",
+		"MQTT_EXPORTER_SERVER_PORT",
+		"MQTT_EXPORTER_LOG_LEVEL",
+		"MQTT_EXPORTER_LOG_FORMAT",
+		"MQTT_EXPORTER_METRICS_DEFAULT_INTERVAL",
+		"MQTT_EXPORTER_MQTT_BROKER",
+		"MQTT_EXPORTER_MQTT_CLIENT_ID",
+		"MQTT_EXPORTER_MQTT_USERNAME",
+		"MQTT_EXPORTER_MQTT_PASSWORD",
+		"MQTT_EXPORTER_MQTT_TOPICS",
+		"MQTT_EXPORTER_MQTT_QOS",
+		"MQTT_EXPORTER_MQTT_CLEAN_SESSION",
+		"MQTT_EXPORTER_MQTT_KEEP_ALIVE",
+		"MQTT_EXPORTER_MQTT_CONNECT_TIMEOUT",
+	}
+
+	for _, envVar := range envVars {
+		if os.Getenv(envVar) != "" {
+			return true
+		}
+	}
+
+	return false
+}
+
 func main() {
 	var (
 		configPath    string
@@ -34,7 +62,11 @@ func main() {
 
 	// Check if we should use environment-only configuration
 	if !configFromEnv {
+		// Check explicit flag first
 		if os.Getenv("MQTT_EXPORTER_CONFIG_FROM_ENV") == "true" {
+			configFromEnv = true
+		} else if hasEnvironmentVariables() {
+			// Auto-detect environment variables and use them
 			configFromEnv = true
 		}
 	}

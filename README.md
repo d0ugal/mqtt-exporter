@@ -84,11 +84,20 @@ mqtt:
 
 For containerized deployments, you can configure the application entirely through environment variables. This is especially useful for Kubernetes, Docker Compose, and other container orchestration systems.
 
+#### Automatic Detection
+
+The application automatically detects when environment variables are present and uses them for configuration. You don't need to explicitly set `MQTT_EXPORTER_CONFIG_FROM_ENV=true` unless you want to force environment-only mode.
+
+**Behavior:**
+- If any `MQTT_EXPORTER_*` environment variables are detected, the application will use environment variable configuration
+- If no environment variables are found, it falls back to the YAML configuration file
+- The `MQTT_EXPORTER_CONFIG_FROM_ENV=true` flag can be used to explicitly force environment-only mode
+
 #### Environment Variable Format
 
 All environment variables are prefixed with `MQTT_EXPORTER_`:
 
-- `MQTT_EXPORTER_CONFIG_FROM_ENV=true` - Force environment-only configuration mode
+- `MQTT_EXPORTER_CONFIG_FROM_ENV=true` - Force environment-only configuration mode (optional)
 - `MQTT_EXPORTER_SERVER_HOST` - Server host (default: "0.0.0.0")
 - `MQTT_EXPORTER_SERVER_PORT` - Server port (default: 8080)
 - `MQTT_EXPORTER_LOG_LEVEL` - Log level: debug, info, warn, error (default: "info")
@@ -117,7 +126,6 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - MQTT_EXPORTER_CONFIG_FROM_ENV=true
       - MQTT_EXPORTER_MQTT_BROKER=mqtt://localhost:1883
       - MQTT_EXPORTER_MQTT_USERNAME=user
       - MQTT_EXPORTER_MQTT_PASSWORD=pass
@@ -149,8 +157,6 @@ spec:
         ports:
         - containerPort: 8080
         env:
-        - name: MQTT_EXPORTER_CONFIG_FROM_ENV
-          value: "true"
         - name: MQTT_EXPORTER_MQTT_BROKER
           value: "mqtt://mqtt-broker:1883"
         - name: MQTT_EXPORTER_MQTT_USERNAME
@@ -170,7 +176,10 @@ spec:
 #### Command Line Usage
 
 ```bash
-# Use environment variables only
+# Use environment variables (automatically detected)
+MQTT_EXPORTER_MQTT_BROKER=localhost:1883 ./mqtt-exporter
+
+# Use environment variables with explicit flag
 ./mqtt-exporter --config-from-env
 
 # Use environment variable for config path
