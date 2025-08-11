@@ -16,12 +16,31 @@ import (
 )
 
 func main() {
-	var configPath string
+	var (
+		configPath    string
+		configFromEnv bool
+	)
+
 	flag.StringVar(&configPath, "config", "config.yaml", "Path to configuration file")
+	flag.BoolVar(&configFromEnv, "config-from-env", false, "Load configuration from environment variables only")
 	flag.Parse()
 
+	// Use environment variable if config flag is not provided
+	if configPath == "config.yaml" && !configFromEnv {
+		if envConfig := os.Getenv("CONFIG_PATH"); envConfig != "" {
+			configPath = envConfig
+		}
+	}
+
+	// Check if we should use environment-only configuration
+	if !configFromEnv {
+		if os.Getenv("MQTT_EXPORTER_CONFIG_FROM_ENV") == "true" {
+			configFromEnv = true
+		}
+	}
+
 	// Load configuration
-	cfg, err := config.Load(configPath)
+	cfg, err := config.LoadConfig(configPath, configFromEnv)
 	if err != nil {
 		slog.Error("Failed to load configuration", "error", err)
 		os.Exit(1)

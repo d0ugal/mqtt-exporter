@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"gopkg.in/yaml.v3"
@@ -161,6 +162,184 @@ func Load(path string) (*Config, error) {
 	}
 
 	return &config, nil
+}
+
+// LoadConfig loads configuration from either a YAML file or environment variables
+// If configFromEnv is true, it will load from environment variables only
+func LoadConfig(path string, configFromEnv bool) (*Config, error) {
+	if configFromEnv {
+		return loadFromEnv()
+	}
+
+	return Load(path)
+}
+
+// loadFromEnv loads configuration from environment variables
+func loadFromEnv() (*Config, error) {
+	config := &Config{}
+
+	// Server configuration
+	if host := os.Getenv("MQTT_EXPORTER_SERVER_HOST"); host != "" {
+		config.Server.Host = host
+	} else {
+		config.Server.Host = "0.0.0.0"
+	}
+
+	if portStr := os.Getenv("MQTT_EXPORTER_SERVER_PORT"); portStr != "" {
+		if port, err := parseInt(portStr); err != nil {
+			return nil, fmt.Errorf("invalid server port: %w", err)
+		} else {
+			config.Server.Port = port
+		}
+	} else {
+		config.Server.Port = 8080
+	}
+
+	// Logging configuration
+	if level := os.Getenv("MQTT_EXPORTER_LOG_LEVEL"); level != "" {
+		config.Logging.Level = level
+	} else {
+		config.Logging.Level = "info"
+	}
+
+	if format := os.Getenv("MQTT_EXPORTER_LOG_FORMAT"); format != "" {
+		config.Logging.Format = format
+	} else {
+		config.Logging.Format = "json"
+	}
+
+	// Metrics configuration
+	if intervalStr := os.Getenv("MQTT_EXPORTER_METRICS_DEFAULT_INTERVAL"); intervalStr != "" {
+		if interval, err := time.ParseDuration(intervalStr); err != nil {
+			return nil, fmt.Errorf("invalid metrics default interval: %w", err)
+		} else {
+			config.Metrics.Collection.DefaultInterval = Duration{interval}
+			config.Metrics.Collection.DefaultIntervalSet = true
+		}
+	} else {
+		config.Metrics.Collection.DefaultInterval = Duration{time.Second * 30}
+	}
+
+	// MQTT configuration
+	if broker := os.Getenv("MQTT_EXPORTER_MQTT_BROKER"); broker != "" {
+		config.MQTT.Broker = broker
+	} else {
+		return nil, fmt.Errorf("MQTT broker is required (MQTT_EXPORTER_MQTT_BROKER)")
+	}
+
+	if clientID := os.Getenv("MQTT_EXPORTER_MQTT_CLIENT_ID"); clientID != "" {
+		config.MQTT.ClientID = clientID
+	} else {
+		config.MQTT.ClientID = "mqtt-exporter"
+	}
+
+	if username := os.Getenv("MQTT_EXPORTER_MQTT_USERNAME"); username != "" {
+		config.MQTT.Username = username
+	}
+
+	if password := os.Getenv("MQTT_EXPORTER_MQTT_PASSWORD"); password != "" {
+		config.MQTT.Password = password
+	}
+
+	if topicsStr := os.Getenv("MQTT_EXPORTER_MQTT_TOPICS"); topicsStr != "" {
+		config.MQTT.Topics = parseStringList(topicsStr)
+	} else {
+		config.MQTT.Topics = []string{"#"}
+	}
+
+	if qosStr := os.Getenv("MQTT_EXPORTER_MQTT_QOS"); qosStr != "" {
+		if qos, err := parseInt(qosStr); err != nil {
+			return nil, fmt.Errorf("invalid MQTT QoS: %w", err)
+		} else {
+			config.MQTT.QoS = qos
+		}
+	} else {
+		config.MQTT.QoS = 1
+	}
+
+	if cleanSessionStr := os.Getenv("MQTT_EXPORTER_MQTT_CLEAN_SESSION"); cleanSessionStr != "" {
+		if cleanSession, err := parseBool(cleanSessionStr); err != nil {
+			return nil, fmt.Errorf("invalid MQTT clean session: %w", err)
+		} else {
+			config.MQTT.CleanSession = cleanSession
+		}
+	} else {
+		config.MQTT.CleanSession = true
+	}
+
+	if keepAliveStr := os.Getenv("MQTT_EXPORTER_MQTT_KEEP_ALIVE"); keepAliveStr != "" {
+		if keepAlive, err := parseInt(keepAliveStr); err != nil {
+			return nil, fmt.Errorf("invalid MQTT keep alive: %w", err)
+		} else {
+			config.MQTT.KeepAlive = keepAlive
+		}
+	} else {
+		config.MQTT.KeepAlive = 60
+	}
+
+	if connectTimeoutStr := os.Getenv("MQTT_EXPORTER_MQTT_CONNECT_TIMEOUT"); connectTimeoutStr != "" {
+		if connectTimeout, err := parseInt(connectTimeoutStr); err != nil {
+			return nil, fmt.Errorf("invalid MQTT connect timeout: %w", err)
+		} else {
+			config.MQTT.ConnectTimeout = connectTimeout
+		}
+	} else {
+		config.MQTT.ConnectTimeout = 30
+	}
+
+	// Validate configuration
+	if err := config.Validate(); err != nil {
+		return nil, fmt.Errorf("configuration validation failed: %w", err)
+	}
+
+	return config, nil
+}
+
+// parseInt parses a string to int
+func parseInt(s string) (int, error) {
+	var i int
+
+	_, err := fmt.Sscanf(s, "%d", &i)
+	if err != nil {
+		return 0, err
+	}
+	// Check if there are any remaining characters (like decimal points)
+	if len(fmt.Sprintf("%d", i)) != len(s) {
+		return 0, fmt.Errorf("invalid integer format: %s", s)
+	}
+
+	return i, nil
+}
+
+// parseBool parses a string to bool
+func parseBool(s string) (bool, error) {
+	switch s {
+	case "true", "1", "yes", "on":
+		return true, nil
+	case "false", "0", "no", "off":
+		return false, nil
+	default:
+		return false, fmt.Errorf("invalid boolean value: %s", s)
+	}
+}
+
+// parseStringList parses a comma-separated string into a slice of strings
+func parseStringList(s string) []string {
+	if s == "" {
+		return nil
+	}
+
+	// Split by comma and trim whitespace
+	parts := strings.Split(s, ",")
+
+	result := make([]string, 0, len(parts))
+	for _, part := range parts {
+		if trimmed := strings.TrimSpace(part); trimmed != "" {
+			result = append(result, trimmed)
+		}
+	}
+
+	return result
 }
 
 // Validate performs comprehensive validation of the configuration

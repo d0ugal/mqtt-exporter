@@ -80,6 +80,106 @@ mqtt:
   connect_timeout: 30        # Connection timeout in seconds
 ```
 
+### Environment Variable Configuration
+
+For containerized deployments, you can configure the application entirely through environment variables. This is especially useful for Kubernetes, Docker Compose, and other container orchestration systems.
+
+#### Environment Variable Format
+
+All environment variables are prefixed with `MQTT_EXPORTER_`:
+
+- `MQTT_EXPORTER_CONFIG_FROM_ENV=true` - Force environment-only configuration mode
+- `MQTT_EXPORTER_SERVER_HOST` - Server host (default: "0.0.0.0")
+- `MQTT_EXPORTER_SERVER_PORT` - Server port (default: 8080)
+- `MQTT_EXPORTER_LOG_LEVEL` - Log level: debug, info, warn, error (default: "info")
+- `MQTT_EXPORTER_LOG_FORMAT` - Log format: json, text (default: "json")
+- `MQTT_EXPORTER_METRICS_DEFAULT_INTERVAL` - Default collection interval (default: "30s")
+
+#### MQTT Configuration
+
+- `MQTT_EXPORTER_MQTT_BROKER` - MQTT broker address (required)
+- `MQTT_EXPORTER_MQTT_CLIENT_ID` - MQTT client ID (default: "mqtt-exporter")
+- `MQTT_EXPORTER_MQTT_USERNAME` - MQTT username (optional)
+- `MQTT_EXPORTER_MQTT_PASSWORD` - MQTT password (optional)
+- `MQTT_EXPORTER_MQTT_TOPICS` - Comma-separated list of topics (default: "#")
+- `MQTT_EXPORTER_MQTT_QOS` - Quality of Service level (default: 1)
+- `MQTT_EXPORTER_MQTT_CLEAN_SESSION` - Clean session on connect (default: true)
+- `MQTT_EXPORTER_MQTT_KEEP_ALIVE` - Keep alive interval in seconds (default: 60)
+- `MQTT_EXPORTER_MQTT_CONNECT_TIMEOUT` - Connection timeout in seconds (default: 30)
+
+#### Docker Compose Example
+
+```yaml
+version: '3.8'
+services:
+  mqtt-exporter:
+    image: ghcr.io/d0ugal/mqtt-exporter:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - MQTT_EXPORTER_CONFIG_FROM_ENV=true
+      - MQTT_EXPORTER_MQTT_BROKER=mqtt://localhost:1883
+      - MQTT_EXPORTER_MQTT_USERNAME=user
+      - MQTT_EXPORTER_MQTT_PASSWORD=pass
+      - MQTT_EXPORTER_MQTT_TOPICS=sensor/+/temperature,device/+/status
+      - MQTT_EXPORTER_LOG_LEVEL=debug
+    restart: unless-stopped
+```
+
+#### Kubernetes Example
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqtt-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mqtt-exporter
+  template:
+    metadata:
+      labels:
+        app: mqtt-exporter
+    spec:
+      containers:
+      - name: mqtt-exporter
+        image: ghcr.io/d0ugal/mqtt-exporter:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MQTT_EXPORTER_CONFIG_FROM_ENV
+          value: "true"
+        - name: MQTT_EXPORTER_MQTT_BROKER
+          value: "mqtt://mqtt-broker:1883"
+        - name: MQTT_EXPORTER_MQTT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mqtt-credentials
+              key: username
+        - name: MQTT_EXPORTER_MQTT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mqtt-credentials
+              key: password
+        - name: MQTT_EXPORTER_MQTT_TOPICS
+          value: "sensor/+/temperature,device/+/status"
+```
+
+#### Command Line Usage
+
+```bash
+# Use environment variables only
+./mqtt-exporter --config-from-env
+
+# Use environment variable for config path
+CONFIG_PATH=/path/to/config.yaml ./mqtt-exporter
+
+# Force environment-only mode via environment variable
+MQTT_EXPORTER_CONFIG_FROM_ENV=true ./mqtt-exporter
+```
+
 ## Metrics
 
 The following Prometheus metrics are exposed at `/metrics`:
