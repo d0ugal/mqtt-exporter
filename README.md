@@ -24,10 +24,10 @@ docker pull ghcr.io/d0ugal/mqtt-exporter:latest
 # Run with default configuration
 docker run -p 8080:8080 ghcr.io/d0ugal/mqtt-exporter:latest
 
-# Run with custom config
+# Run with custom config (mount config file)
 docker run -p 8080:8080 \
-  -v $(pwd)/config.yaml:/app/config.yaml \
-  ghcr.io/d0ugal/mqtt-exporter:latest
+  -v $(pwd)/config.yaml:/root/config.yaml \
+  ghcr.io/d0ugal/mqtt-exporter:latest --config /root/config.yaml
 ```
 
 ### Building from Source
@@ -151,10 +151,10 @@ docker build -t mqtt-exporter .
 # Run container
 docker run -p 8080:8080 mqtt-exporter
 
-# Run with custom config
+# Run with custom config (mount config file)
 docker run -p 8080:8080 \
-  -v $(pwd)/config.yaml:/app/config.yaml \
-  mqtt-exporter
+  -v $(pwd)/config.yaml:/root/config.yaml \
+  mqtt-exporter --config /root/config.yaml
 ```
 
 ## Contributing
