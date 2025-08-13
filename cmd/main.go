@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -13,6 +14,7 @@ import (
 	"github.com/d0ugal/mqtt-exporter/internal/logging"
 	"github.com/d0ugal/mqtt-exporter/internal/metrics"
 	"github.com/d0ugal/mqtt-exporter/internal/server"
+	"github.com/d0ugal/mqtt-exporter/internal/version"
 )
 
 // hasEnvironmentVariables checks if any MQTT_EXPORTER_* environment variables are set
@@ -44,6 +46,11 @@ func hasEnvironmentVariables() bool {
 }
 
 func main() {
+	// Parse command line flags
+	var showVersion bool
+	flag.BoolVar(&showVersion, "version", false, "Show version information")
+	flag.BoolVar(&showVersion, "v", false, "Show version information")
+
 	var (
 		configPath    string
 		configFromEnv bool
@@ -52,6 +59,16 @@ func main() {
 	flag.StringVar(&configPath, "config", "config.yaml", "Path to configuration file")
 	flag.BoolVar(&configFromEnv, "config-from-env", false, "Load configuration from environment variables only")
 	flag.Parse()
+
+	// Show version if requested
+	if showVersion {
+		versionInfo := version.Get()
+		fmt.Printf("mqtt-exporter %s\n", versionInfo.Version)
+		fmt.Printf("Commit: %s\n", versionInfo.Commit)
+		fmt.Printf("Build Date: %s\n", versionInfo.BuildDate)
+		fmt.Printf("Go Version: %s\n", versionInfo.GoVersion)
+		os.Exit(0)
+	}
 
 	// Use environment variable if config flag is not provided
 	if configPath == "config.yaml" && !configFromEnv {
