@@ -54,7 +54,7 @@ func (s *Server) handleRoot(c *gin.Context) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MQTT Exporter</title>
+    <title>MQTT Exporter ` + versionInfo.Version + `</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -153,6 +153,21 @@ func (s *Server) handleRoot(c *gin.Context) {
             margin: 0.25rem 0;
             color: #6c757d;
         }
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #dee2e6;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -178,11 +193,17 @@ func (s *Server) handleRoot(c *gin.Context) {
     </div>
 
     <div class="metrics-info">
-        <h3>Configuration</h3>
+        <h3>Version Information</h3>
         <ul>
             <li><strong>Version:</strong> ` + versionInfo.Version + `</li>
             <li><strong>Commit:</strong> ` + versionInfo.Commit + `</li>
             <li><strong>Build Date:</strong> ` + versionInfo.BuildDate + `</li>
+        </ul>
+    </div>
+
+    <div class="metrics-info">
+        <h3>Configuration</h3>
+        <ul>
             <li><strong>MQTT Broker:</strong> ` + s.config.MQTT.Broker + `</li>
             <li><strong>Client ID:</strong> ` + s.config.MQTT.ClientID + `</li>
             <li><strong>Topics:</strong> ` + fmt.Sprintf("%d", len(s.config.MQTT.Topics)) + ` configured</li>
@@ -200,6 +221,11 @@ func (s *Server) handleRoot(c *gin.Context) {
             <li><strong>mqtt_topic_last_message_timestamp:</strong> Last message timestamp per topic</li>
         </ul>
     </div>
+
+    <div class="footer">
+        <p>Copyright © 2025 Dougal Matthews. Licensed under <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.</p>
+        <p><a href="https://github.com/d0ugal/mqtt-exporter" target="_blank">GitHub Repository</a> | <a href="https://github.com/d0ugal/mqtt-exporter/issues" target="_blank">Report Issues</a></p>
+    </div>
 </body>
 </html>`
 
@@ -210,11 +236,11 @@ func (s *Server) handleRoot(c *gin.Context) {
 func (s *Server) handleHealth(c *gin.Context) {
 	versionInfo := version.Get()
 	c.JSON(http.StatusOK, gin.H{
-		"status":    "healthy",
-		"timestamp": time.Now().Unix(),
-		"service":   "mqtt-exporter",
-		"version":   versionInfo.Version,
-		"commit":    versionInfo.Commit,
+		"status":     "healthy",
+		"timestamp":  time.Now().Unix(),
+		"service":    "mqtt-exporter",
+		"version":    versionInfo.Version,
+		"commit":     versionInfo.Commit,
 		"build_date": versionInfo.BuildDate,
 	})
 }
