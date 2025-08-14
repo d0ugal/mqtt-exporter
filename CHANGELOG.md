@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.2.0...v1.3.0) (2025-08-14)
+
+
+### Features
+
+* add version info metric and subtle version display in h1 header ([be5fa68](https://github.com/d0ugal/mqtt-exporter/commit/be5fa6832fb7d9521a6d9d36083348d20697522d))
+* add version to title, separate version info, and add copyright footer with GitHub links ([1d5551d](https://github.com/d0ugal/mqtt-exporter/commit/1d5551d9ce6e2add115da7af6ab4767d8442ac91))
+
+
+### Bug Fixes
+
+* update Dockerfile to inject version information during build ([decdd29](https://github.com/d0ugal/mqtt-exporter/commit/decdd29bc52d8dbd147f9a958e6c37d94a626432))
+
 ## [1.2.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.1.2...v1.2.0) (2025-08-13)
 
 
