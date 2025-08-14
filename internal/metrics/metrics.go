@@ -7,6 +7,9 @@ import (
 
 // Registry holds all the metrics for the MQTT exporter
 type Registry struct {
+	// Version info metric
+	VersionInfo *prometheus.GaugeVec
+
 	// MQTT message counters
 	MQTTMessageCount *prometheus.CounterVec
 	MQTTMessageBytes *prometheus.CounterVec
@@ -22,6 +25,13 @@ type Registry struct {
 // NewRegistry creates a new metrics registry
 func NewRegistry() *Registry {
 	return &Registry{
+		VersionInfo: promauto.NewGaugeVec(
+			prometheus.GaugeOpts{
+				Name: "mqtt_exporter_info",
+				Help: "Information about the MQTT exporter",
+			},
+			[]string{"version", "commit", "build_date"},
+		),
 		MQTTMessageCount: promauto.NewCounterVec(
 			prometheus.CounterOpts{
 				Name: "mqtt_messages_total",

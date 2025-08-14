@@ -101,6 +101,10 @@ func main() {
 	// Initialize metrics
 	metricsRegistry := metrics.NewRegistry()
 
+	// Set version info metric
+	versionInfo := version.Get()
+	metricsRegistry.VersionInfo.WithLabelValues(versionInfo.Version, versionInfo.Commit, versionInfo.BuildDate).Set(1)
+
 	// Create collectors
 	mqttCollector := collectors.NewMQTTCollector(cfg, metricsRegistry)
 
