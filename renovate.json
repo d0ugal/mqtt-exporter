@@ -18,8 +18,5 @@
       "automerge": true
     }
   ],
-  "schedule": [
-    "every weekend"
-  ],
   "timezone": "UTC"
 }
