@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.3.1...v1.4.0) (2025-08-16)
+
+
+### Features
+
+* remove weekend schedule restriction from renovate config ([d4ce4a0](https://github.com/d0ugal/mqtt-exporter/commit/d4ce4a0cdccf765aeb06b0f8c5479aa90ab22244))
+* upgrade to Go 1.25 ([730d116](https://github.com/d0ugal/mqtt-exporter/commit/730d116afea5c218aed910bdaeac5c5c7af3064f))
+
+
+### Bug Fixes
+
+* revert golangci-lint config to version 2 for compatibility ([c814455](https://github.com/d0ugal/mqtt-exporter/commit/c814455cc64cc5861e68d86379b924109b09cc64))
+* update golangci-lint config for Go 1.25 compatibility ([fca876d](https://github.com/d0ugal/mqtt-exporter/commit/fca876dc55a0e05322b81f9db7a5951b8abe9e06))
+
 ## [1.3.1](https://github.com/d0ugal/mqtt-exporter/compare/v1.3.0...v1.3.1) (2025-08-14)
 
 
