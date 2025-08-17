@@ -197,6 +197,7 @@ The following Prometheus metrics are exposed at `/metrics`:
 - `mqtt_message_bytes_total`: Total bytes received in MQTT messages (by topic)
 - `mqtt_connection_status`: MQTT connection status (1 = connected, 0 = disconnected)
 - `mqtt_connection_errors_total`: Total number of MQTT connection errors
+- `mqtt_reconnects_total`: Total number of MQTT reconnection attempts
 - `mqtt_topic_last_message_timestamp`: Timestamp of the last message received per topic
 
 ## Endpoints

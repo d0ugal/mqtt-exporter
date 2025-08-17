@@ -224,6 +224,7 @@ func (s *Server) handleRoot(c *gin.Context) {
             <li><strong>mqtt_message_bytes_total:</strong> Total bytes received per topic</li>
             <li><strong>mqtt_connection_status:</strong> MQTT connection status</li>
             <li><strong>mqtt_connection_errors_total:</strong> Connection error tracking</li>
+            <li><strong>mqtt_reconnects_total:</strong> Total reconnection attempts</li>
             <li><strong>mqtt_topic_last_message_timestamp:</strong> Last message timestamp per topic</li>
         </ul>
     </div>

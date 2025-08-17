@@ -1,0 +1,64 @@
+{
+  "name": "mqtt-exporter",
+  "metrics": [
+    {
+      "name": "mqtt_connection_errors_total",
+      "help": "Total number of MQTT connection errors",
+      "type": "NewCounterVec",
+      "labels": [
+        "broker",
+        "error_type"
+      ]
+    },
+    {
+      "name": "mqtt_connection_status",
+      "help": "MQTT connection status (1 = connected, 0 = disconnected)",
+      "type": "NewGaugeVec",
+      "labels": [
+        "broker"
+      ]
+    },
+    {
+      "name": "mqtt_exporter_info",
+      "help": "Information about the MQTT exporter",
+      "type": "NewGaugeVec",
+      "labels": [
+        "version",
+        "commit",
+        "build_date"
+      ]
+    },
+    {
+      "name": "mqtt_message_bytes_total",
+      "help": "Total number of bytes received in MQTT messages",
+      "type": "NewCounterVec",
+      "labels": [
+        "topic"
+      ]
+    },
+    {
+      "name": "mqtt_messages_total",
+      "help": "Total number of MQTT messages received",
+      "type": "NewCounterVec",
+      "labels": [
+        "topic"
+      ]
+    },
+    {
+      "name": "mqtt_reconnects_total",
+      "help": "Total number of MQTT reconnection attempts",
+      "type": "NewCounterVec",
+      "labels": [
+        "broker"
+      ]
+    },
+    {
+      "name": "mqtt_topic_last_message_timestamp",
+      "help": "Timestamp of the last message received per topic",
+      "type": "NewGaugeVec",
+      "labels": [
+        "topic"
+      ]
+    }
+  ]
+}
