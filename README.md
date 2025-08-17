@@ -13,6 +13,17 @@ A Prometheus exporter for MQTT message monitoring. This exporter connects to an 
 - Prometheus metrics endpoint
 - Health check endpoint
 
+## Metrics
+
+The following Prometheus metrics are exposed at `/metrics`:
+
+- `mqtt_messages_total`: Total number of MQTT messages received (by topic)
+- `mqtt_message_bytes_total`: Total bytes received in MQTT messages (by topic)
+- `mqtt_connection_status`: MQTT connection status (1 = connected, 0 = disconnected)
+- `mqtt_connection_errors_total`: Total number of MQTT connection errors
+- `mqtt_reconnects_total`: Total number of MQTT reconnection attempts
+- `mqtt_topic_last_message_timestamp`: Timestamp of the last message received per topic
+
 ## Quick Start
 
 ### Using Docker
@@ -188,17 +199,6 @@ CONFIG_PATH=/path/to/config.yaml ./mqtt-exporter
 # Force environment-only mode via environment variable
 MQTT_EXPORTER_CONFIG_FROM_ENV=true ./mqtt-exporter
 ```
-
-## Metrics
-
-The following Prometheus metrics are exposed at `/metrics`:
-
-- `mqtt_messages_total`: Total number of MQTT messages received (by topic)
-- `mqtt_message_bytes_total`: Total bytes received in MQTT messages (by topic)
-- `mqtt_connection_status`: MQTT connection status (1 = connected, 0 = disconnected)
-- `mqtt_connection_errors_total`: Total number of MQTT connection errors
-- `mqtt_reconnects_total`: Total number of MQTT reconnection attempts
-- `mqtt_topic_last_message_timestamp`: Timestamp of the last message received per topic
 
 ## Endpoints
 
