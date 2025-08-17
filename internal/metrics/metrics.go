@@ -17,6 +17,7 @@ type Registry struct {
 	// MQTT connection metrics
 	MQTTConnectionStatus *prometheus.GaugeVec
 	MQTTConnectionErrors *prometheus.CounterVec
+	MQTTReconnectsTotal  *prometheus.CounterVec
 
 	// MQTT topic metrics
 	MQTTTopicLastMessage *prometheus.GaugeVec
@@ -59,6 +60,13 @@ func NewRegistry() *Registry {
 				Help: "Total number of MQTT connection errors",
 			},
 			[]string{"broker", "error_type"},
+		),
+		MQTTReconnectsTotal: promauto.NewCounterVec(
+			prometheus.CounterOpts{
+				Name: "mqtt_reconnects_total",
+				Help: "Total number of MQTT reconnection attempts",
+			},
+			[]string{"broker"},
 		),
 		MQTTTopicLastMessage: promauto.NewGaugeVec(
 			prometheus.GaugeOpts{

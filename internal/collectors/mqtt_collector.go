@@ -18,6 +18,7 @@ type MQTTCollector struct {
 	client  MQTT.Client
 	mu      sync.RWMutex
 	topics  map[string]int64
+	done    chan struct{}
 }
 
 func NewMQTTCollector(cfg *config.Config, metricsRegistry *metrics.Registry) *MQTTCollector {
@@ -25,14 +26,75 @@ func NewMQTTCollector(cfg *config.Config, metricsRegistry *metrics.Registry) *MQ
 		config:  cfg,
 		metrics: metricsRegistry,
 		topics:  make(map[string]int64),
+		done:    make(chan struct{}),
 	}
 }
 
 func (mc *MQTTCollector) Start(ctx context.Context) {
-	go mc.connect(ctx)
+	go mc.run(ctx)
 }
 
-func (mc *MQTTCollector) connect(ctx context.Context) {
+// run handles the main connection loop with automatic reconnection
+func (mc *MQTTCollector) run(ctx context.Context) {
+	reconnectDelay := time.Second
+	maxReconnectDelay := time.Minute
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-mc.done:
+			return
+		default:
+		}
+
+		if err := mc.connect(); err != nil {
+			slog.Error("Failed to connect to MQTT broker",
+				"broker", mc.config.MQTT.Broker,
+				"error", err,
+			)
+			mc.metrics.MQTTConnectionStatus.WithLabelValues(mc.config.MQTT.Broker).Set(0)
+			mc.metrics.MQTTConnectionErrors.WithLabelValues(mc.config.MQTT.Broker, "connect").Inc()
+
+			select {
+			case <-ctx.Done():
+				return
+			case <-time.After(reconnectDelay):
+				reconnectDelay = minDuration(reconnectDelay*2, maxReconnectDelay)
+				continue
+			}
+		}
+
+		// Reset reconnect delay on successful connection
+		reconnectDelay = time.Second
+
+		slog.Info("Connected to MQTT broker", "broker", mc.config.MQTT.Broker)
+		mc.metrics.MQTTConnectionStatus.WithLabelValues(mc.config.MQTT.Broker).Set(1)
+
+		// Subscribe to topics
+		if err := mc.subscribeToTopics(); err != nil {
+			slog.Error("Failed to subscribe to topics", "error", err)
+			mc.metrics.MQTTConnectionErrors.WithLabelValues(mc.config.MQTT.Broker, "subscribe").Inc()
+			
+			// Disconnect and retry
+			if mc.client != nil {
+				mc.client.Disconnect(250)
+			}
+			continue
+		}
+
+		// Keep connection alive until context is cancelled or connection is lost
+		<-ctx.Done()
+		slog.Info("Shutting down MQTT collector")
+
+		if mc.client != nil && mc.client.IsConnected() {
+			mc.client.Disconnect(250)
+		}
+		return
+	}
+}
+
+func (mc *MQTTCollector) connect() error {
 	opts := MQTT.NewClientOptions()
 	opts.AddBroker(fmt.Sprintf("tcp://%s", mc.config.MQTT.Broker))
 	opts.SetClientID(mc.config.MQTT.ClientID)
@@ -55,49 +117,37 @@ func (mc *MQTTCollector) connect(ctx context.Context) {
 
 	// Connect to broker
 	if token := mc.client.Connect(); token.Wait() && token.Error() != nil {
-		slog.Error("Failed to connect to MQTT broker",
-			"broker", mc.config.MQTT.Broker,
-			"error", token.Error(),
-		)
-		mc.metrics.MQTTConnectionErrors.WithLabelValues(mc.config.MQTT.Broker, "connect").Inc()
-
-		return
+		return fmt.Errorf("failed to connect: %w", token.Error())
 	}
 
-	slog.Info("Connected to MQTT broker", "broker", mc.config.MQTT.Broker)
-	mc.metrics.MQTTConnectionStatus.WithLabelValues(mc.config.MQTT.Broker).Set(1)
+	return nil
+}
 
-	// Subscribe to topics
+func (mc *MQTTCollector) subscribeToTopics() error {
 	for _, topic := range mc.config.MQTT.Topics {
 		if token := mc.client.Subscribe(topic, byte(mc.config.MQTT.QoS), nil); token.Wait() && token.Error() != nil {
-			slog.Error("Failed to subscribe to topic",
-				"topic", topic,
-				"error", token.Error(),
-			)
-			mc.metrics.MQTTConnectionErrors.WithLabelValues(mc.config.MQTT.Broker, "subscribe").Inc()
-		} else {
-			slog.Info("Subscribed to topic", "topic", topic)
+			return fmt.Errorf("failed to subscribe to topic %s: %w", topic, token.Error())
 		}
+		slog.Info("Subscribed to topic", "topic", topic)
 	}
-
-	// Keep connection alive
-	<-ctx.Done()
-	slog.Info("Shutting down MQTT collector")
-
-	if mc.client != nil && mc.client.IsConnected() {
-		mc.client.Disconnect(250)
-	}
+	return nil
 }
 
 func (mc *MQTTCollector) onConnect(client MQTT.Client) {
-	slog.Info("MQTT connection established")
+	slog.Info("MQTT connection established", "broker", mc.config.MQTT.Broker)
 	mc.metrics.MQTTConnectionStatus.WithLabelValues(mc.config.MQTT.Broker).Set(1)
 }
 
 func (mc *MQTTCollector) onConnectionLost(client MQTT.Client, err error) {
-	slog.Error("MQTT connection lost", "error", err)
+	slog.Error("MQTT connection lost", 
+		"broker", mc.config.MQTT.Broker,
+		"error", err,
+	)
 	mc.metrics.MQTTConnectionStatus.WithLabelValues(mc.config.MQTT.Broker).Set(0)
 	mc.metrics.MQTTConnectionErrors.WithLabelValues(mc.config.MQTT.Broker, "connection_lost").Inc()
+	mc.metrics.MQTTReconnectsTotal.WithLabelValues(mc.config.MQTT.Broker).Inc()
+	
+	slog.Info("MQTT reconnection attempt initiated", "broker", mc.config.MQTT.Broker)
 }
 
 func (mc *MQTTCollector) onMessageReceived(client MQTT.Client, msg MQTT.Message) {
@@ -121,4 +171,21 @@ func (mc *MQTTCollector) onMessageReceived(client MQTT.Client, msg MQTT.Message)
 	mc.metrics.MQTTTopicLastMessage.WithLabelValues(topic).Set(float64(time.Now().Unix()))
 
 	slog.Debug("Updated metrics for topic", "topic", topic)
+}
+
+// Stop stops the collector
+func (mc *MQTTCollector) Stop() {
+	close(mc.done)
+
+	if mc.client != nil && mc.client.IsConnected() {
+		mc.client.Disconnect(250)
+	}
+}
+
+// minDuration returns the minimum of two time.Duration values
+func minDuration(a, b time.Duration) time.Duration {
+	if a < b {
+		return a
+	}
+	return b
 }
