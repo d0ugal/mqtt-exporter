@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.5.0...v1.6.0) (2025-08-19)
+
+
+### Features
+
+* **server:** add dynamic metrics information with collapsible interface ([f7be6aa](https://github.com/d0ugal/mqtt-exporter/commit/f7be6aa12c3666b0e13bc34e11c5593e5cd184e4))
+
+
+### Bug Fixes
+
+* **lint:** pre-allocate slices to resolve golangci-lint prealloc warnings ([5f7beb6](https://github.com/d0ugal/mqtt-exporter/commit/5f7beb6c31beafe0408e5fa6741d612e4046dd5e))
+
 ## [1.5.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.4.0...v1.5.0) (2025-08-17)
 
 
