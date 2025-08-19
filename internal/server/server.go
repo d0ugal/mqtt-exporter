@@ -59,7 +59,7 @@ func (s *Server) setupRoutes() {
 }
 
 func (s *Server) getMetricsInfo() []MetricInfo {
-	var metricsInfo []MetricInfo
+	metricsInfo := make([]MetricInfo, 0, 7)
 
 	// Define all metrics manually since reflection approach is complex with Prometheus metrics
 	metrics := []struct {
