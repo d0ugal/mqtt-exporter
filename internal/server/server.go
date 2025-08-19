@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/d0ugal/mqtt-exporter/internal/config"
@@ -19,6 +20,13 @@ type Server struct {
 	metrics *metrics.Registry
 	server  *http.Server
 	router  *gin.Engine
+}
+
+type MetricInfo struct {
+	Name         string
+	Help         string
+	ExampleValue string
+	Labels       map[string]string
 }
 
 func New(cfg *config.Config, metricsRegistry *metrics.Registry) *Server {
@@ -45,10 +53,148 @@ func (s *Server) setupRoutes() {
 
 	// Health endpoint
 	s.router.GET("/health", s.handleHealth)
+
+	// Metrics info endpoint
+	s.router.GET("/metrics-info", s.handleMetricsInfo)
+}
+
+func (s *Server) getMetricsInfo() []MetricInfo {
+	var metricsInfo []MetricInfo
+
+	// Define all metrics manually since reflection approach is complex with Prometheus metrics
+	metrics := []struct {
+		name  string
+		field string
+	}{
+		{"mqtt_exporter_info", "VersionInfo"},
+		{"mqtt_messages_total", "MQTTMessageCount"},
+		{"mqtt_message_bytes_total", "MQTTMessageBytes"},
+		{"mqtt_connection_status", "MQTTConnectionStatus"},
+		{"mqtt_connection_errors_total", "MQTTConnectionErrors"},
+		{"mqtt_reconnects_total", "MQTTReconnectsTotal"},
+		{"mqtt_topic_last_message_timestamp", "MQTTTopicLastMessage"},
+	}
+
+	for _, metric := range metrics {
+		metricsInfo = append(metricsInfo, MetricInfo{
+			Name:         metric.name,
+			Help:         s.getMetricHelp(metric.field),
+			ExampleValue: s.getExampleValue(metric.field),
+			Labels:       s.getExampleLabels(metric.field),
+		})
+	}
+
+	return metricsInfo
+}
+
+func (s *Server) getExampleLabels(metricName string) map[string]string {
+	switch metricName {
+	case "VersionInfo":
+		return map[string]string{"version": "v1.5.0", "commit": "abc123", "build_date": "2024-01-01"}
+	case "MQTTMessageCount", "MQTTMessageBytes", "MQTTTopicLastMessage":
+		return map[string]string{"topic": "home/sensor/temperature"}
+	case "MQTTConnectionStatus", "MQTTReconnectsTotal":
+		return map[string]string{"broker": "10.10.10.2:1883"}
+	case "MQTTConnectionErrors":
+		return map[string]string{"broker": "10.10.10.2:1883", "error_type": "connection_refused"}
+	default:
+		return map[string]string{}
+	}
+}
+
+func (s *Server) getExampleValue(metricName string) string {
+	switch metricName {
+	case "VersionInfo":
+		return "1"
+	case "MQTTMessageCount":
+		return "42"
+	case "MQTTMessageBytes":
+		return "1024"
+	case "MQTTConnectionStatus":
+		return "1"
+	case "MQTTConnectionErrors":
+		return "3"
+	case "MQTTReconnectsTotal":
+		return "2"
+	case "MQTTTopicLastMessage":
+		return "1704067200"
+	default:
+		return "0"
+	}
+}
+
+func (s *Server) getMetricHelp(metricName string) string {
+	switch metricName {
+	case "VersionInfo":
+		return "Information about the MQTT exporter"
+	case "MQTTMessageCount":
+		return "Total number of MQTT messages received"
+	case "MQTTMessageBytes":
+		return "Total number of bytes received in MQTT messages"
+	case "MQTTConnectionStatus":
+		return "MQTT connection status (1 = connected, 0 = disconnected)"
+	case "MQTTConnectionErrors":
+		return "Total number of MQTT connection errors"
+	case "MQTTReconnectsTotal":
+		return "Total number of MQTT reconnection attempts"
+	case "MQTTTopicLastMessage":
+		return "Timestamp of the last message received per topic"
+	default:
+		return "MQTT exporter metric"
+	}
+}
+
+func (s *Server) handleMetricsInfo(c *gin.Context) {
+	metricsInfo := s.getMetricsInfo()
+
+	// Generate JSON response
+	response := gin.H{
+		"metrics":     metricsInfo,
+		"total_count": len(metricsInfo),
+		"generated_at": time.Now().Unix(),
+	}
+
+	c.JSON(http.StatusOK, response)
 }
 
 func (s *Server) handleRoot(c *gin.Context) {
 	versionInfo := version.Get()
+	metricsInfo := s.getMetricsInfo()
+
+	// Generate metrics HTML dynamically
+	metricsHTML := ""
+	for i, metric := range metricsInfo {
+		labelsStr := ""
+		if len(metric.Labels) > 0 {
+			var labelPairs []string
+			for k, v := range metric.Labels {
+				labelPairs = append(labelPairs, fmt.Sprintf(`%s="%s"`, k, v))
+			}
+			labelsStr = "{" + strings.Join(labelPairs, ", ") + "}"
+		}
+
+		// Create clickable metric with hidden details
+		metricsHTML += fmt.Sprintf(`
+            <div class="metric-item" onclick="toggleMetricDetails(%d)">
+                <div class="metric-header">
+                    <span class="metric-name">%s</span>
+                    <span class="metric-toggle">▼</span>
+                </div>
+                <div class="metric-details" id="metric-%d">
+                    <div class="metric-help"><strong>Description:</strong> %s</div>
+                    <div class="metric-example"><strong>Example:</strong> %s = %s</div>
+                    <div class="metric-labels"><strong>Labels:</strong> %s</div>
+                </div>
+            </div>`,
+			i,
+			metric.Name,
+			i,
+			metric.Help,
+			metric.Name,
+			metric.ExampleValue,
+			labelsStr)
+	}
+
 	html := `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -174,7 +320,75 @@ func (s *Server) handleRoot(c *gin.Context) {
         .footer a:hover {
             text-decoration: underline;
         }
+        .metrics-list {
+            margin: 0.5rem 0;
+        }
+        .metric-item {
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            margin: 0.5rem 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .metric-item:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+        .metric-header {
+            padding: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            color: #495057;
+        }
+        .metric-name {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        .metric-toggle {
+            font-size: 0.8rem;
+            color: #6c757d;
+            transition: transform 0.2s ease;
+        }
+        .metric-details {
+            display: none;
+            padding: 0.75rem;
+            border-top: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        .metric-details.show {
+            display: block;
+        }
+        .metric-help, .metric-example, .metric-labels {
+            margin: 0.5rem 0;
+        }
+        .metric-example {
+            font-family: 'Courier New', monospace;
+            background-color: #e9ecef;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+        }
+        .metric-labels {
+            color: #6c757d;
+        }
     </style>
+    <script>
+        function toggleMetricDetails(id) {
+            const details = document.getElementById('metric-' + id);
+            const toggle = details.previousElementSibling.querySelector('.metric-toggle');
+            
+            if (details.classList.contains('show')) {
+                details.classList.remove('show');
+                toggle.textContent = '▼';
+            } else {
+                details.classList.add('show');
+                toggle.textContent = '▲';
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>MQTT Exporter<span class="version">` + versionInfo.Version + `</span></h1>
@@ -182,6 +396,12 @@ func (s *Server) handleRoot(c *gin.Context) {
     <div class="endpoint">
         <h3><a href="/metrics">📊 Metrics</a></h3>
         <p class="description">Prometheus metrics endpoint</p>
+        <span class="status metrics">Available</span>
+    </div>
+
+    <div class="endpoint">
+        <h3><a href="/metrics-info">📋 Metrics Info</a></h3>
+        <p class="description">Detailed metrics information with examples</p>
         <span class="status metrics">Available</span>
     </div>
 
@@ -219,14 +439,8 @@ func (s *Server) handleRoot(c *gin.Context) {
 
     <div class="metrics-info">
         <h3>Available Metrics</h3>
-        <ul>
-            <li><strong>mqtt_messages_total:</strong> Total messages received per topic</li>
-            <li><strong>mqtt_message_bytes_total:</strong> Total bytes received per topic</li>
-            <li><strong>mqtt_connection_status:</strong> MQTT connection status</li>
-            <li><strong>mqtt_connection_errors_total:</strong> Connection error tracking</li>
-            <li><strong>mqtt_reconnects_total:</strong> Total reconnection attempts</li>
-            <li><strong>mqtt_topic_last_message_timestamp:</strong> Last message timestamp per topic</li>
-        </ul>
+        <div class="metrics-list">` + metricsHTML + `
+        </div>
     </div>
 
     <div class="footer">
