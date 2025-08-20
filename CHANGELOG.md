@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.8.0...v1.9.0) (2025-08-20)
+
+
+### Features
+
+* optimize linting performance with caching ([1e253d0](https://github.com/d0ugal/mqtt-exporter/commit/1e253d0b5da816716edf10c15f59b305049211cb))
+
+
+### Bug Fixes
+
+* run Docker containers as current user to prevent permission issues ([bce4368](https://github.com/d0ugal/mqtt-exporter/commit/bce436845fd24f6576aabd7f093e41972ac209af))
+
 ## [1.8.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.7.0...v1.8.0) (2025-08-20)
 
 
