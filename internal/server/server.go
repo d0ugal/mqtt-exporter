@@ -224,12 +224,23 @@ func (s *Server) handleRoot(c *gin.Context) {
             font-weight: normal;
             margin-left: 0.5rem;
         }
+        .endpoints-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
         .endpoint {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
             border-radius: 8px;
             padding: 1rem;
-            margin: 1rem 0;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .endpoint:hover {
+            border-color: #007bff;
+            background-color: #e3f2fd;
         }
         .endpoint h3 {
             margin: 0 0 0.5rem 0;
@@ -246,6 +257,7 @@ func (s *Server) handleRoot(c *gin.Context) {
         .description {
             color: #6c757d;
             font-size: 0.9rem;
+            margin-bottom: 0.5rem;
         }
         .status {
             display: inline-block;
@@ -396,22 +408,24 @@ func (s *Server) handleRoot(c *gin.Context) {
 <body>
     <h1>MQTT Exporter<span class="version">` + versionInfo.Version + `</span></h1>
     
-    <div class="endpoint">
-        <h3><a href="/metrics">📊 Metrics</a></h3>
-        <p class="description">Prometheus metrics endpoint</p>
-        <span class="status metrics">Available</span>
-    </div>
+    <div class="endpoints-grid">
+        <div class="endpoint">
+            <h3><a href="/metrics">📊 Metrics</a></h3>
+            <p class="description">Prometheus metrics endpoint</p>
+            <span class="status metrics">Available</span>
+        </div>
 
-    <div class="endpoint">
-        <h3><a href="/metrics-info">📋 Metrics Info</a></h3>
-        <p class="description">Detailed metrics information with examples</p>
-        <span class="status metrics">Available</span>
-    </div>
+        <div class="endpoint">
+            <h3><a href="/metrics-info">📋 Metrics Info</a></h3>
+            <p class="description">Detailed metrics information with examples</p>
+            <span class="status metrics">Available</span>
+        </div>
 
-    <div class="endpoint">
-        <h3><a href="/health">❤️ Health Check</a></h3>
-        <p class="description">Service health status</p>
-        <span class="status healthy">Healthy</span>
+        <div class="endpoint">
+            <h3><a href="/health">❤️ Health Check</a></h3>
+            <p class="description">Service health status</p>
+            <span class="status healthy">Healthy</span>
+        </div>
     </div>
 
     <div class="service-status">
@@ -419,6 +433,12 @@ func (s *Server) handleRoot(c *gin.Context) {
         <p><strong>Status:</strong> <span class="status ready">Ready</span></p>
         <p><strong>MQTT Connection:</strong> <span class="status connected">Connected</span></p>
         <p><strong>Message Monitoring:</strong> <span class="status ready">Active</span></p>
+    </div>
+
+    <div class="metrics-info">
+        <h3>Available Metrics</h3>
+        <div class="metrics-list">` + metricsHTML + `
+        </div>
     </div>
 
     <div class="metrics-info">
@@ -438,12 +458,6 @@ func (s *Server) handleRoot(c *gin.Context) {
             <li><strong>Topics:</strong> ` + fmt.Sprintf("%d", len(s.config.MQTT.Topics)) + ` configured</li>
             <li><strong>QoS Level:</strong> ` + fmt.Sprintf("%d", s.config.MQTT.QoS) + `</li>
         </ul>
-    </div>
-
-    <div class="metrics-info">
-        <h3>Available Metrics</h3>
-        <div class="metrics-list">` + metricsHTML + `
-        </div>
     </div>
 
     <div class="footer">
