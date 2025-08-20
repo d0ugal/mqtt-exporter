@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.6.0...v1.7.0) (2025-08-20)
+
+
+### Features
+
+* **api:** add pretty JSON formatting for metrics info endpoint ([fd6601c](https://github.com/d0ugal/mqtt-exporter/commit/fd6601caa30ef541b07c45d36f5d3e8fd6f225d9))
+* **ui:** improve layout with grid endpoints and reorder sections ([824077e](https://github.com/d0ugal/mqtt-exporter/commit/824077e953d0a68b6252d5331ac84e8e71dcc504))
+* **ui:** remove custom metrics-info endpoint and simplify UI ([906d2a2](https://github.com/d0ugal/mqtt-exporter/commit/906d2a23d2079bb49d6c0d570d956f55f173a4bb))
+
 ## [1.6.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.5.0...v1.6.0) (2025-08-19)
 
 
