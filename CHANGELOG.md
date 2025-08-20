@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.1](https://github.com/d0ugal/mqtt-exporter/compare/v1.9.0...v1.9.1) (2025-08-20)
+
+
+### Bug Fixes
+
+* remove redundant Service Information section from UI ([34cebf9](https://github.com/d0ugal/mqtt-exporter/commit/34cebf9e9567b8382de8a92a4a4982c7d03af6b8))
+
 ## [1.9.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.8.0...v1.9.0) (2025-08-20)
 
 
