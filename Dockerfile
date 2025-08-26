@@ -36,10 +36,17 @@ FROM alpine:3.22.1
 
 RUN apk --no-cache add ca-certificates
 
-WORKDIR /root/
+# Setup an unprivileged user
+RUN addgroup -g 1000 appgroup && \
+    adduser -D -u 1000 -G appgroup appuser
+
+WORKDIR /app
+RUN chown appuser:appgroup /app
+
+USER appuser
 
 # Copy the binary from builder stage
-COPY --from=builder /app/mqtt-exporter .
+COPY --from=builder --chown=appuser:appuser /app/mqtt-exporter .
 
 # Expose port
 EXPOSE 8080
