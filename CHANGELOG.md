@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.9.1...v1.10.0) (2025-08-26)
+
+
+### Features
+
+* **docker:** use an unprivileged user during runtime ([baef927](https://github.com/d0ugal/mqtt-exporter/commit/baef927f59fafcd2e287e5d7dd9c475a8feedb15))
+
 ## [1.9.1](https://github.com/d0ugal/mqtt-exporter/compare/v1.9.0...v1.9.1) (2025-08-20)
 
 
