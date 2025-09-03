@@ -2,7 +2,7 @@ module github.com/d0ugal/mqtt-exporter
 
 go 1.25
 
-toolchain go1.25.0
+toolchain go1.25.1
 
 require (
 	github.com/eclipse/paho.mqtt.golang v1.5.0
