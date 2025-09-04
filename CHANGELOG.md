@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.10.1...v1.11.0) (2025-09-04)
+
+
+### Features
+
+* enable global automerge in Renovate config ([830d96b](https://github.com/d0ugal/mqtt-exporter/commit/830d96becb97e12681305a4d44ac98348ad359e9))
+
 ## [1.10.1](https://github.com/d0ugal/mqtt-exporter/compare/v1.10.0...v1.10.1) (2025-09-03)
 
 
