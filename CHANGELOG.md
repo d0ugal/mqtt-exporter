@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.11.0...v1.12.0) (2025-09-04)
+
+
+### Features
+
+* update dev build versioning to use semver-compatible pre-release tags ([767caba](https://github.com/d0ugal/mqtt-exporter/commit/767caba97f0ffa9c4ca2bd9f860bda23ec7fde3a))
+
+
+### Bug Fixes
+
+* **ci:** add v prefix to dev tags for consistent versioning ([9d5d6f4](https://github.com/d0ugal/mqtt-exporter/commit/9d5d6f495faf3e1010c472744bdc87afb9f971ea))
+* use actual release version as base for dev tags instead of hardcoded 0.0.0 ([7385db3](https://github.com/d0ugal/mqtt-exporter/commit/7385db38df6aa92e541af9661bdcb10ae2b7fde4))
+* use fetch-depth: 0 instead of fetch-tags for full git history ([1250ad1](https://github.com/d0ugal/mqtt-exporter/commit/1250ad180632333b23d44ddef1f00eb365c7f42b))
+* use fetch-tags instead of fetch-depth for GitHub Actions ([66648fe](https://github.com/d0ugal/mqtt-exporter/commit/66648fe8fd38b5a46d729139ef6d4137dcfbba54))
+
 ## [1.11.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.10.1...v1.11.0) (2025-09-04)
 
 
