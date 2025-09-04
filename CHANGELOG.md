@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.1](https://github.com/d0ugal/mqtt-exporter/compare/v1.12.0...v1.12.1) (2025-09-04)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/prometheus/client_golang to v1.23.1 ([bfb593d](https://github.com/d0ugal/mqtt-exporter/commit/bfb593d79df8cb5dfb2784e55a737275a794083c))
+* **deps:** update module github.com/prometheus/client_golang to v1.23.1 ([2bc239b](https://github.com/d0ugal/mqtt-exporter/commit/2bc239ba2fff7fc79011823fe35fed2906981ee6))
+
 ## [1.12.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.11.0...v1.12.0) (2025-09-04)
 
 
