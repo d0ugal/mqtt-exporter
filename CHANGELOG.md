@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.13.1](https://github.com/d0ugal/mqtt-exporter/compare/v1.13.0...v1.13.1) (2025-09-16)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/eclipse/paho.mqtt.golang to v1.5.1 ([3c28ec1](https://github.com/d0ugal/mqtt-exporter/commit/3c28ec1975c19842c1fd225cd19267f4d33dd79d))
+* **deps:** update module github.com/eclipse/paho.mqtt.golang to v1.5.1 ([8e31137](https://github.com/d0ugal/mqtt-exporter/commit/8e311377e991a0de7b2521883de12d3dc737590a))
+
 ## [1.13.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.12.2...v1.13.0) (2025-09-12)
 
 
