@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.14.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.13.6...v1.14.0) (2025-10-02)
+
+
+### Features
+
+* **deps:** migrate to YAML v3 ([9d0e040](https://github.com/d0ugal/mqtt-exporter/commit/9d0e040a4d34e4f4b3efed1b77f386e79e6631db))
+
 ## [1.13.6](https://github.com/d0ugal/mqtt-exporter/compare/v1.13.5...v1.13.6) (2025-10-02)
 
 
