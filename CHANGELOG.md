@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.17.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.16.0...v1.17.0) (2025-10-08)
+
+
+### Features
+
+* update dependencies to v1.25.2 ([643895d](https://github.com/d0ugal/mqtt-exporter/commit/643895d4e8d175eaa700505c9cc21c03d23224e0))
+
 ## [1.16.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.15.0...v1.16.0) (2025-10-07)
 
 
