@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.18.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.17.0...v1.18.0) (2025-10-08)
+
+
+### Features
+
+* update dependencies to v0.22.0 ([e51a563](https://github.com/d0ugal/mqtt-exporter/commit/e51a5637e6a4cef2c0df3638cd342a30ad3bb56c))
+* update module golang.org/x/crypto to v0.43.0 ([84dc5f1](https://github.com/d0ugal/mqtt-exporter/commit/84dc5f10014d901dde8bdc034c5be3fdd9cc12eb))
+* update module golang.org/x/mod to v0.29.0 ([f4f9e23](https://github.com/d0ugal/mqtt-exporter/commit/f4f9e235c595882c5f3abc728f18360e343b8981))
+
 ## [1.17.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.16.0...v1.17.0) (2025-10-08)
 
 
