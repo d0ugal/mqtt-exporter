@@ -14,7 +14,7 @@ import (
 
 type MQTTCollector struct {
 	config         *config.Config
-	metrics        *metrics.Registry
+	metrics        *metrics.MQTTRegistry
 	client         MQTT.Client
 	mu             sync.RWMutex
 	topics         map[string]int64
@@ -22,7 +22,7 @@ type MQTTCollector struct {
 	connectionLost chan struct{}
 }
 
-func NewMQTTCollector(cfg *config.Config, metricsRegistry *metrics.Registry) *MQTTCollector {
+func NewMQTTCollector(cfg *config.Config, metricsRegistry *metrics.MQTTRegistry) *MQTTCollector {
 	return &MQTTCollector{
 		config:         cfg,
 		metrics:        metricsRegistry,
@@ -131,7 +131,7 @@ func (mc *MQTTCollector) connect() error {
 
 	opts.SetCleanSession(mc.config.MQTT.CleanSession)
 	opts.SetKeepAlive(time.Duration(mc.config.MQTT.KeepAlive) * time.Second)
-	opts.SetConnectTimeout(time.Duration(mc.config.MQTT.ConnectTimeout) * time.Second)
+	opts.SetConnectTimeout(mc.config.MQTT.ConnectTimeout.Duration)
 
 	// Enhanced connection robustness settings
 	opts.SetAutoReconnect(true)

@@ -3,93 +3,20 @@ package config
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
+	promexporter_config "github.com/d0ugal/promexporter/config"
 	"gopkg.in/yaml.v3"
 )
 
-// Duration represents a time duration that can be parsed from strings
-type Duration struct {
-	time.Duration
-}
-
-// UnmarshalYAML implements custom unmarshaling for duration strings
-func (d *Duration) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	var value interface{}
-	if err := unmarshal(&value); err != nil {
-		return err
-	}
-
-	switch v := value.(type) {
-	case string:
-		duration, err := time.ParseDuration(v)
-		if err != nil {
-			return fmt.Errorf("invalid duration format '%s': %w", v, err)
-		}
-
-		d.Duration = duration
-	case int:
-		// Backward compatibility: treat as seconds
-		d.Duration = time.Duration(v) * time.Second
-	case int64:
-		// Backward compatibility: treat as seconds
-		d.Duration = time.Duration(v) * time.Second
-	default:
-		return fmt.Errorf("duration must be a string (e.g., '60s', '1h') or integer (seconds)")
-	}
-
-	return nil
-}
-
-// Seconds returns the duration in seconds
-func (d *Duration) Seconds() int {
-	return int(d.Duration.Seconds())
-}
+// Use promexporter Duration type
+type Duration = promexporter_config.Duration
 
 type Config struct {
-	Server  ServerConfig  `yaml:"server"`
-	Logging LoggingConfig `yaml:"logging"`
-	Metrics MetricsConfig `yaml:"metrics"`
-	MQTT    MQTTConfig    `yaml:"mqtt"`
-}
-
-type ServerConfig struct {
-	Host string `yaml:"host"`
-	Port int    `yaml:"port"`
-}
-
-type LoggingConfig struct {
-	Level  string `yaml:"level"`
-	Format string `yaml:"format"` // "json" or "text"
-}
-
-type MetricsConfig struct {
-	Collection CollectionConfig `yaml:"collection"`
-}
-
-type CollectionConfig struct {
-	DefaultInterval Duration `yaml:"default_interval"`
-	// Track if the value was explicitly set
-	DefaultIntervalSet bool `yaml:"-"`
-}
-
-// UnmarshalYAML implements custom unmarshaling to track if the value was set
-func (c *CollectionConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	// Create a temporary struct to unmarshal into
-	type tempCollectionConfig struct {
-		DefaultInterval Duration `yaml:"default_interval"`
-	}
-
-	var temp tempCollectionConfig
-	if err := unmarshal(&temp); err != nil {
-		return err
-	}
-
-	c.DefaultInterval = temp.DefaultInterval
-	c.DefaultIntervalSet = true
-
-	return nil
+	promexporter_config.BaseConfig
+	MQTT MQTTConfig `yaml:"mqtt"`
 }
 
 type MQTTConfig struct {
@@ -101,9 +28,19 @@ type MQTTConfig struct {
 	QoS            int      `yaml:"qos"`
 	CleanSession   bool     `yaml:"clean_session"`
 	KeepAlive      int      `yaml:"keep_alive"`
-	ConnectTimeout int      `yaml:"connect_timeout"`
+	ConnectTimeout Duration `yaml:"connect_timeout"`
 }
 
+// LoadConfig loads configuration from either a YAML file or environment variables
+func LoadConfig(path string, configFromEnv bool) (*Config, error) {
+	if configFromEnv {
+		return loadFromEnv()
+	}
+
+	return Load(path)
+}
+
+// Load loads configuration from a YAML file
 func Load(path string) (*Config, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -116,45 +53,7 @@ func Load(path string) (*Config, error) {
 	}
 
 	// Set defaults
-	if config.Server.Host == "" {
-		config.Server.Host = "0.0.0.0"
-	}
-
-	if config.Server.Port == 0 {
-		config.Server.Port = 8080
-	}
-
-	if config.Logging.Level == "" {
-		config.Logging.Level = "info"
-	}
-
-	if config.Logging.Format == "" {
-		config.Logging.Format = "json"
-	}
-
-	if !config.Metrics.Collection.DefaultIntervalSet {
-		config.Metrics.Collection.DefaultInterval = Duration{time.Second * 30}
-	}
-
-	if config.MQTT.ClientID == "" {
-		config.MQTT.ClientID = "mqtt-exporter"
-	}
-
-	if config.MQTT.QoS == 0 {
-		config.MQTT.QoS = 1
-	}
-
-	if config.MQTT.KeepAlive == 0 {
-		config.MQTT.KeepAlive = 60
-	}
-
-	if config.MQTT.ConnectTimeout == 0 {
-		config.MQTT.ConnectTimeout = 30
-	}
-
-	if len(config.MQTT.Topics) == 0 {
-		config.MQTT.Topics = []string{"#"}
-	}
+	setDefaults(&config)
 
 	// Validate configuration
 	if err := config.Validate(); err != nil {
@@ -164,48 +63,41 @@ func Load(path string) (*Config, error) {
 	return &config, nil
 }
 
-// LoadConfig loads configuration from either a YAML file or environment variables
-// If configFromEnv is true, it will load from environment variables only
-func LoadConfig(path string, configFromEnv bool) (*Config, error) {
-	if configFromEnv {
-		return loadFromEnv()
-	}
-
-	return Load(path)
-}
-
 // loadFromEnv loads configuration from environment variables
 func loadFromEnv() (*Config, error) {
 	config := &Config{}
 
+	// Load base configuration from environment
+	baseConfig := &promexporter_config.BaseConfig{}
+	
 	// Server configuration
 	if host := os.Getenv("MQTT_EXPORTER_SERVER_HOST"); host != "" {
-		config.Server.Host = host
+		baseConfig.Server.Host = host
 	} else {
-		config.Server.Host = "0.0.0.0"
+		baseConfig.Server.Host = "0.0.0.0"
 	}
 
 	if portStr := os.Getenv("MQTT_EXPORTER_SERVER_PORT"); portStr != "" {
-		if port, err := parseInt(portStr); err != nil {
+		if port, err := strconv.Atoi(portStr); err != nil {
 			return nil, fmt.Errorf("invalid server port: %w", err)
 		} else {
-			config.Server.Port = port
+			baseConfig.Server.Port = port
 		}
 	} else {
-		config.Server.Port = 8080
+		baseConfig.Server.Port = 8080
 	}
 
 	// Logging configuration
 	if level := os.Getenv("MQTT_EXPORTER_LOG_LEVEL"); level != "" {
-		config.Logging.Level = level
+		baseConfig.Logging.Level = level
 	} else {
-		config.Logging.Level = "info"
+		baseConfig.Logging.Level = "info"
 	}
 
 	if format := os.Getenv("MQTT_EXPORTER_LOG_FORMAT"); format != "" {
-		config.Logging.Format = format
+		baseConfig.Logging.Format = format
 	} else {
-		config.Logging.Format = "json"
+		baseConfig.Logging.Format = "json"
 	}
 
 	// Metrics configuration
@@ -213,18 +105,20 @@ func loadFromEnv() (*Config, error) {
 		if interval, err := time.ParseDuration(intervalStr); err != nil {
 			return nil, fmt.Errorf("invalid metrics default interval: %w", err)
 		} else {
-			config.Metrics.Collection.DefaultInterval = Duration{interval}
-			config.Metrics.Collection.DefaultIntervalSet = true
+			baseConfig.Metrics.Collection.DefaultInterval = promexporter_config.Duration{interval}
+			baseConfig.Metrics.Collection.DefaultIntervalSet = true
 		}
 	} else {
-		config.Metrics.Collection.DefaultInterval = Duration{time.Second * 30}
+		baseConfig.Metrics.Collection.DefaultInterval = promexporter_config.Duration{time.Second * 30}
 	}
+
+	config.BaseConfig = *baseConfig
 
 	// MQTT configuration
 	if broker := os.Getenv("MQTT_EXPORTER_MQTT_BROKER"); broker != "" {
 		config.MQTT.Broker = broker
 	} else {
-		return nil, fmt.Errorf("MQTT broker is required (MQTT_EXPORTER_MQTT_BROKER)")
+		config.MQTT.Broker = "tcp://localhost:1883"
 	}
 
 	if clientID := os.Getenv("MQTT_EXPORTER_MQTT_CLIENT_ID"); clientID != "" {
@@ -242,23 +136,23 @@ func loadFromEnv() (*Config, error) {
 	}
 
 	if topicsStr := os.Getenv("MQTT_EXPORTER_MQTT_TOPICS"); topicsStr != "" {
-		config.MQTT.Topics = parseStringList(topicsStr)
+		config.MQTT.Topics = strings.Split(topicsStr, ",")
 	} else {
 		config.MQTT.Topics = []string{"#"}
 	}
 
 	if qosStr := os.Getenv("MQTT_EXPORTER_MQTT_QOS"); qosStr != "" {
-		if qos, err := parseInt(qosStr); err != nil {
+		if qos, err := strconv.Atoi(qosStr); err != nil {
 			return nil, fmt.Errorf("invalid MQTT QoS: %w", err)
 		} else {
 			config.MQTT.QoS = qos
 		}
 	} else {
-		config.MQTT.QoS = 1
+		config.MQTT.QoS = 0
 	}
 
 	if cleanSessionStr := os.Getenv("MQTT_EXPORTER_MQTT_CLEAN_SESSION"); cleanSessionStr != "" {
-		if cleanSession, err := parseBool(cleanSessionStr); err != nil {
+		if cleanSession, err := strconv.ParseBool(cleanSessionStr); err != nil {
 			return nil, fmt.Errorf("invalid MQTT clean session: %w", err)
 		} else {
 			config.MQTT.CleanSession = cleanSession
@@ -268,7 +162,7 @@ func loadFromEnv() (*Config, error) {
 	}
 
 	if keepAliveStr := os.Getenv("MQTT_EXPORTER_MQTT_KEEP_ALIVE"); keepAliveStr != "" {
-		if keepAlive, err := parseInt(keepAliveStr); err != nil {
+		if keepAlive, err := strconv.Atoi(keepAliveStr); err != nil {
 			return nil, fmt.Errorf("invalid MQTT keep alive: %w", err)
 		} else {
 			config.MQTT.KeepAlive = keepAlive
@@ -278,14 +172,17 @@ func loadFromEnv() (*Config, error) {
 	}
 
 	if connectTimeoutStr := os.Getenv("MQTT_EXPORTER_MQTT_CONNECT_TIMEOUT"); connectTimeoutStr != "" {
-		if connectTimeout, err := parseInt(connectTimeoutStr); err != nil {
+		if connectTimeout, err := time.ParseDuration(connectTimeoutStr); err != nil {
 			return nil, fmt.Errorf("invalid MQTT connect timeout: %w", err)
 		} else {
-			config.MQTT.ConnectTimeout = connectTimeout
+			config.MQTT.ConnectTimeout = Duration{connectTimeout}
 		}
 	} else {
-		config.MQTT.ConnectTimeout = 30
+		config.MQTT.ConnectTimeout = Duration{time.Second * 30}
 	}
+
+	// Set defaults for any missing values
+	setDefaults(config)
 
 	// Validate configuration
 	if err := config.Validate(); err != nil {
@@ -295,51 +192,47 @@ func loadFromEnv() (*Config, error) {
 	return config, nil
 }
 
-// parseInt parses a string to int
-func parseInt(s string) (int, error) {
-	var i int
-
-	_, err := fmt.Sscanf(s, "%d", &i)
-	if err != nil {
-		return 0, err
-	}
-	// Check if there are any remaining characters (like decimal points)
-	if len(fmt.Sprintf("%d", i)) != len(s) {
-		return 0, fmt.Errorf("invalid integer format: %s", s)
+// setDefaults sets default values for configuration
+func setDefaults(config *Config) {
+	if config.Server.Host == "" {
+		config.Server.Host = "0.0.0.0"
 	}
 
-	return i, nil
-}
-
-// parseBool parses a string to bool
-func parseBool(s string) (bool, error) {
-	switch s {
-	case "true", "1", "yes", "on":
-		return true, nil
-	case "false", "0", "no", "off":
-		return false, nil
-	default:
-		return false, fmt.Errorf("invalid boolean value: %s", s)
-	}
-}
-
-// parseStringList parses a comma-separated string into a slice of strings
-func parseStringList(s string) []string {
-	if s == "" {
-		return nil
+	if config.Server.Port == 0 {
+		config.Server.Port = 8080
 	}
 
-	// Split by comma and trim whitespace
-	parts := strings.Split(s, ",")
-
-	result := make([]string, 0, len(parts))
-	for _, part := range parts {
-		if trimmed := strings.TrimSpace(part); trimmed != "" {
-			result = append(result, trimmed)
-		}
+	if config.Logging.Level == "" {
+		config.Logging.Level = "info"
 	}
 
-	return result
+	if config.Logging.Format == "" {
+		config.Logging.Format = "json"
+	}
+
+	if !config.Metrics.Collection.DefaultIntervalSet {
+		config.Metrics.Collection.DefaultInterval = promexporter_config.Duration{time.Second * 30}
+	}
+
+	if config.MQTT.Broker == "" {
+		config.MQTT.Broker = "tcp://localhost:1883"
+	}
+
+	if config.MQTT.ClientID == "" {
+		config.MQTT.ClientID = "mqtt-exporter"
+	}
+
+	if len(config.MQTT.Topics) == 0 {
+		config.MQTT.Topics = []string{"#"}
+	}
+
+	if config.MQTT.KeepAlive == 0 {
+		config.MQTT.KeepAlive = 60
+	}
+
+	if config.MQTT.ConnectTimeout.Duration == 0 {
+		config.MQTT.ConnectTimeout = Duration{time.Second * 30}
+	}
 }
 
 // Validate performs comprehensive validation of the configuration
@@ -415,23 +308,19 @@ func (c *Config) validateMQTTConfig() error {
 	}
 
 	if c.MQTT.ClientID == "" {
-		return fmt.Errorf("mqtt client_id is required")
+		return fmt.Errorf("mqtt client id is required")
 	}
 
 	if c.MQTT.QoS < 0 || c.MQTT.QoS > 2 {
 		return fmt.Errorf("mqtt qos must be between 0 and 2, got %d", c.MQTT.QoS)
 	}
 
-	if c.MQTT.KeepAlive < 1 {
-		return fmt.Errorf("mqtt keep_alive must be at least 1, got %d", c.MQTT.KeepAlive)
+	if c.MQTT.KeepAlive < 0 {
+		return fmt.Errorf("mqtt keep alive must be non-negative, got %d", c.MQTT.KeepAlive)
 	}
 
-	if c.MQTT.ConnectTimeout < 1 {
-		return fmt.Errorf("mqtt connect_timeout must be at least 1, got %d", c.MQTT.ConnectTimeout)
-	}
-
-	if len(c.MQTT.Topics) == 0 {
-		return fmt.Errorf("at least one mqtt topic must be configured")
+	if c.MQTT.ConnectTimeout.Seconds() < 1 {
+		return fmt.Errorf("mqtt connect timeout must be at least 1 second, got %d", c.MQTT.ConnectTimeout.Seconds())
 	}
 
 	return nil
