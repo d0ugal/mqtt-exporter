@@ -253,3 +253,34 @@ func (m *mockToken) Done() <-chan struct{} {
 func (m *mockToken) Error() error {
 	return nil
 }
+
+func TestMQTTCollector_run_ContextCancellation(t *testing.T) {
+	cfg := &config.Config{
+		MQTT: config.MQTTConfig{
+			Broker:   "localhost:1883",
+			ClientID: "test-client",
+		},
+	}
+	// Use a properly initialized metrics registry
+	metricsRegistry := metrics.NewRegistry()
+	collector := NewMQTTCollector(cfg, metricsRegistry)
+
+	// Create a context that will be cancelled
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
+	defer cancel()
+
+	// Start the collector in a goroutine
+	done := make(chan bool)
+	go func() {
+		collector.run(ctx)
+		done <- true
+	}()
+
+	// Wait for either the goroutine to finish or timeout
+	select {
+	case <-done:
+		// Context was cancelled and goroutine finished
+	case <-time.After(200 * time.Millisecond):
+		t.Error("Expected goroutine to finish when context is cancelled")
+	}
+}

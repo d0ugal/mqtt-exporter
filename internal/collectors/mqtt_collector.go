@@ -96,14 +96,19 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 			continue
 		}
 
-		// If we reach here, context was cancelled
-		slog.Info("Shutting down MQTT collector")
-
-		if mc.client != nil && mc.client.IsConnected() {
-			mc.client.Disconnect(250)
+		// Check if context was cancelled
+		select {
+		case <-ctx.Done():
+			slog.Info("Context cancelled, shutting down MQTT collector")
+			if mc.client != nil && mc.client.IsConnected() {
+				mc.client.Disconnect(250)
+			}
+			return
+		default:
+			// This shouldn't happen in normal operation, but handle gracefully
+			slog.Warn("monitorConnection returned false but context not cancelled, continuing...")
+			continue
 		}
-
-		return
 	}
 }
 
