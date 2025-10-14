@@ -84,8 +84,19 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 			continue
 		}
 
-		// Keep connection alive until context is cancelled or connection is lost
-		<-ctx.Done()
+		// Monitor connection status and reconnect if lost
+		connectionLost := mc.monitorConnection(ctx)
+		if connectionLost {
+			slog.Info("Connection lost, attempting to reconnect", "broker", mc.config.MQTT.Broker)
+			// Disconnect current client before reconnecting
+			if mc.client != nil {
+				mc.client.Disconnect(250)
+			}
+
+			continue
+		}
+
+		// If we reach here, context was cancelled
 		slog.Info("Shutting down MQTT collector")
 
 		if mc.client != nil && mc.client.IsConnected() {
@@ -152,6 +163,28 @@ func (mc *MQTTCollector) onConnectionLost(client MQTT.Client, err error) {
 	mc.metrics.MQTTReconnectsTotal.WithLabelValues(mc.config.MQTT.Broker).Inc()
 
 	slog.Info("MQTT reconnection attempt initiated", "broker", mc.config.MQTT.Broker)
+}
+
+// monitorConnection monitors the MQTT connection and returns true if connection is lost
+func (mc *MQTTCollector) monitorConnection(ctx context.Context) bool {
+	// Use a shorter interval for more responsive connection monitoring
+	ticker := time.NewTicker(1 * time.Second)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ctx.Done():
+			return false // Context cancelled, not a connection loss
+		case <-mc.done:
+			return false // Shutdown requested, not a connection loss
+		case <-ticker.C:
+			// Check if client is still connected
+			if mc.client == nil || !mc.client.IsConnected() {
+				slog.Debug("Connection check failed - client disconnected", "broker", mc.config.MQTT.Broker)
+				return true // Connection lost
+			}
+		}
+	}
 }
 
 func (mc *MQTTCollector) onMessageReceived(client MQTT.Client, msg MQTT.Message) {
