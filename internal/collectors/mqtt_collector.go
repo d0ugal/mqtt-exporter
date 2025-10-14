@@ -13,20 +13,22 @@ import (
 )
 
 type MQTTCollector struct {
-	config  *config.Config
-	metrics *metrics.Registry
-	client  MQTT.Client
-	mu      sync.RWMutex
-	topics  map[string]int64
-	done    chan struct{}
+	config         *config.Config
+	metrics        *metrics.Registry
+	client         MQTT.Client
+	mu             sync.RWMutex
+	topics         map[string]int64
+	done           chan struct{}
+	connectionLost chan struct{}
 }
 
 func NewMQTTCollector(cfg *config.Config, metricsRegistry *metrics.Registry) *MQTTCollector {
 	return &MQTTCollector{
-		config:  cfg,
-		metrics: metricsRegistry,
-		topics:  make(map[string]int64),
-		done:    make(chan struct{}),
+		config:         cfg,
+		metrics:        metricsRegistry,
+		topics:         make(map[string]int64),
+		done:           make(chan struct{}),
+		connectionLost: make(chan struct{}, 1),
 	}
 }
 
@@ -42,8 +44,20 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 	for {
 		select {
 		case <-ctx.Done():
+			slog.Info("Shutting down MQTT collector")
+
+			if mc.client != nil && mc.client.IsConnected() {
+				mc.client.Disconnect(250)
+			}
+
 			return
 		case <-mc.done:
+			slog.Info("Stopping MQTT collector")
+
+			if mc.client != nil && mc.client.IsConnected() {
+				mc.client.Disconnect(250)
+			}
+
 			return
 		default:
 		}
@@ -84,15 +98,24 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 			continue
 		}
 
-		// Keep connection alive until context is cancelled or connection is lost
-		<-ctx.Done()
-		slog.Info("Shutting down MQTT collector")
+		// Wait for connection to be lost or context cancellation
+		select {
+		case <-ctx.Done():
+			slog.Info("Shutting down MQTT collector")
 
-		if mc.client != nil && mc.client.IsConnected() {
-			mc.client.Disconnect(250)
+			if mc.client != nil && mc.client.IsConnected() {
+				mc.client.Disconnect(250)
+			}
+
+			return
+		case <-mc.connectionLost:
+			slog.Info("Connection lost, attempting to reconnect", "broker", mc.config.MQTT.Broker)
+			// Clean up the old client
+			if mc.client != nil {
+				mc.client.Disconnect(250)
+			}
+			// Continue the loop to reconnect
 		}
-
-		return
 	}
 }
 
@@ -109,6 +132,15 @@ func (mc *MQTTCollector) connect() error {
 	opts.SetCleanSession(mc.config.MQTT.CleanSession)
 	opts.SetKeepAlive(time.Duration(mc.config.MQTT.KeepAlive) * time.Second)
 	opts.SetConnectTimeout(time.Duration(mc.config.MQTT.ConnectTimeout) * time.Second)
+
+	// Enhanced connection robustness settings
+	opts.SetAutoReconnect(true)
+	opts.SetConnectRetry(true)
+	opts.SetConnectRetryInterval(5 * time.Second)
+	opts.SetMaxReconnectInterval(30 * time.Second)
+	opts.SetPingTimeout(10 * time.Second)
+	opts.SetWriteTimeout(10 * time.Second)
+	opts.SetResumeSubs(true) // Resume subscriptions after reconnection
 
 	// Set up connection handlers
 	opts.SetOnConnectHandler(mc.onConnect)
@@ -150,6 +182,13 @@ func (mc *MQTTCollector) onConnectionLost(client MQTT.Client, err error) {
 	mc.metrics.MQTTConnectionStatus.WithLabelValues(mc.config.MQTT.Broker).Set(0)
 	mc.metrics.MQTTConnectionErrors.WithLabelValues(mc.config.MQTT.Broker, "connection_lost").Inc()
 	mc.metrics.MQTTReconnectsTotal.WithLabelValues(mc.config.MQTT.Broker).Inc()
+
+	// Signal that connection was lost to trigger reconnection
+	select {
+	case mc.connectionLost <- struct{}{}:
+	default:
+		// Channel is full, connection lost signal already pending
+	}
 
 	slog.Info("MQTT reconnection attempt initiated", "broker", mc.config.MQTT.Broker)
 }
