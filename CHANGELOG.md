@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.21.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.20.0...v1.21.0) (2025-10-14)
+
+
+### Features
+
+* improve MQTT connection robustness and auto-reconnection ([cf4547f](https://github.com/d0ugal/mqtt-exporter/commit/cf4547f301acd893c36b55043bf4de5236be532b))
+
 ## [1.20.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.19.0...v1.20.0) (2025-10-14)
 
 
