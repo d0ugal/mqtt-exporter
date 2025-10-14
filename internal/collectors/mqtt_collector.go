@@ -100,9 +100,11 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 		select {
 		case <-ctx.Done():
 			slog.Info("Context cancelled, shutting down MQTT collector")
+
 			if mc.client != nil && mc.client.IsConnected() {
 				mc.client.Disconnect(250)
 			}
+
 			return
 		default:
 			// This shouldn't happen in normal operation, but handle gracefully

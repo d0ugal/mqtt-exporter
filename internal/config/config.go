@@ -55,8 +55,9 @@ type Config struct {
 }
 
 type ServerConfig struct {
-	Host string `yaml:"host"`
-	Port int    `yaml:"port"`
+	Host  string `yaml:"host"`
+	Port  int    `yaml:"port"`
+	Debug bool   `yaml:"debug"`
 }
 
 type LoggingConfig struct {

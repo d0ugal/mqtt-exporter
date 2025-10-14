@@ -271,8 +271,10 @@ func TestMQTTCollector_run_ContextCancellation(t *testing.T) {
 
 	// Start the collector in a goroutine
 	done := make(chan bool)
+
 	go func() {
 		collector.run(ctx)
+
 		done <- true
 	}()
 
