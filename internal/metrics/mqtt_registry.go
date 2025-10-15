@@ -1,15 +1,15 @@
 package metrics
 
 import (
+	promexporter_metrics "github.com/d0ugal/promexporter/metrics"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
-	promexporter_metrics "github.com/d0ugal/promexporter/metrics"
 )
 
 // MQTTRegistry wraps the promexporter registry with MQTT-specific metrics
 type MQTTRegistry struct {
 	*promexporter_metrics.Registry
-	
+
 	// MQTT message counters
 	MQTTMessageCount *prometheus.CounterVec
 	MQTTMessageBytes *prometheus.CounterVec
