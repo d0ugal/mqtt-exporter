@@ -130,7 +130,7 @@ func (mc *MQTTCollector) connect() error {
 	}
 
 	opts.SetCleanSession(mc.config.MQTT.CleanSession)
-	opts.SetKeepAlive(time.Duration(mc.config.MQTT.KeepAlive) * time.Second)
+	opts.SetKeepAlive(mc.config.MQTT.KeepAlive.Duration)
 	opts.SetConnectTimeout(mc.config.MQTT.ConnectTimeout.Duration)
 
 	// Enhanced connection robustness settings

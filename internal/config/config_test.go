@@ -170,8 +170,8 @@ mqtt:
 		t.Errorf("MQTT.CleanSession = %v, want %v", cfg.MQTT.CleanSession, false)
 	}
 
-	if cfg.MQTT.KeepAlive != 120 {
-		t.Errorf("MQTT.KeepAlive = %v, want %v", cfg.MQTT.KeepAlive, 120)
+	if cfg.MQTT.KeepAlive.Seconds() != 120 {
+		t.Errorf("MQTT.KeepAlive = %v, want %v", cfg.MQTT.KeepAlive.Seconds(), 120)
 	}
 
 	if cfg.MQTT.ConnectTimeout != 60 {
@@ -240,8 +240,8 @@ mqtt:
 		t.Errorf("MQTT.QoS default = %v, want %v", cfg.MQTT.QoS, 1)
 	}
 
-	if cfg.MQTT.KeepAlive != 60 {
-		t.Errorf("MQTT.KeepAlive default = %v, want %v", cfg.MQTT.KeepAlive, 60)
+	if cfg.MQTT.KeepAlive.Seconds() != 60 {
+		t.Errorf("MQTT.KeepAlive default = %v, want %v", cfg.MQTT.KeepAlive.Seconds(), 60)
 	}
 
 	if cfg.MQTT.ConnectTimeout != 30 {
@@ -313,7 +313,7 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      60,
+					KeepAlive:      Duration{time.Second * 60},
 					ConnectTimeout: 30,
 					Topics:         []string{"test/topic"},
 				},
@@ -334,7 +334,7 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      60,
+					KeepAlive:      Duration{time.Second * 60},
 					ConnectTimeout: 30,
 					Topics:         []string{"test/topic"},
 				},
@@ -355,7 +355,7 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      60,
+					KeepAlive:      Duration{time.Second * 60},
 					ConnectTimeout: 30,
 					Topics:         []string{"test/topic"},
 				},
@@ -376,7 +376,7 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      60,
+					KeepAlive:      Duration{time.Second * 60},
 					ConnectTimeout: 30,
 					Topics:         []string{"test/topic"},
 				},
@@ -397,7 +397,7 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      60,
+					KeepAlive:      Duration{time.Second * 60},
 					ConnectTimeout: 30,
 					Topics:         []string{"test/topic"},
 				},
@@ -418,7 +418,7 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      60,
+					KeepAlive:      Duration{time.Second * 60},
 					ConnectTimeout: 30,
 					Topics:         []string{"test/topic"},
 				},
@@ -439,7 +439,7 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            3,
-					KeepAlive:      60,
+					KeepAlive:      Duration{time.Second * 60},
 					ConnectTimeout: 30,
 					Topics:         []string{"test/topic"},
 				},
@@ -460,7 +460,7 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      60,
+					KeepAlive:      Duration{time.Second * 60},
 					ConnectTimeout: 30,
 					Topics:         []string{},
 				},
@@ -595,8 +595,8 @@ func TestLoadConfig_EnvironmentVariables(t *testing.T) {
 		t.Errorf("MQTT.CleanSession = %v, want %v", cfg.MQTT.CleanSession, false)
 	}
 
-	if cfg.MQTT.KeepAlive != 120 {
-		t.Errorf("MQTT.KeepAlive = %v, want %v", cfg.MQTT.KeepAlive, 120)
+	if cfg.MQTT.KeepAlive.Seconds() != 120 {
+		t.Errorf("MQTT.KeepAlive = %v, want %v", cfg.MQTT.KeepAlive.Seconds(), 120)
 	}
 
 	if cfg.MQTT.ConnectTimeout != 60 {
@@ -652,7 +652,7 @@ func TestLoadConfig_EnvironmentVariables_Defaults(t *testing.T) {
 		t.Errorf("MQTT.CleanSession = %v, want %v", cfg.MQTT.CleanSession, true)
 	}
 
-	if cfg.MQTT.KeepAlive != 60 {
+	if cfg.MQTT.KeepAlive.Seconds() != 60 {
 		t.Errorf("MQTT.KeepAlive = %v, want %v", cfg.MQTT.KeepAlive, 60)
 	}
 
