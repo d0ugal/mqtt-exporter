@@ -27,7 +27,7 @@ type MQTTConfig struct {
 	Topics         []string `yaml:"topics"`
 	QoS            int      `yaml:"qos"`
 	CleanSession   bool     `yaml:"clean_session"`
-	KeepAlive      int      `yaml:"keep_alive"`
+	KeepAlive      Duration `yaml:"keep_alive"`
 	ConnectTimeout Duration `yaml:"connect_timeout"`
 }
 
@@ -162,13 +162,13 @@ func loadFromEnv() (*Config, error) {
 	}
 
 	if keepAliveStr := os.Getenv("MQTT_EXPORTER_MQTT_KEEP_ALIVE"); keepAliveStr != "" {
-		if keepAlive, err := strconv.Atoi(keepAliveStr); err != nil {
+		if keepAlive, err := time.ParseDuration(keepAliveStr); err != nil {
 			return nil, fmt.Errorf("invalid MQTT keep alive: %w", err)
 		} else {
-			config.MQTT.KeepAlive = keepAlive
+			config.MQTT.KeepAlive = Duration{keepAlive}
 		}
 	} else {
-		config.MQTT.KeepAlive = 60
+		config.MQTT.KeepAlive = Duration{time.Second * 60}
 	}
 
 	if connectTimeoutStr := os.Getenv("MQTT_EXPORTER_MQTT_CONNECT_TIMEOUT"); connectTimeoutStr != "" {
@@ -226,8 +226,8 @@ func setDefaults(config *Config) {
 		config.MQTT.Topics = []string{"#"}
 	}
 
-	if config.MQTT.KeepAlive == 0 {
-		config.MQTT.KeepAlive = 60
+	if config.MQTT.KeepAlive.Duration == 0 {
+		config.MQTT.KeepAlive = Duration{time.Second * 60}
 	}
 
 	if config.MQTT.ConnectTimeout.Duration == 0 {
@@ -315,8 +315,8 @@ func (c *Config) validateMQTTConfig() error {
 		return fmt.Errorf("mqtt qos must be between 0 and 2, got %d", c.MQTT.QoS)
 	}
 
-	if c.MQTT.KeepAlive < 0 {
-		return fmt.Errorf("mqtt keep alive must be non-negative, got %d", c.MQTT.KeepAlive)
+	if c.MQTT.KeepAlive.Seconds() < 0 {
+		return fmt.Errorf("mqtt keep alive must be non-negative, got %d", c.MQTT.KeepAlive.Seconds())
 	}
 
 	if c.MQTT.ConnectTimeout.Seconds() < 1 {

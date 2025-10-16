@@ -1,0 +1,48 @@
+# Simple development Dockerfile
+# This builds mqtt-exporter with the ability to use a local promexporter via volume mount
+# 
+# Usage:
+# 1. Mount promexporter as volume: -v /home/hoose/Code/promexporter:/go/src/github.com/d0ugal/promexporter
+# 2. Or use docker-compose with the dev service
+
+FROM golang:1.25.3-alpine
+
+WORKDIR /app
+
+# Install git for version detection
+RUN apk add --no-cache git
+
+# Copy go mod files
+COPY go.mod go.sum ./
+
+# Download dependencies (will use remote promexporter initially)
+RUN go mod download
+
+# Copy source code
+COPY . .
+
+# Create a script that can switch between local and remote promexporter
+RUN echo '#!/bin/sh' > /app/build.sh && \
+    echo 'if [ -d "/go/src/github.com/d0ugal/promexporter" ]; then' >> /app/build.sh && \
+    echo '  echo "Using local promexporter from volume mount"' >> /app/build.sh && \
+    echo '  go mod edit -replace github.com/d0ugal/promexporter=/go/src/github.com/d0ugal/promexporter' >> /app/build.sh && \
+    echo 'else' >> /app/build.sh && \
+    echo '  echo "Using remote promexporter"' >> /app/build.sh && \
+    echo 'fi' >> /app/build.sh && \
+    echo 'go mod download' >> /app/build.sh && \
+    echo 'VERSION=${VERSION:-$(git describe --tags --always --dirty 2>/dev/null || echo "dev")}' >> /app/build.sh && \
+    echo 'COMMIT=${COMMIT:-$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")}' >> /app/build.sh && \
+    echo 'BUILD_DATE=${BUILD_DATE:-$(date -u +"%Y-%m-%dT%H:%M:%SZ")}' >> /app/build.sh && \
+    echo 'CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo \' >> /app/build.sh && \
+    echo '  -ldflags="-s -w \' >> /app/build.sh && \
+    echo '    -X github.com/d0ugal/mqtt-exporter/internal/version.Version=$VERSION \' >> /app/build.sh && \
+    echo '    -X github.com/d0ugal/mqtt-exporter/internal/version.Commit=$COMMIT \' >> /app/build.sh && \
+    echo '    -X github.com/d0ugal/mqtt-exporter/internal/version.BuildDate=$BUILD_DATE" \' >> /app/build.sh && \
+    echo '  -o mqtt-exporter ./cmd/main.go' >> /app/build.sh && \
+    chmod +x /app/build.sh
+
+# Expose port
+EXPOSE 8080
+
+# Default command builds and runs
+CMD ["/app/build.sh"]
