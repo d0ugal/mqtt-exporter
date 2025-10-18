@@ -176,8 +176,8 @@ mqtt:
 		t.Errorf("MQTT.KeepAlive = %v, want %v", cfg.MQTT.KeepAlive.Seconds(), 120)
 	}
 
-	if cfg.MQTT.ConnectTimeout != 60 {
-		t.Errorf("MQTT.ConnectTimeout = %v, want %v", cfg.MQTT.ConnectTimeout, 60)
+	if cfg.MQTT.ConnectTimeout.Seconds() != 60 {
+		t.Errorf("MQTT.ConnectTimeout = %v, want %v", cfg.MQTT.ConnectTimeout.Seconds(), 60)
 	}
 }
 
@@ -246,8 +246,8 @@ mqtt:
 		t.Errorf("MQTT.KeepAlive default = %v, want %v", cfg.MQTT.KeepAlive.Seconds(), 60)
 	}
 
-	if cfg.MQTT.ConnectTimeout != 30 {
-		t.Errorf("MQTT.ConnectTimeout default = %v, want %v", cfg.MQTT.ConnectTimeout, 30)
+	if cfg.MQTT.ConnectTimeout.Seconds() != 30 {
+		t.Errorf("MQTT.ConnectTimeout default = %v, want %v", cfg.MQTT.ConnectTimeout.Seconds(), 30)
 	}
 
 	if len(cfg.MQTT.Topics) != 1 || cfg.MQTT.Topics[0] != "#" {
@@ -350,11 +350,13 @@ func TestConfig_Validate(t *testing.T) {
 		{
 			name: "invalid logging level",
 			config: Config{
-				Server:  ServerConfig{Host: "0.0.0.0", Port: 8080},
-				Logging: LoggingConfig{Level: "invalid", Format: "json"},
-				Metrics: MetricsConfig{
-					Collection: CollectionConfig{
-						DefaultInterval: Duration{30 * time.Second},
+				BaseConfig: promexporter_config.BaseConfig{
+					Server:  promexporter_config.ServerConfig{Host: "0.0.0.0", Port: 8080},
+					Logging: promexporter_config.LoggingConfig{Level: "invalid", Format: "json"},
+					Metrics: promexporter_config.MetricsConfig{
+						Collection: promexporter_config.CollectionConfig{
+							DefaultInterval: Duration{30 * time.Second},
+						},
 					},
 				},
 				MQTT: MQTTConfig{
@@ -371,11 +373,13 @@ func TestConfig_Validate(t *testing.T) {
 		{
 			name: "invalid logging format",
 			config: Config{
-				Server:  ServerConfig{Host: "0.0.0.0", Port: 8080},
-				Logging: LoggingConfig{Level: "info", Format: "invalid"},
-				Metrics: MetricsConfig{
-					Collection: CollectionConfig{
-						DefaultInterval: Duration{30 * time.Second},
+				BaseConfig: promexporter_config.BaseConfig{
+					Server:  promexporter_config.ServerConfig{Host: "0.0.0.0", Port: 8080},
+					Logging: promexporter_config.LoggingConfig{Level: "info", Format: "invalid"},
+					Metrics: promexporter_config.MetricsConfig{
+						Collection: promexporter_config.CollectionConfig{
+							DefaultInterval: Duration{30 * time.Second},
+						},
 					},
 				},
 				MQTT: MQTTConfig{
@@ -605,8 +609,8 @@ func TestLoadConfig_EnvironmentVariables(t *testing.T) {
 		t.Errorf("MQTT.KeepAlive = %v, want %v", cfg.MQTT.KeepAlive.Seconds(), 120)
 	}
 
-	if cfg.MQTT.ConnectTimeout != 60 {
-		t.Errorf("MQTT.ConnectTimeout = %v, want %v", cfg.MQTT.ConnectTimeout, 60)
+	if cfg.MQTT.ConnectTimeout.Seconds() != 60 {
+		t.Errorf("MQTT.ConnectTimeout = %v, want %v", cfg.MQTT.ConnectTimeout.Seconds(), 60)
 	}
 }
 
