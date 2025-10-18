@@ -4,6 +4,8 @@ import (
 	"os"
 	"testing"
 	"time"
+
+	promexporter_config "github.com/d0ugal/promexporter/config"
 )
 
 func TestDuration_UnmarshalYAML(t *testing.T) {
@@ -302,11 +304,13 @@ func TestConfig_Validate(t *testing.T) {
 		{
 			name: "valid config",
 			config: Config{
-				Server:  ServerConfig{Host: "0.0.0.0", Port: 8080},
-				Logging: LoggingConfig{Level: "info", Format: "json"},
-				Metrics: MetricsConfig{
-					Collection: CollectionConfig{
-						DefaultInterval: Duration{30 * time.Second},
+				BaseConfig: promexporter_config.BaseConfig{
+					Server:  promexporter_config.ServerConfig{Host: "0.0.0.0", Port: 8080},
+					Logging: promexporter_config.LoggingConfig{Level: "info", Format: "json"},
+					Metrics: promexporter_config.MetricsConfig{
+						Collection: promexporter_config.CollectionConfig{
+							DefaultInterval: Duration{30 * time.Second},
+						},
 					},
 				},
 				MQTT: MQTTConfig{
@@ -314,7 +318,7 @@ func TestConfig_Validate(t *testing.T) {
 					ClientID:       "test",
 					QoS:            1,
 					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: 30,
+					ConnectTimeout: Duration{30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -323,11 +327,13 @@ func TestConfig_Validate(t *testing.T) {
 		{
 			name: "invalid server port",
 			config: Config{
-				Server:  ServerConfig{Host: "0.0.0.0", Port: 0},
-				Logging: LoggingConfig{Level: "info", Format: "json"},
-				Metrics: MetricsConfig{
-					Collection: CollectionConfig{
-						DefaultInterval: Duration{30 * time.Second},
+				BaseConfig: promexporter_config.BaseConfig{
+					Server:  promexporter_config.ServerConfig{Host: "0.0.0.0", Port: 0},
+					Logging: promexporter_config.LoggingConfig{Level: "info", Format: "json"},
+					Metrics: promexporter_config.MetricsConfig{
+						Collection: promexporter_config.CollectionConfig{
+							DefaultInterval: Duration{30 * time.Second},
+						},
 					},
 				},
 				MQTT: MQTTConfig{
@@ -335,7 +341,7 @@ func TestConfig_Validate(t *testing.T) {
 					ClientID:       "test",
 					QoS:            1,
 					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: 30,
+					ConnectTimeout: Duration{30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -356,7 +362,7 @@ func TestConfig_Validate(t *testing.T) {
 					ClientID:       "test",
 					QoS:            1,
 					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: 30,
+					ConnectTimeout: Duration{30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -377,7 +383,7 @@ func TestConfig_Validate(t *testing.T) {
 					ClientID:       "test",
 					QoS:            1,
 					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: 30,
+					ConnectTimeout: Duration{30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -398,7 +404,7 @@ func TestConfig_Validate(t *testing.T) {
 					ClientID:       "test",
 					QoS:            1,
 					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: 30,
+					ConnectTimeout: Duration{30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -419,7 +425,7 @@ func TestConfig_Validate(t *testing.T) {
 					ClientID:       "test",
 					QoS:            1,
 					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: 30,
+					ConnectTimeout: Duration{30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -440,7 +446,7 @@ func TestConfig_Validate(t *testing.T) {
 					ClientID:       "test",
 					QoS:            3,
 					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: 30,
+					ConnectTimeout: Duration{30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -461,7 +467,7 @@ func TestConfig_Validate(t *testing.T) {
 					ClientID:       "test",
 					QoS:            1,
 					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: 30,
+					ConnectTimeout: Duration{30 * time.Second},
 					Topics:         []string{},
 				},
 			},
