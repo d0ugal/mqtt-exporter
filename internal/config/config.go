@@ -69,7 +69,7 @@ func loadFromEnv() (*Config, error) {
 
 	// Load base configuration from environment
 	baseConfig := &promexporter_config.BaseConfig{}
-	
+
 	// Server configuration
 	if host := os.Getenv("MQTT_EXPORTER_SERVER_HOST"); host != "" {
 		baseConfig.Server.Host = host
