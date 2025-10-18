@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.22.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.21.0...v1.22.0) (2025-10-18)
+
+
+### Features
+
+* migrate mqtt-exporter to promexporter library ([61b99a5](https://github.com/d0ugal/mqtt-exporter/commit/61b99a5dc6706daed09c979cfa76fcc51f0c0b39))
+* support duration strings for MQTT keep alive configuration ([6a0811d](https://github.com/d0ugal/mqtt-exporter/commit/6a0811daf1cc8207d87a3912f11e2f887a01b80e))
+* update to promexporter v1.0.0 ([766e720](https://github.com/d0ugal/mqtt-exporter/commit/766e7208f8ebbbbb52814f1d4fc6739676aa90da))
+
 ## [1.21.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.20.0...v1.21.0) (2025-10-14)
 
 
