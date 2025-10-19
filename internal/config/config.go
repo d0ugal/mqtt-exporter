@@ -330,3 +330,39 @@ func (c *Config) validateMQTTConfig() error {
 func (c *Config) GetDefaultInterval() int {
 	return c.Metrics.Collection.DefaultInterval.Seconds()
 }
+
+// ParseStringList parses a comma-separated string into a slice of strings
+func ParseStringList(input string) []string {
+	if input == "" {
+		return []string{}
+	}
+	
+	parts := strings.Split(input, ",")
+	result := make([]string, 0, len(parts))
+	
+	for _, part := range parts {
+		trimmed := strings.TrimSpace(part)
+		if trimmed != "" {
+			result = append(result, trimmed)
+		}
+	}
+	
+	return result
+}
+
+// ParseBool parses a string to boolean
+func ParseBool(input string) (bool, error) {
+	switch strings.ToLower(strings.TrimSpace(input)) {
+	case "true", "1", "yes", "on":
+		return true, nil
+	case "false", "0", "no", "off":
+		return false, nil
+	default:
+		return false, fmt.Errorf("invalid boolean value: %s", input)
+	}
+}
+
+// ParseInt parses a string to int
+func ParseInt(input string) (int, error) {
+	return strconv.Atoi(strings.TrimSpace(input))
+}

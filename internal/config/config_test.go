@@ -814,7 +814,7 @@ func TestParseStringList(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := promexporter_config.ParseStringList(tt.input)
+			result := ParseStringList(tt.input)
 			if len(result) != len(tt.expected) {
 				t.Errorf("parseStringList() length = %v, want %v", len(result), len(tt.expected))
 				return
@@ -849,7 +849,7 @@ func TestParseBool(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := promexporter_config.ParseBool(tt.input)
+			result, err := ParseBool(tt.input)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("parseBool() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -878,7 +878,7 @@ func TestParseInt(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := promexporter_config.ParseInt(tt.input)
+			result, err := ParseInt(tt.input)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("parseInt() error = %v, wantErr %v", err, tt.wantErr)
 				return
