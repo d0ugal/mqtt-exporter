@@ -499,9 +499,11 @@ func TestConfig_Validate(t *testing.T) {
 
 func TestConfig_GetDefaultInterval(t *testing.T) {
 	cfg := Config{
-		Metrics: MetricsConfig{
-			Collection: CollectionConfig{
-				DefaultInterval: Duration{45 * time.Second},
+		BaseConfig: promexporter_config.BaseConfig{
+			Metrics: promexporter_config.MetricsConfig{
+				Collection: promexporter_config.CollectionConfig{
+					DefaultInterval: Duration{45 * time.Second},
+				},
 			},
 		},
 	}
@@ -674,8 +676,8 @@ func TestLoadConfig_EnvironmentVariables_Defaults(t *testing.T) {
 		t.Errorf("MQTT.KeepAlive = %v, want %v", cfg.MQTT.KeepAlive, 60)
 	}
 
-	if cfg.MQTT.ConnectTimeout != 30 {
-		t.Errorf("MQTT.ConnectTimeout = %v, want %v", cfg.MQTT.ConnectTimeout, 30)
+	if cfg.MQTT.ConnectTimeout.Seconds() != 30 {
+		t.Errorf("MQTT.ConnectTimeout = %v, want %v", cfg.MQTT.ConnectTimeout.Seconds(), 30)
 	}
 
 	if len(cfg.MQTT.Topics) != 1 || cfg.MQTT.Topics[0] != "#" {
@@ -812,7 +814,7 @@ func TestParseStringList(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := parseStringList(tt.input)
+			result := promexporter_config.ParseStringList(tt.input)
 			if len(result) != len(tt.expected) {
 				t.Errorf("parseStringList() length = %v, want %v", len(result), len(tt.expected))
 				return
@@ -847,7 +849,7 @@ func TestParseBool(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := parseBool(tt.input)
+			result, err := promexporter_config.ParseBool(tt.input)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("parseBool() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -876,7 +878,7 @@ func TestParseInt(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := parseInt(tt.input)
+			result, err := promexporter_config.ParseInt(tt.input)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("parseInt() error = %v, wantErr %v", err, tt.wantErr)
 				return
