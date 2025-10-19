@@ -100,7 +100,7 @@ func main() {
 	})
 
 	// Initialize metrics registry using promexporter
-	metricsRegistry := promexporter_metrics.NewRegistry()
+	metricsRegistry := promexporter_metrics.NewRegistry("mqtt_exporter_info")
 
 	// Add custom metrics to the registry
 	mqttRegistry := metrics.NewMQTTRegistry(metricsRegistry)
