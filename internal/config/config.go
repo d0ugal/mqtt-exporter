@@ -105,11 +105,11 @@ func loadFromEnv() (*Config, error) {
 		if interval, err := time.ParseDuration(intervalStr); err != nil {
 			return nil, fmt.Errorf("invalid metrics default interval: %w", err)
 		} else {
-			baseConfig.Metrics.Collection.DefaultInterval = promexporter_config.Duration{interval}
+			baseConfig.Metrics.Collection.DefaultInterval = promexporter_config.Duration{Duration: interval}
 			baseConfig.Metrics.Collection.DefaultIntervalSet = true
 		}
 	} else {
-		baseConfig.Metrics.Collection.DefaultInterval = promexporter_config.Duration{time.Second * 30}
+		baseConfig.Metrics.Collection.DefaultInterval = promexporter_config.Duration{Duration: time.Second * 30}
 	}
 
 	config.BaseConfig = *baseConfig
@@ -165,20 +165,20 @@ func loadFromEnv() (*Config, error) {
 		if keepAlive, err := time.ParseDuration(keepAliveStr); err != nil {
 			return nil, fmt.Errorf("invalid MQTT keep alive: %w", err)
 		} else {
-			config.MQTT.KeepAlive = Duration{keepAlive}
+			config.MQTT.KeepAlive = Duration{Duration: keepAlive}
 		}
 	} else {
-		config.MQTT.KeepAlive = Duration{time.Second * 60}
+		config.MQTT.KeepAlive = Duration{Duration: time.Second * 60}
 	}
 
 	if connectTimeoutStr := os.Getenv("MQTT_EXPORTER_MQTT_CONNECT_TIMEOUT"); connectTimeoutStr != "" {
 		if connectTimeout, err := time.ParseDuration(connectTimeoutStr); err != nil {
 			return nil, fmt.Errorf("invalid MQTT connect timeout: %w", err)
 		} else {
-			config.MQTT.ConnectTimeout = Duration{connectTimeout}
+			config.MQTT.ConnectTimeout = Duration{Duration: connectTimeout}
 		}
 	} else {
-		config.MQTT.ConnectTimeout = Duration{time.Second * 30}
+		config.MQTT.ConnectTimeout = Duration{Duration: time.Second * 30}
 	}
 
 	// Set defaults for any missing values
@@ -211,7 +211,7 @@ func setDefaults(config *Config) {
 	}
 
 	if !config.Metrics.Collection.DefaultIntervalSet {
-		config.Metrics.Collection.DefaultInterval = promexporter_config.Duration{time.Second * 30}
+		config.Metrics.Collection.DefaultInterval = promexporter_config.Duration{Duration: time.Second * 30}
 	}
 
 	if config.MQTT.Broker == "" {
@@ -227,11 +227,11 @@ func setDefaults(config *Config) {
 	}
 
 	if config.MQTT.KeepAlive.Duration == 0 {
-		config.MQTT.KeepAlive = Duration{time.Second * 60}
+		config.MQTT.KeepAlive = Duration{Duration: time.Second * 60}
 	}
 
 	if config.MQTT.ConnectTimeout.Duration == 0 {
-		config.MQTT.ConnectTimeout = Duration{time.Second * 30}
+		config.MQTT.ConnectTimeout = Duration{Duration: time.Second * 30}
 	}
 }
 

@@ -63,7 +63,7 @@ func TestDuration_UnmarshalYAML_Invalid(t *testing.T) {
 }
 
 func TestDuration_Seconds(t *testing.T) {
-	d := Duration{30 * time.Second}
+	d := Duration{Duration: 30 * time.Second}
 	if got := d.Seconds(); got != 30 {
 		t.Errorf("Duration.Seconds() = %v, want %v", got, 30)
 	}
@@ -309,7 +309,7 @@ func TestConfig_Validate(t *testing.T) {
 					Logging: promexporter_config.LoggingConfig{Level: "info", Format: "json"},
 					Metrics: promexporter_config.MetricsConfig{
 						Collection: promexporter_config.CollectionConfig{
-							DefaultInterval: Duration{30 * time.Second},
+							DefaultInterval: Duration{Duration: 30 * time.Second},
 						},
 					},
 				},
@@ -317,8 +317,8 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: Duration{30 * time.Second},
+					KeepAlive:      Duration{Duration: time.Second * 60},
+					ConnectTimeout: Duration{Duration: 30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -332,7 +332,7 @@ func TestConfig_Validate(t *testing.T) {
 					Logging: promexporter_config.LoggingConfig{Level: "info", Format: "json"},
 					Metrics: promexporter_config.MetricsConfig{
 						Collection: promexporter_config.CollectionConfig{
-							DefaultInterval: Duration{30 * time.Second},
+							DefaultInterval: Duration{Duration: 30 * time.Second},
 						},
 					},
 				},
@@ -340,8 +340,8 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: Duration{30 * time.Second},
+					KeepAlive:      Duration{Duration: time.Second * 60},
+					ConnectTimeout: Duration{Duration: 30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -355,7 +355,7 @@ func TestConfig_Validate(t *testing.T) {
 					Logging: promexporter_config.LoggingConfig{Level: "invalid", Format: "json"},
 					Metrics: promexporter_config.MetricsConfig{
 						Collection: promexporter_config.CollectionConfig{
-							DefaultInterval: Duration{30 * time.Second},
+							DefaultInterval: Duration{Duration: 30 * time.Second},
 						},
 					},
 				},
@@ -363,8 +363,8 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: Duration{30 * time.Second},
+					KeepAlive:      Duration{Duration: time.Second * 60},
+					ConnectTimeout: Duration{Duration: 30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -378,7 +378,7 @@ func TestConfig_Validate(t *testing.T) {
 					Logging: promexporter_config.LoggingConfig{Level: "info", Format: "invalid"},
 					Metrics: promexporter_config.MetricsConfig{
 						Collection: promexporter_config.CollectionConfig{
-							DefaultInterval: Duration{30 * time.Second},
+							DefaultInterval: Duration{Duration: 30 * time.Second},
 						},
 					},
 				},
@@ -386,8 +386,8 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: Duration{30 * time.Second},
+					KeepAlive:      Duration{Duration: time.Second * 60},
+					ConnectTimeout: Duration{Duration: 30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -401,7 +401,7 @@ func TestConfig_Validate(t *testing.T) {
 					Logging: promexporter_config.LoggingConfig{Level: "info", Format: "json"},
 					Metrics: promexporter_config.MetricsConfig{
 						Collection: promexporter_config.CollectionConfig{
-							DefaultInterval: Duration{0},
+							DefaultInterval: Duration{Duration: 0},
 						},
 					},
 				},
@@ -409,8 +409,8 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: Duration{30 * time.Second},
+					KeepAlive:      Duration{Duration: time.Second * 60},
+					ConnectTimeout: Duration{Duration: 30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -424,7 +424,7 @@ func TestConfig_Validate(t *testing.T) {
 					Logging: promexporter_config.LoggingConfig{Level: "info", Format: "json"},
 					Metrics: promexporter_config.MetricsConfig{
 						Collection: promexporter_config.CollectionConfig{
-							DefaultInterval: Duration{30 * time.Second},
+							DefaultInterval: Duration{Duration: 30 * time.Second},
 						},
 					},
 				},
@@ -432,8 +432,8 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: Duration{30 * time.Second},
+					KeepAlive:      Duration{Duration: time.Second * 60},
+					ConnectTimeout: Duration{Duration: 30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -447,7 +447,7 @@ func TestConfig_Validate(t *testing.T) {
 					Logging: promexporter_config.LoggingConfig{Level: "info", Format: "json"},
 					Metrics: promexporter_config.MetricsConfig{
 						Collection: promexporter_config.CollectionConfig{
-							DefaultInterval: Duration{30 * time.Second},
+							DefaultInterval: Duration{Duration: 30 * time.Second},
 						},
 					},
 				},
@@ -455,8 +455,8 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            3,
-					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: Duration{30 * time.Second},
+					KeepAlive:      Duration{Duration: time.Second * 60},
+					ConnectTimeout: Duration{Duration: 30 * time.Second},
 					Topics:         []string{"test/topic"},
 				},
 			},
@@ -470,7 +470,7 @@ func TestConfig_Validate(t *testing.T) {
 					Logging: promexporter_config.LoggingConfig{Level: "info", Format: "json"},
 					Metrics: promexporter_config.MetricsConfig{
 						Collection: promexporter_config.CollectionConfig{
-							DefaultInterval: Duration{30 * time.Second},
+							DefaultInterval: Duration{Duration: 30 * time.Second},
 						},
 					},
 				},
@@ -478,8 +478,8 @@ func TestConfig_Validate(t *testing.T) {
 					Broker:         "localhost:1883",
 					ClientID:       "test",
 					QoS:            1,
-					KeepAlive:      Duration{time.Second * 60},
-					ConnectTimeout: Duration{30 * time.Second},
+					KeepAlive:      Duration{Duration: time.Second * 60},
+					ConnectTimeout: Duration{Duration: 30 * time.Second},
 					Topics:         []string{},
 				},
 			},
@@ -502,7 +502,7 @@ func TestConfig_GetDefaultInterval(t *testing.T) {
 		BaseConfig: promexporter_config.BaseConfig{
 			Metrics: promexporter_config.MetricsConfig{
 				Collection: promexporter_config.CollectionConfig{
-					DefaultInterval: Duration{45 * time.Second},
+					DefaultInterval: Duration{Duration: 45 * time.Second},
 				},
 			},
 		},
