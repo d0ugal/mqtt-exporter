@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.22.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.21.0...v1.22.0) (2025-10-19)
+
+
+### Features
+
+* migrate mqtt-exporter to promexporter library ([61b99a5](https://github.com/d0ugal/mqtt-exporter/commit/61b99a5dc6706daed09c979cfa76fcc51f0c0b39))
+* support duration strings for MQTT keep alive configuration ([6a0811d](https://github.com/d0ugal/mqtt-exporter/commit/6a0811daf1cc8207d87a3912f11e2f887a01b80e))
+* update to promexporter v1.0.0 ([766e720](https://github.com/d0ugal/mqtt-exporter/commit/766e7208f8ebbbbb52814f1d4fc6739676aa90da))
+
+
+### Bug Fixes
+
+* add missing parse functions and update test calls ([b171357](https://github.com/d0ugal/mqtt-exporter/commit/b171357a926638e73cc46b094fe52151a9884408))
+* correct Duration struct literals to use named fields ([6d63e32](https://github.com/d0ugal/mqtt-exporter/commit/6d63e3204f5f3696e56a44691ef3b3175541e13b))
+* remove problematic config tests to unblock CI ([5c371f8](https://github.com/d0ugal/mqtt-exporter/commit/5c371f86ca53fcb37e7d79385651ef6fb7d86e7e))
+* resolve linting issues - add empty line between embedded fields, fix godoc, and format imports ([be774f6](https://github.com/d0ugal/mqtt-exporter/commit/be774f6da870c8ac8472efef3c5aa806dc9ffbf1))
+* update all remaining config test cases to use promexporter structure ([35491dc](https://github.com/d0ugal/mqtt-exporter/commit/35491dcdae8e94271164523f4fc3f511b8c3a8f6))
+* update config tests to use new promexporter config structure ([03789de](https://github.com/d0ugal/mqtt-exporter/commit/03789de4e098154fb388a327149329056a8e319a))
+* update go.mod after rebase ([05150ab](https://github.com/d0ugal/mqtt-exporter/commit/05150ab07486eaff3a0512162708bed73b57188b))
+* update go.sum for promexporter v1.0.0 ([5a73f18](https://github.com/d0ugal/mqtt-exporter/commit/5a73f18944e726086db0e93f9be5a4618f1292e1))
+* update main.go and remaining config tests for promexporter v1 ([2d2cc39](https://github.com/d0ugal/mqtt-exporter/commit/2d2cc39f590ad3c8efab362ad7f0344990eebf78))
+* update module github.com/d0ugal/promexporter to v1.0.1 ([e4fe173](https://github.com/d0ugal/mqtt-exporter/commit/e4fe1738edbaefa71693eb3817d627caabd74a30))
+* update remaining config test cases to use promexporter structure ([cdff132](https://github.com/d0ugal/mqtt-exporter/commit/cdff132bbcd8edd72696acab88f80a382d764918))
+
 ## [1.21.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.20.0...v1.21.0) (2025-10-14)
 
 
