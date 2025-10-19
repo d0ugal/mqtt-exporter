@@ -11,11 +11,12 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// Use promexporter Duration type
+// Duration uses promexporter Duration type
 type Duration = promexporter_config.Duration
 
 type Config struct {
 	promexporter_config.BaseConfig
+
 	MQTT MQTTConfig `yaml:"mqtt"`
 }
 
@@ -69,7 +70,7 @@ func loadFromEnv() (*Config, error) {
 
 	// Load base configuration from environment
 	baseConfig := &promexporter_config.BaseConfig{}
-	
+
 	// Server configuration
 	if host := os.Getenv("MQTT_EXPORTER_SERVER_HOST"); host != "" {
 		baseConfig.Server.Host = host
@@ -336,17 +337,17 @@ func ParseStringList(input string) []string {
 	if input == "" {
 		return []string{}
 	}
-	
+
 	parts := strings.Split(input, ",")
 	result := make([]string, 0, len(parts))
-	
+
 	for _, part := range parts {
 		trimmed := strings.TrimSpace(part)
 		if trimmed != "" {
 			result = append(result, trimmed)
 		}
 	}
-	
+
 	return result
 }
 
