@@ -75,7 +75,7 @@ jobs:
         go build -v -ldflags="-s -w" -o mqtt-exporter ./cmd
 
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: mqtt-exporter
         path: mqtt-exporter
