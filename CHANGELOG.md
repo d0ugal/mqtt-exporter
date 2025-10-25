@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.23.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.22.0...v1.23.0) (2025-10-25)
+
+
+### Features
+
+* update promexporter to v1.4.0 ([7382e95](https://github.com/d0ugal/mqtt-exporter/commit/7382e95c974b9c34b6a0622f017ca64ce3b300e5))
+
+
+### Bug Fixes
+
+* update module github.com/d0ugal/promexporter to v1.1.0 ([9746748](https://github.com/d0ugal/mqtt-exporter/commit/97467488ec0d72aa30b1c939d7f0465c41020946))
+* update module github.com/d0ugal/promexporter to v1.3.1 ([96c1aa6](https://github.com/d0ugal/mqtt-exporter/commit/96c1aa69a7dc95714109a0b3d0b1f25bd491e0e3))
+* update module github.com/prometheus/procfs to v0.18.0 ([79129bd](https://github.com/d0ugal/mqtt-exporter/commit/79129bd1024599df00e9a610a84c9600d1eb7ec7))
+
 ## [1.22.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.21.0...v1.22.0) (2025-10-19)
 
 
