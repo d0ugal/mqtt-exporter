@@ -100,9 +100,6 @@ func main() {
 	// Initialize metrics registry using promexporter
 	metricsRegistry := promexporter_metrics.NewRegistry("mqtt_exporter_info")
 
-	// Set version info metric with mqtt-exporter version information
-	metricsRegistry.VersionInfo.WithLabelValues(version.Version, version.Commit, version.BuildDate).Set(1)
-
 	// Add custom metrics to the registry
 	mqttRegistry := metrics.NewMQTTRegistry(metricsRegistry)
 
@@ -114,7 +111,7 @@ func main() {
 		WithConfig(&cfg.BaseConfig).
 		WithMetrics(metricsRegistry).
 		WithCollector(mqttCollector).
-		SkipVersionInfo().
+		WithVersionInfo(version.Version, version.Commit, version.BuildDate).
 		Build()
 
 	if err := application.Run(); err != nil {
