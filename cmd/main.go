@@ -114,6 +114,7 @@ func main() {
 		WithConfig(&cfg.BaseConfig).
 		WithMetrics(metricsRegistry).
 		WithCollector(mqttCollector).
+		SkipVersionInfo().
 		Build()
 
 	if err := application.Run(); err != nil {
