@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.23.3](https://github.com/d0ugal/mqtt-exporter/compare/v1.23.2...v1.23.3) (2025-10-27)
+
+
+### Bug Fixes
+
+* **ci:** use Makefile for linting instead of golangci-lint-action ([73bffdc](https://github.com/d0ugal/mqtt-exporter/commit/73bffdc707a07f5c8a0b566bbbef4524f093dec8))
+
 ## [1.23.2](https://github.com/d0ugal/mqtt-exporter/compare/v1.23.1...v1.23.2) (2025-10-26)
 
 
