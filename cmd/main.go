@@ -107,7 +107,7 @@ func main() {
 	mqttCollector := collectors.NewMQTTCollector(cfg, mqttRegistry)
 
 	// Create and run application using promexporter
-	application := app.New("mqtt-exporter").
+	application := app.New("MQTT Exporter").
 		WithConfig(&cfg.BaseConfig).
 		WithMetrics(metricsRegistry).
 		WithCollector(mqttCollector).
