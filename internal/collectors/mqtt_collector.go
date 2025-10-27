@@ -10,6 +10,7 @@ import (
 	"github.com/d0ugal/mqtt-exporter/internal/config"
 	"github.com/d0ugal/mqtt-exporter/internal/metrics"
 	MQTT "github.com/eclipse/paho.mqtt.golang"
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 type MQTTCollector struct {
@@ -67,8 +68,13 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 				"broker", mc.config.MQTT.Broker,
 				"error", err,
 			)
-			mc.metrics.MQTTConnectionStatus.WithLabelValues(mc.config.MQTT.Broker).Set(0)
-			mc.metrics.MQTTConnectionErrors.WithLabelValues(mc.config.MQTT.Broker, "connect").Inc()
+			mc.metrics.MQTTConnectionStatus.With(prometheus.Labels{
+				"broker": mc.config.MQTT.Broker,
+			}).Set(0)
+			mc.metrics.MQTTConnectionErrors.With(prometheus.Labels{
+				"broker": mc.config.MQTT.Broker,
+				"reason": "connect",
+			}).Inc()
 
 			select {
 			case <-ctx.Done():
@@ -83,12 +89,17 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 		reconnectDelay = time.Second
 
 		slog.Info("Connected to MQTT broker", "broker", mc.config.MQTT.Broker)
-		mc.metrics.MQTTConnectionStatus.WithLabelValues(mc.config.MQTT.Broker).Set(1)
+		mc.metrics.MQTTConnectionStatus.With(prometheus.Labels{
+			"broker": mc.config.MQTT.Broker,
+		}).Set(1)
 
 		// Subscribe to topics
 		if err := mc.subscribeToTopics(); err != nil {
 			slog.Error("Failed to subscribe to topics", "error", err)
-			mc.metrics.MQTTConnectionErrors.WithLabelValues(mc.config.MQTT.Broker, "subscribe").Inc()
+			mc.metrics.MQTTConnectionErrors.With(prometheus.Labels{
+				"broker": mc.config.MQTT.Broker,
+				"reason": "subscribe",
+			}).Inc()
 
 			// Disconnect and retry
 			if mc.client != nil {
@@ -171,7 +182,9 @@ func (mc *MQTTCollector) subscribeToTopics() error {
 
 func (mc *MQTTCollector) onConnect(client MQTT.Client) {
 	slog.Info("MQTT connection established", "broker", mc.config.MQTT.Broker)
-	mc.metrics.MQTTConnectionStatus.WithLabelValues(mc.config.MQTT.Broker).Set(1)
+	mc.metrics.MQTTConnectionStatus.With(prometheus.Labels{
+		"broker": mc.config.MQTT.Broker,
+	}).Set(1)
 }
 
 func (mc *MQTTCollector) onConnectionLost(client MQTT.Client, err error) {
@@ -179,9 +192,16 @@ func (mc *MQTTCollector) onConnectionLost(client MQTT.Client, err error) {
 		"broker", mc.config.MQTT.Broker,
 		"error", err,
 	)
-	mc.metrics.MQTTConnectionStatus.WithLabelValues(mc.config.MQTT.Broker).Set(0)
-	mc.metrics.MQTTConnectionErrors.WithLabelValues(mc.config.MQTT.Broker, "connection_lost").Inc()
-	mc.metrics.MQTTReconnectsTotal.WithLabelValues(mc.config.MQTT.Broker).Inc()
+	mc.metrics.MQTTConnectionStatus.With(prometheus.Labels{
+		"broker": mc.config.MQTT.Broker,
+	}).Set(0)
+	mc.metrics.MQTTConnectionErrors.With(prometheus.Labels{
+		"broker": mc.config.MQTT.Broker,
+		"reason": "connection_lost",
+	}).Inc()
+	mc.metrics.MQTTReconnectsTotal.With(prometheus.Labels{
+		"broker": mc.config.MQTT.Broker,
+	}).Inc()
 
 	// Signal that connection was lost to trigger reconnection
 	select {
@@ -209,9 +229,15 @@ func (mc *MQTTCollector) onMessageReceived(client MQTT.Client, msg MQTT.Message)
 	mc.mu.Unlock()
 
 	// Increment counters
-	mc.metrics.MQTTMessageCount.WithLabelValues(topic).Inc()
-	mc.metrics.MQTTMessageBytes.WithLabelValues(topic).Add(float64(len(payload)))
-	mc.metrics.MQTTTopicLastMessage.WithLabelValues(topic).Set(float64(time.Now().Unix()))
+	mc.metrics.MQTTMessageCount.With(prometheus.Labels{
+		"topic": topic,
+	}).Inc()
+	mc.metrics.MQTTMessageBytes.With(prometheus.Labels{
+		"topic": topic,
+	}).Add(float64(len(payload)))
+	mc.metrics.MQTTTopicLastMessage.With(prometheus.Labels{
+		"topic": topic,
+	}).Set(float64(time.Now().Unix()))
 
 	slog.Debug("Updated metrics for topic", "topic", topic)
 }
