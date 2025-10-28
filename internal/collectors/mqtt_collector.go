@@ -9,13 +9,18 @@ import (
 
 	"github.com/d0ugal/mqtt-exporter/internal/config"
 	"github.com/d0ugal/mqtt-exporter/internal/metrics"
+	"github.com/d0ugal/promexporter/app"
+	"github.com/d0ugal/promexporter/tracing"
+	_ "github.com/d0ugal/promexporter/tracing"
 	MQTT "github.com/eclipse/paho.mqtt.golang"
 	"github.com/prometheus/client_golang/prometheus"
+	"go.opentelemetry.io/otel/attribute"
 )
 
 type MQTTCollector struct {
 	config         *config.Config
 	metrics        *metrics.MQTTRegistry
+	app            *app.App
 	client         MQTT.Client
 	mu             sync.RWMutex
 	topics         map[string]int64
@@ -23,10 +28,11 @@ type MQTTCollector struct {
 	connectionLost chan struct{}
 }
 
-func NewMQTTCollector(cfg *config.Config, metricsRegistry *metrics.MQTTRegistry) *MQTTCollector {
+func NewMQTTCollector(cfg *config.Config, metricsRegistry *metrics.MQTTRegistry, app *app.App) *MQTTCollector {
 	return &MQTTCollector{
 		config:         cfg,
 		metrics:        metricsRegistry,
+		app:            app,
 		topics:         make(map[string]int64),
 		done:           make(chan struct{}),
 		connectionLost: make(chan struct{}, 1),
@@ -43,9 +49,25 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 	maxReconnectDelay := time.Minute
 
 	for {
+		// Create a span for each connection attempt
+		tracer := mc.app.GetTracer()
+		var collectorSpan *tracing.CollectorSpan
+		var spanCtx context.Context
+
+		if tracer != nil && tracer.IsEnabled() {
+			collectorSpan = tracer.NewCollectorSpan(ctx, "mqtt-collector", "connection-loop")
+			spanCtx = collectorSpan.Context()
+		} else {
+			spanCtx = ctx
+		}
+
 		select {
-		case <-ctx.Done():
+		case <-spanCtx.Done():
 			slog.Info("Shutting down MQTT collector")
+			if collectorSpan != nil {
+				collectorSpan.AddEvent("shutdown_requested")
+				collectorSpan.End()
+			}
 
 			if mc.client != nil && mc.client.IsConnected() {
 				mc.client.Disconnect(250)
@@ -54,6 +76,10 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 			return
 		case <-mc.done:
 			slog.Info("Stopping MQTT collector")
+			if collectorSpan != nil {
+				collectorSpan.AddEvent("stop_requested")
+				collectorSpan.End()
+			}
 
 			if mc.client != nil && mc.client.IsConnected() {
 				mc.client.Disconnect(250)
@@ -63,11 +89,14 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 		default:
 		}
 
-		if err := mc.connect(); err != nil {
+		if err := mc.connect(spanCtx); err != nil {
 			slog.Error("Failed to connect to MQTT broker",
 				"broker", mc.config.MQTT.Broker,
 				"error", err,
 			)
+			if collectorSpan != nil {
+				collectorSpan.RecordError(err, attribute.String("broker", mc.config.MQTT.Broker))
+			}
 			mc.metrics.MQTTConnectionStatus.With(prometheus.Labels{
 				"broker": mc.config.MQTT.Broker,
 			}).Set(0)
@@ -77,10 +106,18 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 			}).Inc()
 
 			select {
-			case <-ctx.Done():
+			case <-spanCtx.Done():
+				if collectorSpan != nil {
+					collectorSpan.End()
+				}
 				return
 			case <-time.After(reconnectDelay):
 				reconnectDelay = minDuration(reconnectDelay*2, maxReconnectDelay)
+				if collectorSpan != nil {
+					collectorSpan.AddEvent("reconnect_scheduled",
+						attribute.String("delay", reconnectDelay.String()))
+					collectorSpan.End()
+				}
 				continue
 			}
 		}
@@ -89,13 +126,19 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 		reconnectDelay = time.Second
 
 		slog.Info("Connected to MQTT broker", "broker", mc.config.MQTT.Broker)
+		if collectorSpan != nil {
+			collectorSpan.AddEvent("connected", attribute.String("broker", mc.config.MQTT.Broker))
+		}
 		mc.metrics.MQTTConnectionStatus.With(prometheus.Labels{
 			"broker": mc.config.MQTT.Broker,
 		}).Set(1)
 
 		// Subscribe to topics
-		if err := mc.subscribeToTopics(); err != nil {
+		if err := mc.subscribeToTopics(spanCtx); err != nil {
 			slog.Error("Failed to subscribe to topics", "error", err)
+			if collectorSpan != nil {
+				collectorSpan.RecordError(err, attribute.String("operation", "subscribe"))
+			}
 			mc.metrics.MQTTConnectionErrors.With(prometheus.Labels{
 				"broker": mc.config.MQTT.Broker,
 				"reason": "subscribe",
@@ -111,8 +154,12 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 
 		// Wait for connection to be lost or context cancellation
 		select {
-		case <-ctx.Done():
+		case <-spanCtx.Done():
 			slog.Info("Shutting down MQTT collector")
+			if collectorSpan != nil {
+				collectorSpan.AddEvent("shutdown_requested")
+				collectorSpan.End()
+			}
 
 			if mc.client != nil && mc.client.IsConnected() {
 				mc.client.Disconnect(250)
@@ -121,6 +168,10 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 			return
 		case <-mc.connectionLost:
 			slog.Info("Connection lost, attempting to reconnect", "broker", mc.config.MQTT.Broker)
+			if collectorSpan != nil {
+				collectorSpan.AddEvent("connection_lost", attribute.String("broker", mc.config.MQTT.Broker))
+				collectorSpan.End()
+			}
 			// Clean up the old client
 			if mc.client != nil {
 				mc.client.Disconnect(250)
@@ -130,7 +181,7 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 	}
 }
 
-func (mc *MQTTCollector) connect() error {
+func (mc *MQTTCollector) connect(ctx context.Context) error {
 	opts := MQTT.NewClientOptions()
 	opts.AddBroker(fmt.Sprintf("tcp://%s", mc.config.MQTT.Broker))
 	opts.SetClientID(mc.config.MQTT.ClientID)
@@ -168,7 +219,7 @@ func (mc *MQTTCollector) connect() error {
 	return nil
 }
 
-func (mc *MQTTCollector) subscribeToTopics() error {
+func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
 	for _, topic := range mc.config.MQTT.Topics {
 		if token := mc.client.Subscribe(topic, byte(mc.config.MQTT.QoS), nil); token.Wait() && token.Error() != nil {
 			return fmt.Errorf("failed to subscribe to topic %s: %w", topic, token.Error())

@@ -103,16 +103,16 @@ func main() {
 	// Add custom metrics to the registry
 	mqttRegistry := metrics.NewMQTTRegistry(metricsRegistry)
 
-	// Create collector
-	mqttCollector := collectors.NewMQTTCollector(cfg, mqttRegistry)
-
 	// Create and run application using promexporter
 	application := app.New("MQTT Exporter").
 		WithConfig(&cfg.BaseConfig).
 		WithMetrics(metricsRegistry).
-		WithCollector(mqttCollector).
 		WithVersionInfo(version.Version, version.Commit, version.BuildDate).
 		Build()
+
+	// Create collector with app reference for tracing
+	mqttCollector := collectors.NewMQTTCollector(cfg, mqttRegistry, application)
+	application.WithCollector(mqttCollector)
 
 	if err := application.Run(); err != nil {
 		slog.Error("Application failed", "error", err)
