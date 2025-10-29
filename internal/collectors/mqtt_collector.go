@@ -11,7 +11,6 @@ import (
 	"github.com/d0ugal/mqtt-exporter/internal/metrics"
 	"github.com/d0ugal/promexporter/app"
 	"github.com/d0ugal/promexporter/tracing"
-	_ "github.com/d0ugal/promexporter/tracing"
 	MQTT "github.com/eclipse/paho.mqtt.golang"
 	"github.com/prometheus/client_golang/prometheus"
 	"go.opentelemetry.io/otel/attribute"
@@ -51,19 +50,20 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 	for {
 		// Create a span for each connection attempt
 		tracer := mc.app.GetTracer()
+
 		var collectorSpan *tracing.CollectorSpan
-		var spanCtx context.Context
+
+		spanCtx := context.Background()
 
 		if tracer != nil && tracer.IsEnabled() {
 			collectorSpan = tracer.NewCollectorSpan(ctx, "mqtt-collector", "connection-attempt")
 			spanCtx = collectorSpan.Context()
-		} else {
-			spanCtx = ctx
 		}
 
 		select {
 		case <-spanCtx.Done():
 			slog.Info("Shutting down MQTT collector")
+
 			if collectorSpan != nil {
 				collectorSpan.AddEvent("shutdown_requested")
 				collectorSpan.End()
@@ -76,6 +76,7 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 			return
 		case <-mc.done:
 			slog.Info("Stopping MQTT collector")
+
 			if collectorSpan != nil {
 				collectorSpan.AddEvent("stop_requested")
 				collectorSpan.End()
@@ -89,15 +90,17 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 		default:
 		}
 
-		if err := mc.connect(spanCtx); err != nil {
+		if err := mc.connect(spanCtx); err != nil { //nolint:contextcheck
 			slog.Error("Failed to connect to MQTT broker",
 				"broker", mc.config.MQTT.Broker,
 				"error", err,
 			)
+
 			if collectorSpan != nil {
 				collectorSpan.RecordError(err, attribute.String("broker", mc.config.MQTT.Broker))
 				collectorSpan.End()
 			}
+
 			mc.metrics.MQTTConnectionStatus.With(prometheus.Labels{
 				"broker": mc.config.MQTT.Broker,
 			}).Set(0)
@@ -111,6 +114,7 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 				if collectorSpan != nil {
 					collectorSpan.End()
 				}
+
 				return
 			case <-time.After(reconnectDelay):
 				reconnectDelay = minDuration(reconnectDelay*2, maxReconnectDelay)
@@ -119,6 +123,7 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 						attribute.String("delay", reconnectDelay.String()))
 					collectorSpan.End()
 				}
+
 				continue
 			}
 		}
@@ -127,20 +132,24 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 		reconnectDelay = time.Second
 
 		slog.Info("Connected to MQTT broker", "broker", mc.config.MQTT.Broker)
+
 		if collectorSpan != nil {
 			collectorSpan.AddEvent("connected", attribute.String("broker", mc.config.MQTT.Broker))
 		}
+
 		mc.metrics.MQTTConnectionStatus.With(prometheus.Labels{
 			"broker": mc.config.MQTT.Broker,
 		}).Set(1)
 
 		// Subscribe to topics
-		if err := mc.subscribeToTopics(spanCtx); err != nil {
+		if err := mc.subscribeToTopics(spanCtx); err != nil { //nolint:contextcheck
 			slog.Error("Failed to subscribe to topics", "error", err)
+
 			if collectorSpan != nil {
 				collectorSpan.RecordError(err, attribute.String("operation", "subscribe"))
 				collectorSpan.End()
 			}
+
 			mc.metrics.MQTTConnectionErrors.With(prometheus.Labels{
 				"broker": mc.config.MQTT.Broker,
 				"reason": "subscribe",
@@ -164,6 +173,7 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 		select {
 		case <-spanCtx.Done():
 			slog.Info("Shutting down MQTT collector")
+
 			if collectorSpan != nil {
 				collectorSpan.AddEvent("shutdown_requested")
 				collectorSpan.End()
@@ -176,6 +186,7 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 			return
 		case <-mc.connectionLost:
 			slog.Info("Connection lost, attempting to reconnect", "broker", mc.config.MQTT.Broker)
+
 			if collectorSpan != nil {
 				collectorSpan.AddEvent("connection_lost", attribute.String("broker", mc.config.MQTT.Broker))
 				collectorSpan.End()
@@ -284,6 +295,7 @@ func (mc *MQTTCollector) onMessageReceived(client MQTT.Client, msg MQTT.Message)
 
 	// Create a span for each message processing
 	tracer := mc.app.GetTracer()
+
 	var messageSpan *tracing.CollectorSpan
 
 	if tracer != nil && tracer.IsEnabled() {
