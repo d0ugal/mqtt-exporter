@@ -41,6 +41,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"topic"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_messages_total", "Total number of MQTT messages received", []string{"topic"})
 
 	mqtt.MQTTMessageBytes = factory.NewCounterVec(
@@ -50,6 +51,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"topic"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_message_bytes_total", "Total number of bytes received in MQTT messages", []string{"topic"})
 
 	// MQTT connection metrics
@@ -60,6 +62,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_connection_status", "MQTT connection status (1 = connected, 0 = disconnected)", []string{"broker"})
 
 	mqtt.MQTTConnectionErrors = factory.NewCounterVec(
@@ -69,6 +72,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker", "error_type"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_connection_errors_total", "Total number of MQTT connection errors", []string{"broker", "error_type"})
 
 	mqtt.MQTTReconnectsTotal = factory.NewCounterVec(
@@ -78,6 +82,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_reconnects_total", "Total number of MQTT reconnection attempts", []string{"broker"})
 
 	// MQTT topic metrics
@@ -88,6 +93,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"topic"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_topic_last_message_timestamp", "Unix timestamp of the last message received on each topic", []string{"topic"})
 
 	return mqtt
