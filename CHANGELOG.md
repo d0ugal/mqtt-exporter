@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.24.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.23.3...v1.24.0) (2025-10-29)
+
+
+### Features
+
+* add dev-tag Makefile target ([17718f8](https://github.com/d0ugal/mqtt-exporter/commit/17718f87e7fd1dc11d9690e309cdf823e1a77763))
+* add granular tracing for MQTT message processing ([4d2869a](https://github.com/d0ugal/mqtt-exporter/commit/4d2869a9702c6153968f3a48276a90e233f02889))
+* add OpenTelemetry tracing support to MQTT collector ([80ec7c2](https://github.com/d0ugal/mqtt-exporter/commit/80ec7c2a2fa2fc51293677446590506faf8a157a))
+* **ci:** add auto-format workflow ([1201c24](https://github.com/d0ugal/mqtt-exporter/commit/1201c24acc71cbe78b28c75eacc5b9ae368a749e))
+
+
+### Bug Fixes
+
+* Correct title ([744fb27](https://github.com/d0ugal/mqtt-exporter/commit/744fb276c29d951c934784e546301bb102a6b12c))
+* resolve linting issues ([b97e450](https://github.com/d0ugal/mqtt-exporter/commit/b97e45024debec1d704593aef641892524cddbb1))
+* update module github.com/bytedance/sonic to v1.14.2 ([327422c](https://github.com/d0ugal/mqtt-exporter/commit/327422c89b76807d2ac64222f4606667ad89fabd))
+* update module github.com/bytedance/sonic/loader to v0.4.0 ([2f901db](https://github.com/d0ugal/mqtt-exporter/commit/2f901db5f8020754b2535e13f9f9dff018bf4929))
+* update module github.com/d0ugal/promexporter to v1.6.1 ([0d91da7](https://github.com/d0ugal/mqtt-exporter/commit/0d91da76d65e0e6ab0a22ea43503b4c4ed2f54eb))
+* update module github.com/prometheus/common to v0.67.2 ([2f19b42](https://github.com/d0ugal/mqtt-exporter/commit/2f19b426d1afef622e2e99ceaa25285ffad32bfc))
+* update module github.com/ugorji/go/codec to v1.3.1 ([e2dc6c9](https://github.com/d0ugal/mqtt-exporter/commit/e2dc6c987ccf983b91c81bf86edca81b5a523b38))
+
 ## [1.23.3](https://github.com/d0ugal/mqtt-exporter/compare/v1.23.2...v1.23.3) (2025-10-27)
 
 
