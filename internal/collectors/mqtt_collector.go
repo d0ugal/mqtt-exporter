@@ -377,12 +377,12 @@ func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
 		slog.Info("Subscribed to topic", "topic", topic)
 	}
 
-	if parentSpan != nil {
-		parentSpan.SetAttributes(
+	if span != nil {
+		span.SetAttributes(
 			attribute.Int("subscribe.topics_subscribed", topicsSubscribed),
 			attribute.Int("subscribe.topics_failed", topicsFailed),
 		)
-		parentSpan.AddEvent("all_subscriptions_completed",
+		span.AddEvent("all_subscriptions_completed",
 			attribute.Int("topics_subscribed", topicsSubscribed),
 		)
 	}
@@ -538,8 +538,6 @@ func (mc *MQTTCollector) updateMetrics(ctx context.Context, topic string, payloa
 			attribute.Int("payload_length", len(payload)),
 		)
 	}
-
-	_ = spanCtx // Use spanCtx for future operations if needed
 }
 
 // Stop stops the collector
