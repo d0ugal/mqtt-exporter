@@ -201,6 +201,33 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 }
 
 func (mc *MQTTCollector) connect(ctx context.Context) error {
+	tracer := mc.app.GetTracer()
+
+	var (
+		span    *tracing.CollectorSpan
+		spanCtx context.Context
+	)
+
+	if tracer != nil && tracer.IsEnabled() {
+		span = tracer.NewCollectorSpan(ctx, "mqtt-collector", "connect")
+
+		span.SetAttributes(
+			attribute.String("mqtt.broker", mc.config.MQTT.Broker),
+			attribute.String("mqtt.client_id", mc.config.MQTT.ClientID),
+			attribute.Bool("mqtt.clean_session", mc.config.MQTT.CleanSession),
+			attribute.Int64("mqtt.keep_alive_seconds", int64(mc.config.MQTT.KeepAlive.Duration.Seconds())),
+			attribute.Int64("mqtt.connect_timeout_seconds", int64(mc.config.MQTT.ConnectTimeout.Duration.Seconds())),
+			attribute.Bool("mqtt.has_username", mc.config.MQTT.Username != ""),
+		)
+
+		spanCtx = span.Context()
+		defer span.End()
+	} else {
+		spanCtx = ctx
+	}
+
+	configStart := time.Now()
+
 	opts := MQTT.NewClientOptions()
 	opts.AddBroker(fmt.Sprintf("tcp://%s", mc.config.MQTT.Broker))
 	opts.SetClientID(mc.config.MQTT.ClientID)
@@ -223,6 +250,15 @@ func (mc *MQTTCollector) connect(ctx context.Context) error {
 	opts.SetWriteTimeout(10 * time.Second)
 	opts.SetResumeSubs(true) // Resume subscriptions after reconnection
 
+	configDuration := time.Since(configStart)
+
+	if span != nil {
+		span.SetAttributes(
+			attribute.Float64("config.duration_seconds", configDuration.Seconds()),
+		)
+		span.AddEvent("config_created")
+	}
+
 	// Set up connection handlers
 	opts.SetOnConnectHandler(mc.onConnect)
 	opts.SetConnectionLostHandler(mc.onConnectionLost)
@@ -231,20 +267,124 @@ func (mc *MQTTCollector) connect(ctx context.Context) error {
 	mc.client = MQTT.NewClient(opts)
 
 	// Connect to broker
+	connectStart := time.Now()
+
+	// Create context with timeout using span context if available
+	timeoutCtx, cancel := context.WithTimeout(spanCtx, mc.config.MQTT.ConnectTimeout.Duration)
+	defer cancel()
+
 	if token := mc.client.Connect(); token.Wait() && token.Error() != nil {
+		connectDuration := time.Since(connectStart)
+
+		if span != nil {
+			span.SetAttributes(
+				attribute.Float64("connect.duration_seconds", connectDuration.Seconds()),
+				attribute.Bool("connect.success", false),
+			)
+			span.RecordError(token.Error(), attribute.String("operation", "mqtt_connect"))
+		}
+
+		_ = timeoutCtx // Use timeoutCtx for future operations if needed
+
 		return fmt.Errorf("failed to connect: %w", token.Error())
 	}
+
+	connectDuration := time.Since(connectStart)
+
+	if span != nil {
+		span.SetAttributes(
+			attribute.Float64("connect.duration_seconds", connectDuration.Seconds()),
+			attribute.Bool("connect.success", true),
+		)
+		span.AddEvent("connection_established",
+			attribute.String("broker", mc.config.MQTT.Broker),
+		)
+	}
+
+	_ = timeoutCtx // Use timeoutCtx for future operations if needed
 
 	return nil
 }
 
 func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
+	tracer := mc.app.GetTracer()
+
+	var (
+		parentSpan *tracing.CollectorSpan
+		spanCtx    context.Context
+	)
+
+	if tracer != nil && tracer.IsEnabled() {
+		parentSpan = tracer.NewCollectorSpan(ctx, "mqtt-collector", "subscribe-to-topics")
+
+		parentSpan.SetAttributes(
+			attribute.Int("mqtt.topics_count", len(mc.config.MQTT.Topics)),
+			attribute.Int("mqtt.qos", int(mc.config.MQTT.QoS)),
+		)
+
+		spanCtx = parentSpan.Context()
+		defer parentSpan.End()
+	} else {
+		spanCtx = ctx
+	}
+
+	var topicsSubscribed, topicsFailed int
+
 	for _, topic := range mc.config.MQTT.Topics {
+		subscribeStart := time.Now()
+
+		var topicSpan *tracing.CollectorSpan
+
+		if tracer != nil && tracer.IsEnabled() && parentSpan != nil {
+			topicSpan = tracer.NewCollectorSpan(spanCtx, "mqtt-collector", "subscribe-topic")
+
+			topicSpan.SetAttributes(
+				attribute.String("mqtt.topic", topic),
+				attribute.Int("mqtt.qos", int(mc.config.MQTT.QoS)),
+			)
+
+			defer topicSpan.End()
+		}
+
 		if token := mc.client.Subscribe(topic, byte(mc.config.MQTT.QoS), nil); token.Wait() && token.Error() != nil {
+			subscribeDuration := time.Since(subscribeStart)
+			topicsFailed++
+
+			if topicSpan != nil {
+				topicSpan.SetAttributes(
+					attribute.Float64("subscribe.duration_seconds", subscribeDuration.Seconds()),
+					attribute.Bool("subscribe.success", false),
+				)
+				topicSpan.RecordError(token.Error(), attribute.String("operation", "mqtt_subscribe"))
+			}
+
 			return fmt.Errorf("failed to subscribe to topic %s: %w", topic, token.Error())
 		}
 
+		subscribeDuration := time.Since(subscribeStart)
+		topicsSubscribed++
+
+		if topicSpan != nil {
+			topicSpan.SetAttributes(
+				attribute.Float64("subscribe.duration_seconds", subscribeDuration.Seconds()),
+				attribute.Bool("subscribe.success", true),
+			)
+			topicSpan.AddEvent("subscription_completed",
+				attribute.String("topic", topic),
+			)
+		}
+
 		slog.Info("Subscribed to topic", "topic", topic)
+	}
+
+	if parentSpan != nil {
+		parentSpan.SetAttributes(
+			attribute.Int("subscribe.topics_subscribed", topicsSubscribed),
+			attribute.Int("subscribe.topics_failed", topicsFailed),
+		)
+		parentSpan.AddEvent("all_subscriptions_completed",
+			attribute.Int("topics_subscribed", topicsSubscribed),
+		)
 	}
 
 	return nil
@@ -311,10 +451,67 @@ func (mc *MQTTCollector) onMessageReceived(client MQTT.Client, msg MQTT.Message)
 		defer messageSpan.End()
 	}
 
-	// Update metrics
+	// Update topic counter with tracing
+	updateCounterStart := time.Now()
+
 	mc.mu.Lock()
 	mc.topics[topic]++
+	messageCount := mc.topics[topic]
 	mc.mu.Unlock()
+
+	updateCounterDuration := time.Since(updateCounterStart)
+
+	if messageSpan != nil {
+		messageSpan.SetAttributes(
+			attribute.Float64("update.counter_duration_seconds", updateCounterDuration.Seconds()),
+			attribute.Int64("update.message_count", messageCount),
+		)
+		messageSpan.AddEvent("counter_updated")
+	}
+
+	// Update metrics with tracing
+	updateMetricsStart := time.Now()
+
+	mc.updateMetrics(topic, payload, messageSpan)
+
+	updateMetricsDuration := time.Since(updateMetricsStart)
+
+	slog.Debug("Updated metrics for topic", "topic", topic)
+
+	// Add event to span
+	if messageSpan != nil {
+		messageSpan.SetAttributes(
+			attribute.Float64("update.metrics_duration_seconds", updateMetricsDuration.Seconds()),
+		)
+		messageSpan.AddEvent("metrics_updated",
+			attribute.String("topic", topic),
+			attribute.Int("message_count", int(messageCount)),
+		)
+	}
+}
+
+// updateMetrics updates Prometheus metrics with tracing
+func (mc *MQTTCollector) updateMetrics(topic string, payload []byte, parentSpan *tracing.CollectorSpan) {
+	tracer := mc.app.GetTracer()
+
+	var (
+		span    *tracing.CollectorSpan
+		spanCtx context.Context
+	)
+
+	if tracer != nil && tracer.IsEnabled() && parentSpan != nil {
+		spanCtx = parentSpan.Context()
+		span = tracer.NewCollectorSpan(spanCtx, "mqtt-collector", "update-metrics")
+
+		span.SetAttributes(
+			attribute.String("mqtt.topic", topic),
+			attribute.Int("mqtt.payload_length", len(payload)),
+		)
+
+		defer span.End()
+	}
+
+	updateStart := time.Now()
 
 	// Increment counters
 	mc.metrics.MQTTMessageCount.With(prometheus.Labels{
@@ -327,15 +524,18 @@ func (mc *MQTTCollector) onMessageReceived(client MQTT.Client, msg MQTT.Message)
 		"topic": topic,
 	}).Set(float64(time.Now().Unix()))
 
-	slog.Debug("Updated metrics for topic", "topic", topic)
-
-	// Add event to span
-	if messageSpan != nil {
-		messageSpan.AddEvent("metrics_updated",
+	if span != nil {
+		span.SetAttributes(
+			attribute.Float64("metrics.update_duration_seconds", time.Since(updateStart).Seconds()),
+			attribute.Int("metrics.count", 3),
+		)
+		span.AddEvent("metrics_updated",
 			attribute.String("topic", topic),
-			attribute.Int("message_count", int(mc.topics[topic])),
+			attribute.Int("payload_length", len(payload)),
 		)
 	}
+
+	_ = spanCtx // Use spanCtx for future operations if needed
 }
 
 // Stop stops the collector
