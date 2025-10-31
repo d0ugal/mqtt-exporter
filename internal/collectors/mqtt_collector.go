@@ -310,20 +310,20 @@ func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
 	tracer := mc.app.GetTracer()
 
 	var (
-		parentSpan *tracing.CollectorSpan
-		spanCtx    context.Context
+		span    *tracing.CollectorSpan
+		spanCtx context.Context
 	)
 
 	if tracer != nil && tracer.IsEnabled() {
-		parentSpan = tracer.NewCollectorSpan(ctx, "mqtt-collector", "subscribe-to-topics")
+		span = tracer.NewCollectorSpan(ctx, "mqtt-collector", "subscribe-to-topics")
 
-		parentSpan.SetAttributes(
+		span.SetAttributes(
 			attribute.Int("mqtt.topics_count", len(mc.config.MQTT.Topics)),
 			attribute.Int("mqtt.qos", int(mc.config.MQTT.QoS)),
 		)
 
-		spanCtx = parentSpan.Context()
-		defer parentSpan.End()
+		spanCtx = span.Context()
+		defer span.End()
 	} else {
 		spanCtx = ctx
 	}
@@ -335,7 +335,7 @@ func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
 
 		var topicSpan *tracing.CollectorSpan
 
-		if tracer != nil && tracer.IsEnabled() && parentSpan != nil {
+		if tracer != nil && tracer.IsEnabled() {
 			topicSpan = tracer.NewCollectorSpan(spanCtx, "mqtt-collector", "subscribe-topic")
 
 			topicSpan.SetAttributes(
@@ -472,7 +472,15 @@ func (mc *MQTTCollector) onMessageReceived(client MQTT.Client, msg MQTT.Message)
 	// Update metrics with tracing
 	updateMetricsStart := time.Now()
 
-	mc.updateMetrics(topic, payload, messageSpan)
+	var metricsCtx context.Context
+
+	if messageSpan != nil {
+		metricsCtx = messageSpan.Context()
+	} else {
+		metricsCtx = context.Background()
+	}
+
+	mc.updateMetrics(metricsCtx, topic, payload)
 
 	updateMetricsDuration := time.Since(updateMetricsStart)
 
@@ -491,17 +499,13 @@ func (mc *MQTTCollector) onMessageReceived(client MQTT.Client, msg MQTT.Message)
 }
 
 // updateMetrics updates Prometheus metrics with tracing
-func (mc *MQTTCollector) updateMetrics(topic string, payload []byte, parentSpan *tracing.CollectorSpan) {
+func (mc *MQTTCollector) updateMetrics(ctx context.Context, topic string, payload []byte) {
 	tracer := mc.app.GetTracer()
 
-	var (
-		span    *tracing.CollectorSpan
-		spanCtx context.Context
-	)
+	var span *tracing.CollectorSpan
 
-	if tracer != nil && tracer.IsEnabled() && parentSpan != nil {
-		spanCtx = parentSpan.Context()
-		span = tracer.NewCollectorSpan(spanCtx, "mqtt-collector", "update-metrics")
+	if tracer != nil && tracer.IsEnabled() {
+		span = tracer.NewCollectorSpan(ctx, "mqtt-collector", "update-metrics")
 
 		span.SetAttributes(
 			attribute.String("mqtt.topic", topic),
