@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.24.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.23.3...v1.24.0) (2025-11-01)
+
+
+### Features
+
+* add dev-tag Makefile target ([17718f8](https://github.com/d0ugal/mqtt-exporter/commit/17718f87e7fd1dc11d9690e309cdf823e1a77763))
+* add duplication linter (dupl) to golangci configuration ([9129af0](https://github.com/d0ugal/mqtt-exporter/commit/9129af0057f3dc5fe0b5c544c048759abd65c5c3))
+* add granular tracing for MQTT message processing ([4d2869a](https://github.com/d0ugal/mqtt-exporter/commit/4d2869a9702c6153968f3a48276a90e233f02889))
+* add OpenTelemetry tracing support to MQTT collector ([80ec7c2](https://github.com/d0ugal/mqtt-exporter/commit/80ec7c2a2fa2fc51293677446590506faf8a157a))
+* **ci:** add auto-format workflow ([1201c24](https://github.com/d0ugal/mqtt-exporter/commit/1201c24acc71cbe78b28c75eacc5b9ae368a749e))
+* enhance tracing support with detailed spans ([a886925](https://github.com/d0ugal/mqtt-exporter/commit/a88692553cb78affb8fd696e1d63cdc092f47c68))
+* trigger CI after auto-format workflow completes ([a7a1736](https://github.com/d0ugal/mqtt-exporter/commit/a7a173612461de3d632d5ef24791354527f73aaa))
+
+
+### Bug Fixes
+
+* add nolint comments for contextcheck and fix topicsFailed usage ([c89dfcb](https://github.com/d0ugal/mqtt-exporter/commit/c89dfcbb6dffea088e38c4ed1deca6deb88ea7b8))
+* add nolint comments to span.Context() calls ([c7c516d](https://github.com/d0ugal/mqtt-exporter/commit/c7c516dd219725a6345bec075c5bfdb98b47eab7))
+* Correct title ([744fb27](https://github.com/d0ugal/mqtt-exporter/commit/744fb276c29d951c934784e546301bb102a6b12c))
+* remove ineffectual topicsFailed increment and unused nolint comments ([3609a12](https://github.com/d0ugal/mqtt-exporter/commit/3609a12d45c67e7f4b55a395caf05d3d8fdbcdf3))
+* remove unused parentSpan reference and unused spanCtx variable ([315be9c](https://github.com/d0ugal/mqtt-exporter/commit/315be9c173e9a0ab3b88a5118d8ed820a0802eee))
+* resolve linting issues ([b97e450](https://github.com/d0ugal/mqtt-exporter/commit/b97e45024debec1d704593aef641892524cddbb1))
+* update google.golang.org/genproto/googleapis/api digest to ab9386a ([d87f375](https://github.com/d0ugal/mqtt-exporter/commit/d87f3758d966a2ec1e3350b5960100bb43561445))
+* update google.golang.org/genproto/googleapis/rpc digest to ab9386a ([683eb41](https://github.com/d0ugal/mqtt-exporter/commit/683eb412b917fe9209555c65861a6494f77e3ff2))
+* update module github.com/bytedance/sonic to v1.14.2 ([327422c](https://github.com/d0ugal/mqtt-exporter/commit/327422c89b76807d2ac64222f4606667ad89fabd))
+* update module github.com/bytedance/sonic/loader to v0.4.0 ([2f901db](https://github.com/d0ugal/mqtt-exporter/commit/2f901db5f8020754b2535e13f9f9dff018bf4929))
+* update module github.com/d0ugal/promexporter to v1.6.1 ([0d91da7](https://github.com/d0ugal/mqtt-exporter/commit/0d91da76d65e0e6ab0a22ea43503b4c4ed2f54eb))
+* update module github.com/d0ugal/promexporter to v1.7.1 ([db20003](https://github.com/d0ugal/mqtt-exporter/commit/db20003e573ed0f2e4a9e7ddcbf369ca671f13f8))
+* update module github.com/d0ugal/promexporter to v1.8.0 ([d363085](https://github.com/d0ugal/mqtt-exporter/commit/d363085b1dc211cac0ce5fe21c3d20a8c43c2def))
+* update module github.com/gabriel-vasile/mimetype to v1.4.11 ([00714ee](https://github.com/d0ugal/mqtt-exporter/commit/00714eea629461a3e21a6f2e562972602cca226a))
+* update module github.com/prometheus/common to v0.67.2 ([2f19b42](https://github.com/d0ugal/mqtt-exporter/commit/2f19b426d1afef622e2e99ceaa25285ffad32bfc))
+* update module github.com/prometheus/procfs to v0.19.2 ([938b95b](https://github.com/d0ugal/mqtt-exporter/commit/938b95b9c7656725cabff869abfb35426e7ef9df))
+* update module github.com/ugorji/go/codec to v1.3.1 ([e2dc6c9](https://github.com/d0ugal/mqtt-exporter/commit/e2dc6c987ccf983b91c81bf86edca81b5a523b38))
+
 ## [1.23.3](https://github.com/d0ugal/mqtt-exporter/compare/v1.23.2...v1.23.3) (2025-10-27)
 
 
