@@ -220,7 +220,7 @@ func (mc *MQTTCollector) connect(ctx context.Context) error {
 			attribute.Bool("mqtt.has_username", mc.config.MQTT.Username != ""),
 		)
 
-		spanCtx = span.Context() //nolint:contextcheck // Standard OpenTelemetry pattern: extract context from span
+		spanCtx = span.Context()
 		defer span.End()
 	} else {
 		spanCtx = ctx
@@ -322,7 +322,7 @@ func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
 			attribute.Int("mqtt.qos", int(mc.config.MQTT.QoS)),
 		)
 
-		spanCtx = span.Context() //nolint:contextcheck // Standard OpenTelemetry pattern: extract context from span
+		spanCtx = span.Context()
 		defer span.End()
 	} else {
 		spanCtx = ctx
@@ -348,7 +348,6 @@ func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
 
 		if token := mc.client.Subscribe(topic, byte(mc.config.MQTT.QoS), nil); token.Wait() && token.Error() != nil {
 			subscribeDuration := time.Since(subscribeStart)
-			topicsFailed++ // Track failure before returning
 
 			if topicSpan != nil {
 				topicSpan.SetAttributes(
@@ -358,7 +357,6 @@ func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
 				topicSpan.RecordError(token.Error(), attribute.String("operation", "mqtt_subscribe"))
 			}
 
-			// Note: topicsFailed is recorded on span before returning error
 			return fmt.Errorf("failed to subscribe to topic %s: %w", topic, token.Error())
 		}
 
