@@ -205,7 +205,7 @@ func (mc *MQTTCollector) connect(ctx context.Context) error {
 
 	var (
 		span    *tracing.CollectorSpan
-		spanCtx context.Context
+		spanCtx context.Context //nolint:contextcheck // Extracting context from span for child operations
 	)
 
 	if tracer != nil && tracer.IsEnabled() {
@@ -220,7 +220,7 @@ func (mc *MQTTCollector) connect(ctx context.Context) error {
 			attribute.Bool("mqtt.has_username", mc.config.MQTT.Username != ""),
 		)
 
-		spanCtx = span.Context()
+		spanCtx = span.Context() //nolint:contextcheck // Standard OpenTelemetry pattern: extract context from span
 		defer span.End()
 	} else {
 		spanCtx = ctx
@@ -311,7 +311,7 @@ func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
 
 	var (
 		span    *tracing.CollectorSpan
-		spanCtx context.Context
+		spanCtx context.Context //nolint:contextcheck // Extracting context from span for child operations
 	)
 
 	if tracer != nil && tracer.IsEnabled() {
@@ -322,7 +322,7 @@ func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
 			attribute.Int("mqtt.qos", int(mc.config.MQTT.QoS)),
 		)
 
-		spanCtx = span.Context()
+		spanCtx = span.Context() //nolint:contextcheck // Standard OpenTelemetry pattern: extract context from span
 		defer span.End()
 	} else {
 		spanCtx = ctx
