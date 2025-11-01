@@ -348,7 +348,7 @@ func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
 
 		if token := mc.client.Subscribe(topic, byte(mc.config.MQTT.QoS), nil); token.Wait() && token.Error() != nil {
 			subscribeDuration := time.Since(subscribeStart)
-			topicsFailed++
+			topicsFailed++ // Track failure before returning
 
 			if topicSpan != nil {
 				topicSpan.SetAttributes(
@@ -358,6 +358,7 @@ func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
 				topicSpan.RecordError(token.Error(), attribute.String("operation", "mqtt_subscribe"))
 			}
 
+			// Note: topicsFailed is recorded on span before returning error
 			return fmt.Errorf("failed to subscribe to topic %s: %w", topic, token.Error())
 		}
 
