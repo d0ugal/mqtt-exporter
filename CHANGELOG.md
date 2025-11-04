@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.24.1](https://github.com/d0ugal/mqtt-exporter/compare/v1.24.0...v1.24.1) (2025-11-04)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to f26f940 ([48c74c4](https://github.com/d0ugal/mqtt-exporter/commit/48c74c43868f0523b75eeb6f610347bb72dabe7d))
+* update google.golang.org/genproto/googleapis/rpc digest to f26f940 ([369b828](https://github.com/d0ugal/mqtt-exporter/commit/369b828b3dc324b89f0cc60dfca942fcc1bdbabb))
+* update module github.com/d0ugal/promexporter to v1.9.0 ([8bcf19e](https://github.com/d0ugal/mqtt-exporter/commit/8bcf19ece16a42219903531665a3ab6049d3949f))
+* update module go.opentelemetry.io/proto/otlp to v1.9.0 ([bab30c6](https://github.com/d0ugal/mqtt-exporter/commit/bab30c6731fe6b22a305c70730522275039b1032))
+
 ## [1.24.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.23.3...v1.24.0) (2025-11-01)
 
 
