@@ -2,7 +2,7 @@
 
 A Prometheus exporter for MQTT message monitoring that connects to an MQTT broker and exposes metrics about message counts and connection status.
 
-**Image**: `ghcr.io/d0ugal/mqtt-exporter:v1.24.2`
+**Image**: `ghcr.io/d0ugal/mqtt-exporter:v1.24.3`
 
 ## Metrics
 
@@ -27,7 +27,7 @@ A Prometheus exporter for MQTT message monitoring that connects to an MQTT broke
 version: '3.8'
 services:
   mqtt-exporter:
-    image: ghcr.io/d0ugal/mqtt-exporter:v1.24.2
+    image: ghcr.io/d0ugal/mqtt-exporter:v1.24.3
     ports:
       - "8080:8080"
     environment:
@@ -78,7 +78,7 @@ mqtt:
 version: '3.8'
 services:
   mqtt-exporter:
-    image: ghcr.io/d0ugal/mqtt-exporter:v1.24.2
+    image: ghcr.io/d0ugal/mqtt-exporter:v1.24.3
     ports:
       - "8080:8080"
     environment:
@@ -108,7 +108,7 @@ spec:
     spec:
       containers:
       - name: mqtt-exporter
-        image: ghcr.io/d0ugal/mqtt-exporter:v1.24.2
+        image: ghcr.io/d0ugal/mqtt-exporter:v1.24.3
         ports:
         - containerPort: 8080
         env:
