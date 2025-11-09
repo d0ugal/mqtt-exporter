@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.24.5](https://github.com/d0ugal/mqtt-exporter/compare/v1.24.4...v1.24.5) (2025-11-09)
+
+
+### Bug Fixes
+
+* update module github.com/d0ugal/promexporter to v1.11.2 ([db6a17d](https://github.com/d0ugal/mqtt-exporter/commit/db6a17d1083f3d0e0b7d5ad0d35c4d6ea647d5ab))
+* update module github.com/quic-go/quic-go to v0.56.0 ([55b9d67](https://github.com/d0ugal/mqtt-exporter/commit/55b9d672d995501bc280d8eeb8df801a533f1d37))
+* update module golang.org/x/arch to v0.23.0 ([c124c4c](https://github.com/d0ugal/mqtt-exporter/commit/c124c4c5c663b7487ffac54d4f0c154463ad8b5d))
+* update module golang.org/x/sync to v0.18.0 ([e50a3e6](https://github.com/d0ugal/mqtt-exporter/commit/e50a3e6f7fe25f102d89ee41fc59afda6a176fc3))
+* update module golang.org/x/sys to v0.38.0 ([1b0b539](https://github.com/d0ugal/mqtt-exporter/commit/1b0b5391bcf081624cdf3c7a60dcc029bb62e939))
+
 ## [1.24.4](https://github.com/d0ugal/mqtt-exporter/compare/v1.24.3...v1.24.4) (2025-11-06)
 
 
