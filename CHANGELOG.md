@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.25.2](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.1...v1.25.2) (2025-11-18)
+
+
+### Bug Fixes
+
+* update module github.com/prometheus/common to v0.67.3 ([07fd022](https://github.com/d0ugal/mqtt-exporter/commit/07fd022d8ad71d11a10e3987c1d03c44b5910718))
+* update module google.golang.org/grpc to v1.77.0 ([cc6f286](https://github.com/d0ugal/mqtt-exporter/commit/cc6f286a57f563545970db24676044cf18e2cf95))
+
 ## [1.25.1](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.0...v1.25.1) (2025-11-12)
 
 
