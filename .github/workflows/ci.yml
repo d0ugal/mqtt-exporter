@@ -38,9 +38,9 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
-        file: ./coverage.txt
-        flags: unittests
-        name: codecov-umbrella
+          file: ./coverage.txt
+          flags: unittests
+          name: codecov-umbrella
 
   lint:
     name: Lint
@@ -82,9 +82,9 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v5
         with:
-        name: mqtt-exporter
-        path: mqtt-exporter
-        retention-days: 30
+          name: mqtt-exporter
+          path: mqtt-exporter
+          retention-days: 30
 
   security:
     name: Security Scan
@@ -133,7 +133,7 @@ jobs:
           exit 0
         fi
 
-          # Get the current commit SHA
+        # Get the current commit SHA
         CURRENT_SHA="${{ github.sha }}"
 
           # Get commit message from git log
