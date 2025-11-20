@@ -135,13 +135,13 @@ jobs:
 
         # Get the current commit SHA
         CURRENT_SHA="${{ github.sha }}"
-        
+
         # Get commit message from git log
         COMMIT_MSG=$(git log -1 --format="%s" "$CURRENT_SHA" 2>/dev/null || echo "")
-        
+
         echo "Checking commit: $CURRENT_SHA"
         echo "Commit message: $COMMIT_MSG"
-        
+
         # Check if it's a release commit (pattern: "chore(main): release" or similar)
         # BUT: Always run CI for release-please branches and PRs
         if echo "$COMMIT_MSG" | grep -qiE "^(chore|release|version).*(release|version|changelog)"; then
@@ -165,7 +165,7 @@ jobs:
         # For push events, check changed files against base branch
         BASE_SHA="${{ github.event.before }}"
         HEAD_SHA="${{ github.event.after }}"
-        
+
         if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
           # Initial commit or no base, check all files
           CHANGED_FILES=$(git ls-tree -r --name-only HEAD)
@@ -173,19 +173,19 @@ jobs:
           # Get list of changed files
           CHANGED_FILES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")
         fi
-        
+
         if [ -z "$CHANGED_FILES" ]; then
           echo "No changed files detected, skipping build"
           echo "should-build=false" >> $GITHUB_OUTPUT
           exit 0
         fi
-        
+
         # Documentation file patterns to ignore
         DOC_PATTERNS="^README\.md$|^CHANGELOG\.md$|^docs/|\.md$|^LICENSE"
-        
+
         # Check if all changed files are documentation
         NON_DOC_FILES=$(echo "$CHANGED_FILES" | grep -vE "$DOC_PATTERNS" || true)
-        
+
         if [ -z "$NON_DOC_FILES" ]; then
           echo "Skip reason: Only documentation files changed"
           echo "Changed files:"
@@ -233,7 +233,7 @@ jobs:
 
         # Get the last release tag (excluding pre-release tags)
         LAST_TAG=$(git describe --tags --abbrev=0 --match="v[0-9]*.[0-9]*.[0-9]*" 2>/dev/null || echo "")
-        
+
         if [ -z "$LAST_TAG" ]; then
           # No release tags found, use 0.0.0 and count all commits
           VERSION="0.0.0"
@@ -244,7 +244,7 @@ jobs:
           # Count commits since last release
           COMMIT_COUNT=$(git rev-list --count ${LAST_TAG}..HEAD)
         fi
-        
+
         DEV_TAG="v${VERSION}-dev.${COMMIT_COUNT}.${SHORT_SHA}"
         echo "dev_tag=${DEV_TAG}" >> $GITHUB_OUTPUT
         echo "Last release tag: ${LAST_TAG:-'none'}"
