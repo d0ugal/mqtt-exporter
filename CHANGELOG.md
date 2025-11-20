@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.25.4](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.3...v1.25.4) (2025-11-20)
+
+
+### Bug Fixes
+
+* **ci:** prevent dev-build from running on PRs and fix YAML syntax ([6b1a2b3](https://github.com/d0ugal/mqtt-exporter/commit/6b1a2b3a9dabc729a5a4380ec827119bebcf0cc8))
+* correct all step and script indentation ([e8ce919](https://github.com/d0ugal/mqtt-exporter/commit/e8ce91983e881c9fb5e00fc672a4fd800fdd7a3b))
+* correct with: block indentation and script content ([e9394d4](https://github.com/d0ugal/mqtt-exporter/commit/e9394d4a41a6dd2ec0d8041bdf9bd267ad49bc00))
+* remove trailing spaces from workflow script sections ([a87065a](https://github.com/d0ugal/mqtt-exporter/commit/a87065a73f62ff623f06e871ffe56d5c6121510d))
+* replace workflow with working version from brother-exporter ([81906f0](https://github.com/d0ugal/mqtt-exporter/commit/81906f0b029c32563c2c51357b71a4768698c197))
+* resolve YAML linting issues ([e60acce](https://github.com/d0ugal/mqtt-exporter/commit/e60acce8201d88bcca1d6ad227b889d5772029df))
+* update module github.com/d0ugal/promexporter to v1.13.3 ([5c2b378](https://github.com/d0ugal/mqtt-exporter/commit/5c2b3781d8e3855bc1df4167bf853c487942d265))
+* update module github.com/d0ugal/promexporter to v1.13.4 ([d82b0e8](https://github.com/d0ugal/mqtt-exporter/commit/d82b0e88ff74bd869a48e31eca244aef5e11f926))
+* update module golang.org/x/crypto to v0.45.0 ([43ce041](https://github.com/d0ugal/mqtt-exporter/commit/43ce041cd99e003276c1ed6ed095fb7b3f1c83f3))
+
 ## [1.25.3](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.2...v1.25.3) (2025-11-18)
 
 
