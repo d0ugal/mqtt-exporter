@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.25.11](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.10...v1.25.11) (2025-12-04)
+
+
+### Bug Fixes
+
+* update dependency go to v1.25.5 ([132bb7f](https://github.com/d0ugal/mqtt-exporter/commit/132bb7fde40020e1470c7a3f7303f9a6f3cb72a4))
+* update google.golang.org/genproto/googleapis/api digest to ff82c1b ([cd14809](https://github.com/d0ugal/mqtt-exporter/commit/cd1480966d318eef4eedc93ea087d70dfc7141d4))
+* update google.golang.org/genproto/googleapis/rpc digest to ff82c1b ([e54fe40](https://github.com/d0ugal/mqtt-exporter/commit/e54fe4065db22cddac11a694ce7edea323b61e24))
+* update module github.com/d0ugal/promexporter to v1.14.3 ([5393054](https://github.com/d0ugal/mqtt-exporter/commit/53930548b7278f47c2f5c0e24c0560fe8e7a1b88))
+
 ## [1.25.10](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.9...v1.25.10) (2025-12-01)
 
 
