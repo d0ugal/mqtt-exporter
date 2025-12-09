@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.25.13](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.12...v1.25.13) (2025-12-09)
+
+
+### Bug Fixes
+
+* **ci:** add GOMODCACHE env var to fix permission denied error ([b9fa58e](https://github.com/d0ugal/mqtt-exporter/commit/b9fa58e7c0b5c5a986ca71aa6c7af7dcf3dcb7cb))
+* update module github.com/d0ugal/promexporter to v1.14.4 ([9c965cd](https://github.com/d0ugal/mqtt-exporter/commit/9c965cdc1fe075db1652cd727d9354ec183ce1b6))
+* update module go.opentelemetry.io/otel/metric to v1.39.0 ([fa58590](https://github.com/d0ugal/mqtt-exporter/commit/fa58590582d66a89ca6cba93adcccbe2233dd612))
+* update module golang.org/x/crypto to v0.46.0 ([b0ed75e](https://github.com/d0ugal/mqtt-exporter/commit/b0ed75ef97b9444acc38d09720439252c053cb06))
+* update module golang.org/x/net to v0.48.0 ([eae71ce](https://github.com/d0ugal/mqtt-exporter/commit/eae71cea3c11e4e6e3b0eb0d045d3d8e20c2bb9f))
+* update module golang.org/x/sync to v0.19.0 ([370bfb5](https://github.com/d0ugal/mqtt-exporter/commit/370bfb5fb2644fd3fabaa9961765cec5ab685a6d))
+* update module golang.org/x/sys to v0.39.0 ([855274c](https://github.com/d0ugal/mqtt-exporter/commit/855274c872468093a08a9a5373546885a11386ff))
+* update opentelemetry-go monorepo to v1.39.0 ([cb04676](https://github.com/d0ugal/mqtt-exporter/commit/cb04676159835363ebe8b09d6f9204495bb7d8f0))
+* update opentelemetry-go-contrib monorepo to v0.64.0 ([7100153](https://github.com/d0ugal/mqtt-exporter/commit/71001533a2f1288d0b6e72f939e6e43018aa35ab))
+
 ## [1.25.12](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.11...v1.25.12) (2025-12-04)
 
 
