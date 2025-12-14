@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.25.14](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.13...v1.25.14) (2025-12-14)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to 97cd9d5 ([2166a54](https://github.com/d0ugal/mqtt-exporter/commit/2166a54f72dfbc921c0b7aa853c8b4522a18001f))
+* update google.golang.org/genproto/googleapis/rpc digest to 97cd9d5 ([3f54fe9](https://github.com/d0ugal/mqtt-exporter/commit/3f54fe9cc40249f995de22c702b93dec915e59e9))
+* update module github.com/d0ugal/promexporter to v1.14.5 ([44c715c](https://github.com/d0ugal/mqtt-exporter/commit/44c715ce18ed53ae9a43524c34758b70f4a41b6d))
+* update module github.com/d0ugal/promexporter to v1.14.6 ([a46ee2d](https://github.com/d0ugal/mqtt-exporter/commit/a46ee2dcbd466970a075b58a1f111b19e678ec24))
+* update module github.com/gabriel-vasile/mimetype to v1.4.12 ([c1f6140](https://github.com/d0ugal/mqtt-exporter/commit/c1f61405a231b4e640a7f936e717eb95d5105f9a))
+* update module github.com/go-playground/validator/v10 to v10.29.0 ([622746f](https://github.com/d0ugal/mqtt-exporter/commit/622746fa2db809d54e1a79d926501ee5a724b683))
+* update module google.golang.org/protobuf to v1.36.11 ([3e2195b](https://github.com/d0ugal/mqtt-exporter/commit/3e2195b26c3a9830997edf9ed8628859aafc2665))
+
 ## [1.25.13](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.12...v1.25.13) (2025-12-09)
 
 
