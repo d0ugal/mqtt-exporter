@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.25.21](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.20...v1.25.21) (2025-12-23)
+
+
+### Bug Fixes
+
+* update module github.com/d0ugal/promexporter to v1.14.10 ([fcd66b7](https://github.com/d0ugal/mqtt-exporter/commit/fcd66b7a63b2c9b960a1a167a995cadd19b549eb))
+* update module github.com/d0ugal/promexporter to v1.14.11 ([511ea57](https://github.com/d0ugal/mqtt-exporter/commit/511ea57359e55cd3a9e62b322aed41b79fe7c9ab))
+* update module google.golang.org/grpc to v1.78.0 ([7da15fd](https://github.com/d0ugal/mqtt-exporter/commit/7da15fd0412241bacc797ae7fb3ff799a3964e16))
+
 ## [1.25.20](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.19...v1.25.20) (2025-12-23)
 
 
