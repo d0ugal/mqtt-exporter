@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.25.23](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.22...v1.25.23) (2025-12-27)
+
+
+### Bug Fixes
+
+* update module github.com/d0ugal/promexporter to v1.14.12 ([05717ea](https://github.com/d0ugal/mqtt-exporter/commit/05717ea2b98173bf219aacbfc5acfccf74891d9c))
+* update module github.com/grpc-ecosystem/grpc-gateway/v2 to v2.27.4 ([56e99eb](https://github.com/d0ugal/mqtt-exporter/commit/56e99eb15ca52d2c3437e6678c65185094fc6b8a))
+
 ## [1.25.22](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.21...v1.25.22) (2025-12-24)
 
 
