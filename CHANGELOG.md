@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.25.25](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.24...v1.25.25) (2026-01-08)
+
+
+### Bug Fixes
+
+* update module github.com/goccy/go-yaml to v1.19.2 ([4108ae4](https://github.com/d0ugal/mqtt-exporter/commit/4108ae4f469c2755772bcf5a105a4b5a56faf265))
+
 ## [1.25.24](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.23...v1.25.24) (2026-01-06)
 
 
