@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.25.26](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.25...v1.25.26) (2026-01-08)
+
+
+### Bug Fixes
+
+* update module github.com/d0ugal/promexporter to v1.14.14 ([9fcd0dd](https://github.com/d0ugal/mqtt-exporter/commit/9fcd0dd6d5e1ef244aea97e96a1c8fc73f8d5663))
+* update module golang.org/x/sys to v0.40.0 ([1463f45](https://github.com/d0ugal/mqtt-exporter/commit/1463f45dcb6b5299ece5b336c4b5c414cd2da2e2))
+
 ## [1.25.25](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.24...v1.25.25) (2026-01-08)
 
 
