@@ -1,23 +1,24 @@
 server:
-  host: "0.0.0.0"
-  port: 8080
+    host: "0.0.0.0"
+    port: 8080
 
 logging:
-  level: "debug"
-  format: "json"
+    level: "debug"
+    format: "json"
 
 metrics:
-  collection:
-    default_interval: "30s"
+    collection:
+        default_interval: "30s"
 
 mqtt:
-  broker: "localhost:1883"
-  client_id: "mqtt-exporter"
-  username: ""
-  password: ""
-  topics:
-    - "#"  # Monitor all topics by default
-  qos: 1
-  clean_session: true
-  keep_alive: 60
-  connect_timeout: 30
+    broker: "localhost:1883"
+    client_id: "mqtt-exporter"
+    username: ""
+    password: ""
+    topics:
+        - "#" # Monitor all topics by default
+    qos: 1
+    clean_session: true
+    keep_alive: 60
+    connect_timeout: 30
+    disable_sys_topics: false # Set to true to disable $SYS topic monitoring
