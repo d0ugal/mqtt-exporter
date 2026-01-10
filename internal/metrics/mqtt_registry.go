@@ -55,6 +55,8 @@ type MQTTRegistry struct {
 }
 
 // NewMQTTRegistry creates a new MQTT metrics registry
+//
+//nolint:maintidx // This function registers many metrics - splitting would reduce maintainability
 func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry {
 	// Get the underlying Prometheus registry
 	promRegistry := baseRegistry.GetRegistry()
@@ -72,6 +74,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"topic"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_messages_total", "Total number of MQTT messages received", []string{"topic"})
 
 	mqtt.MQTTMessageBytes = factory.NewCounterVec(
@@ -81,6 +84,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"topic"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_message_bytes_total", "Total number of bytes received in MQTT messages", []string{"topic"})
 
 	// MQTT connection metrics
@@ -91,6 +95,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_connection_status", "MQTT connection status (1 = connected, 0 = disconnected)", []string{"broker"})
 
 	mqtt.MQTTConnectionErrors = factory.NewCounterVec(
@@ -100,6 +105,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker", "error_type"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_connection_errors_total", "Total number of MQTT connection errors", []string{"broker", "error_type"})
 
 	mqtt.MQTTReconnectsTotal = factory.NewCounterVec(
@@ -109,6 +115,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_reconnects_total", "Total number of MQTT reconnection attempts", []string{"broker"})
 
 	// MQTT topic metrics
@@ -119,6 +126,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"topic"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_topic_last_message_timestamp", "Unix timestamp of the last message received on each topic", []string{"topic"})
 
 	// MQTT $SYS broker metrics - Client metrics
@@ -129,6 +137,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_clients_connected", "Number of currently connected clients", []string{"broker"})
 
 	mqtt.MQTTSysBrokerClientsDisconnected = factory.NewGaugeVec(
@@ -138,6 +147,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_clients_disconnected", "Total number of persistent clients currently disconnected", []string{"broker"})
 
 	mqtt.MQTTSysBrokerClientsExpired = factory.NewCounterVec(
@@ -147,16 +157,18 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_clients_expired_total", "Number of disconnected persistent clients that have been expired and removed", []string{"broker"})
 
 	mqtt.MQTTSysBrokerClientsTotal = factory.NewGaugeVec(
 		prometheus.GaugeOpts{
-			Name: "mqtt_sys_broker_clients_total",
+			Name: "mqtt_sys_broker_clients",
 			Help: "Total number of active and inactive clients",
 		},
 		[]string{"broker"},
 	)
-	baseRegistry.AddMetricInfo("mqtt_sys_broker_clients_total", "Total number of active and inactive clients", []string{"broker"})
+
+	baseRegistry.AddMetricInfo("mqtt_sys_broker_clients", "Total number of active and inactive clients", []string{"broker"})
 
 	mqtt.MQTTSysBrokerClientsMaximum = factory.NewGaugeVec(
 		prometheus.GaugeOpts{
@@ -165,6 +177,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_clients_maximum", "Maximum number of clients connected simultaneously", []string{"broker"})
 
 	// Message metrics
@@ -175,6 +188,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_messages_received_total", "Total number of messages of any type received since startup", []string{"broker"})
 
 	mqtt.MQTTSysBrokerMessagesSent = factory.NewCounterVec(
@@ -184,6 +198,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_messages_sent_total", "Total number of messages of any type sent since startup", []string{"broker"})
 
 	mqtt.MQTTSysBrokerMessagesInflight = factory.NewGaugeVec(
@@ -193,6 +208,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_messages_inflight", "Number of messages with QoS>0 awaiting acknowledgments", []string{"broker"})
 
 	// Byte metrics
@@ -203,6 +219,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_bytes_received_total", "Total number of bytes received since the broker started", []string{"broker"})
 
 	mqtt.MQTTSysBrokerBytesSent = factory.NewCounterVec(
@@ -212,17 +229,19 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_bytes_sent_total", "Total number of bytes sent since the broker started", []string{"broker"})
 
 	// Store metrics
 	mqtt.MQTTSysBrokerStoreMessagesCount = factory.NewGaugeVec(
 		prometheus.GaugeOpts{
-			Name: "mqtt_sys_broker_store_messages_count",
+			Name: "mqtt_sys_broker_store_messages",
 			Help: "Number of messages currently held in the message store",
 		},
 		[]string{"broker"},
 	)
-	baseRegistry.AddMetricInfo("mqtt_sys_broker_store_messages_count", "Number of messages currently held in the message store", []string{"broker"})
+
+	baseRegistry.AddMetricInfo("mqtt_sys_broker_store_messages", "Number of messages currently held in the message store", []string{"broker"})
 
 	mqtt.MQTTSysBrokerStoreMessagesBytes = factory.NewGaugeVec(
 		prometheus.GaugeOpts{
@@ -231,26 +250,29 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_store_messages_bytes", "Bytes currently held by message payloads in the message store", []string{"broker"})
 
 	// Subscription and retained message metrics
 	mqtt.MQTTSysBrokerSubscriptionsCount = factory.NewGaugeVec(
 		prometheus.GaugeOpts{
-			Name: "mqtt_sys_broker_subscriptions_count",
+			Name: "mqtt_sys_broker_subscriptions",
 			Help: "Total number of subscriptions active on the broker",
 		},
 		[]string{"broker"},
 	)
-	baseRegistry.AddMetricInfo("mqtt_sys_broker_subscriptions_count", "Total number of subscriptions active on the broker", []string{"broker"})
+
+	baseRegistry.AddMetricInfo("mqtt_sys_broker_subscriptions", "Total number of subscriptions active on the broker", []string{"broker"})
 
 	mqtt.MQTTSysBrokerRetainedMessagesCount = factory.NewGaugeVec(
 		prometheus.GaugeOpts{
-			Name: "mqtt_sys_broker_retained_messages_count",
+			Name: "mqtt_sys_broker_retained_messages",
 			Help: "Total number of retained messages active on the broker",
 		},
 		[]string{"broker"},
 	)
-	baseRegistry.AddMetricInfo("mqtt_sys_broker_retained_messages_count", "Total number of retained messages active on the broker", []string{"broker"})
+
+	baseRegistry.AddMetricInfo("mqtt_sys_broker_retained_messages", "Total number of retained messages active on the broker", []string{"broker"})
 
 	// Heap memory metrics
 	mqtt.MQTTSysBrokerHeapCurrentBytes = factory.NewGaugeVec(
@@ -260,6 +282,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_heap_current_bytes", "Current heap memory size in bytes", []string{"broker"})
 
 	mqtt.MQTTSysBrokerHeapMaximumBytes = factory.NewGaugeVec(
@@ -269,6 +292,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_heap_maximum_bytes", "Largest amount of heap memory used by the broker", []string{"broker"})
 
 	// Publish metrics
@@ -279,6 +303,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_publish_dropped_total", "Total number of publish messages dropped due to inflight/queuing limits", []string{"broker"})
 
 	mqtt.MQTTSysBrokerPublishReceived = factory.NewCounterVec(
@@ -288,6 +313,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_publish_received_total", "Total number of PUBLISH messages received since startup", []string{"broker"})
 
 	mqtt.MQTTSysBrokerPublishSent = factory.NewCounterVec(
@@ -297,6 +323,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_publish_sent_total", "Total number of PUBLISH messages sent since startup", []string{"broker"})
 
 	// Version metric (set to 1, actual version in label)
@@ -307,6 +334,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker", "version"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_version_info", "Broker version information", []string{"broker", "version"})
 
 	// Load average metrics (1min, 5min, 15min)
@@ -317,6 +345,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker", "interval"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_load_connections", "Moving average of CONNECT packets received", []string{"broker", "interval"})
 
 	mqtt.MQTTSysBrokerLoadBytesReceived = factory.NewGaugeVec(
@@ -326,6 +355,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker", "interval"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_load_bytes_received", "Moving average of bytes received", []string{"broker", "interval"})
 
 	mqtt.MQTTSysBrokerLoadBytesSent = factory.NewGaugeVec(
@@ -335,6 +365,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker", "interval"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_load_bytes_sent", "Moving average of bytes sent", []string{"broker", "interval"})
 
 	mqtt.MQTTSysBrokerLoadMessagesReceived = factory.NewGaugeVec(
@@ -344,6 +375,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker", "interval"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_load_messages_received", "Moving average of all MQTT messages received", []string{"broker", "interval"})
 
 	mqtt.MQTTSysBrokerLoadMessagesSent = factory.NewGaugeVec(
@@ -353,6 +385,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker", "interval"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_load_messages_sent", "Moving average of all MQTT messages sent", []string{"broker", "interval"})
 
 	mqtt.MQTTSysBrokerLoadPublishReceived = factory.NewGaugeVec(
@@ -362,6 +395,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker", "interval"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_load_publish_received", "Moving average of PUBLISH messages received", []string{"broker", "interval"})
 
 	mqtt.MQTTSysBrokerLoadPublishSent = factory.NewGaugeVec(
@@ -371,6 +405,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker", "interval"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_load_publish_sent", "Moving average of PUBLISH messages sent", []string{"broker", "interval"})
 
 	mqtt.MQTTSysBrokerLoadPublishDropped = factory.NewGaugeVec(
@@ -380,6 +415,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker", "interval"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_load_publish_dropped", "Moving average of dropped PUBLISH messages", []string{"broker", "interval"})
 
 	mqtt.MQTTSysBrokerLoadSockets = factory.NewGaugeVec(
@@ -389,6 +425,7 @@ func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry 
 		},
 		[]string{"broker", "interval"},
 	)
+
 	baseRegistry.AddMetricInfo("mqtt_sys_broker_load_sockets", "Moving average of socket connections opened to the broker", []string{"broker", "interval"})
 
 	return mqtt
