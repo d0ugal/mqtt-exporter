@@ -27,6 +27,8 @@ type MQTTCollector struct {
 	topics         map[string]int64
 	done           chan struct{}
 	connectionLost chan struct{}
+	// Track previous values for cumulative $SYS counters to calculate deltas
+	sysCounters map[string]float64
 }
 
 func NewMQTTCollector(cfg *config.Config, metricsRegistry *metrics.MQTTRegistry, app *app.App) *MQTTCollector {
@@ -37,6 +39,7 @@ func NewMQTTCollector(cfg *config.Config, metricsRegistry *metrics.MQTTRegistry,
 		topics:         make(map[string]int64),
 		done:           make(chan struct{}),
 		connectionLost: make(chan struct{}, 1),
+		sysCounters:    make(map[string]float64),
 	}
 }
 
@@ -518,6 +521,44 @@ func (mc *MQTTCollector) onMessageReceived(client MQTT.Client, msg MQTT.Message)
 	}
 }
 
+// addCounterDelta calculates the delta from the previous value and adds it to the counter.
+// This handles cumulative values from the broker's $SYS topics correctly.
+// Returns true if the counter was updated, false if this is the first value (no previous baseline).
+func (mc *MQTTCollector) addCounterDelta(counterKey string, newValue float64, counterVec *prometheus.CounterVec, labels prometheus.Labels) bool {
+	mc.mu.Lock()
+	defer mc.mu.Unlock()
+
+	previousValue, exists := mc.sysCounters[counterKey]
+	mc.sysCounters[counterKey] = newValue
+
+	if !exists {
+		// First time seeing this counter, store the baseline but don't update the metric
+		// This prevents a large spike on startup
+		return false
+	}
+
+	// Calculate delta
+	delta := newValue - previousValue
+
+	// Only add positive deltas (handle counter resets gracefully)
+	if delta > 0 {
+		counterVec.With(labels).Add(delta)
+		return true
+	} else if delta < 0 {
+		// Counter reset detected (broker restart), reset our baseline
+		slog.Debug("Counter reset detected",
+			"counter", counterKey,
+			"previous", previousValue,
+			"new", newValue,
+		)
+
+		return false
+	}
+
+	// delta == 0, no change
+	return false
+}
+
 // processLoadAverageMetrics handles load average metrics with time intervals
 func (mc *MQTTCollector) processLoadAverageMetrics(topic, broker string, value float64) bool {
 	// Extract interval from topic (1min, 5min, 15min)
@@ -571,6 +612,8 @@ func (mc *MQTTCollector) processLoadAverageMetrics(topic, broker string, value f
 
 // processClientMetrics handles client connection metrics
 func (mc *MQTTCollector) processClientMetrics(topic string, labels prometheus.Labels, value float64) bool {
+	broker := labels["broker"]
+
 	switch {
 	case strings.HasSuffix(topic, "/broker/clients/connected") || strings.HasSuffix(topic, "/clients/connected") || strings.HasSuffix(topic, "/clients/active"):
 		mc.metrics.MQTTSysBrokerClientsConnected.With(labels).Set(value)
@@ -579,7 +622,9 @@ func (mc *MQTTCollector) processClientMetrics(topic string, labels prometheus.La
 		mc.metrics.MQTTSysBrokerClientsDisconnected.With(labels).Set(value)
 		return true
 	case strings.HasSuffix(topic, "/broker/clients/expired") || strings.HasSuffix(topic, "/clients/expired"):
-		mc.metrics.MQTTSysBrokerClientsExpired.With(labels).Add(value)
+		counterKey := broker + ":clients_expired"
+		mc.addCounterDelta(counterKey, value, mc.metrics.MQTTSysBrokerClientsExpired, labels)
+
 		return true
 	case strings.HasSuffix(topic, "/broker/clients/total") || strings.HasSuffix(topic, "/clients/total"):
 		mc.metrics.MQTTSysBrokerClientsTotal.With(labels).Set(value)
@@ -594,12 +639,18 @@ func (mc *MQTTCollector) processClientMetrics(topic string, labels prometheus.La
 
 // processMessageMetrics handles message-related metrics
 func (mc *MQTTCollector) processMessageMetrics(topic string, labels prometheus.Labels, value float64) bool {
+	broker := labels["broker"]
+
 	switch {
 	case strings.HasSuffix(topic, "/broker/messages/received") || strings.HasSuffix(topic, "/messages/received"):
-		mc.metrics.MQTTSysBrokerMessagesReceived.With(labels).Add(value)
+		counterKey := broker + ":messages_received"
+		mc.addCounterDelta(counterKey, value, mc.metrics.MQTTSysBrokerMessagesReceived, labels)
+
 		return true
 	case strings.HasSuffix(topic, "/broker/messages/sent") || strings.HasSuffix(topic, "/messages/sent"):
-		mc.metrics.MQTTSysBrokerMessagesSent.With(labels).Add(value)
+		counterKey := broker + ":messages_sent"
+		mc.addCounterDelta(counterKey, value, mc.metrics.MQTTSysBrokerMessagesSent, labels)
+
 		return true
 	case strings.HasSuffix(topic, "/broker/messages/inflight") || strings.HasSuffix(topic, "/messages/inflight"):
 		mc.metrics.MQTTSysBrokerMessagesInflight.With(labels).Set(value)
@@ -620,12 +671,18 @@ func (mc *MQTTCollector) processMessageMetrics(topic string, labels prometheus.L
 
 // processByteMetrics handles byte transfer metrics
 func (mc *MQTTCollector) processByteMetrics(topic string, labels prometheus.Labels, value float64) bool {
+	broker := labels["broker"]
+
 	switch {
 	case strings.HasSuffix(topic, "/broker/bytes/received") || strings.HasSuffix(topic, "/bytes/received"):
-		mc.metrics.MQTTSysBrokerBytesReceived.With(labels).Add(value)
+		counterKey := broker + ":bytes_received"
+		mc.addCounterDelta(counterKey, value, mc.metrics.MQTTSysBrokerBytesReceived, labels)
+
 		return true
 	case strings.HasSuffix(topic, "/broker/bytes/sent") || strings.HasSuffix(topic, "/bytes/sent"):
-		mc.metrics.MQTTSysBrokerBytesSent.With(labels).Add(value)
+		counterKey := broker + ":bytes_sent"
+		mc.addCounterDelta(counterKey, value, mc.metrics.MQTTSysBrokerBytesSent, labels)
+
 		return true
 	}
 
@@ -634,15 +691,23 @@ func (mc *MQTTCollector) processByteMetrics(topic string, labels prometheus.Labe
 
 // processPublishMetrics handles publish-related metrics
 func (mc *MQTTCollector) processPublishMetrics(topic string, labels prometheus.Labels, value float64) bool {
+	broker := labels["broker"]
+
 	switch {
 	case strings.HasSuffix(topic, "/broker/publish/messages/dropped") || strings.HasSuffix(topic, "/publish/messages/dropped"):
-		mc.metrics.MQTTSysBrokerPublishDropped.With(labels).Add(value)
+		counterKey := broker + ":publish_dropped"
+		mc.addCounterDelta(counterKey, value, mc.metrics.MQTTSysBrokerPublishDropped, labels)
+
 		return true
 	case strings.HasSuffix(topic, "/broker/publish/messages/received") || strings.HasSuffix(topic, "/publish/messages/received"):
-		mc.metrics.MQTTSysBrokerPublishReceived.With(labels).Add(value)
+		counterKey := broker + ":publish_received"
+		mc.addCounterDelta(counterKey, value, mc.metrics.MQTTSysBrokerPublishReceived, labels)
+
 		return true
 	case strings.HasSuffix(topic, "/broker/publish/messages/sent") || strings.HasSuffix(topic, "/publish/messages/sent"):
-		mc.metrics.MQTTSysBrokerPublishSent.With(labels).Add(value)
+		counterKey := broker + ":publish_sent"
+		mc.addCounterDelta(counterKey, value, mc.metrics.MQTTSysBrokerPublishSent, labels)
+
 		return true
 	}
 
