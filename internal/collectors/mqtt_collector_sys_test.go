@@ -27,7 +27,6 @@ func setupTestCollector(t *testing.T) *MQTTCollector {
 				Broker: "test-broker",
 			},
 		},
-		sysCounters: make(map[string]float64),
 	}
 }
 
@@ -256,8 +255,6 @@ func TestProcessMessageMetrics(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			mc := setupTestCollector(t)
 			labels := prometheus.Labels{"broker": "test-broker"}
-			// For counter metrics, call twice: first to establish baseline, second to record delta
-			mc.processMessageMetrics(tt.topic, labels, 0)
 			found := mc.processMessageMetrics(tt.topic, labels, tt.value)
 			assert.Equal(t, tt.expectedFound, found)
 
@@ -310,8 +307,6 @@ func TestProcessByteMetrics(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			mc := setupTestCollector(t)
 			labels := prometheus.Labels{"broker": "test-broker"}
-			// For counter metrics, call twice: first to establish baseline, second to record delta
-			mc.processByteMetrics(tt.topic, labels, 0)
 			found := mc.processByteMetrics(tt.topic, labels, tt.value)
 			assert.Equal(t, tt.expectedFound, found)
 
@@ -375,8 +370,6 @@ func TestProcessPublishMetrics(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			mc := setupTestCollector(t)
 			labels := prometheus.Labels{"broker": "test-broker"}
-			// For counter metrics, call twice: first to establish baseline, second to record delta
-			mc.processPublishMetrics(tt.topic, labels, 0)
 			found := mc.processPublishMetrics(tt.topic, labels, tt.value)
 			assert.Equal(t, tt.expectedFound, found)
 
