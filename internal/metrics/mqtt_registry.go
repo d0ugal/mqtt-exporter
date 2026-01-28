@@ -25,7 +25,7 @@ type MQTTRegistry struct {
 
 // NewMQTTRegistry creates a new MQTT metrics registry
 //
-//nolint:maintidx // This function registers many metrics - splitting would reduce maintainability
+
 func NewMQTTRegistry(baseRegistry *promexporter_metrics.Registry) *MQTTRegistry {
 	// Get the underlying Prometheus registry
 	promRegistry := baseRegistry.GetRegistry()
