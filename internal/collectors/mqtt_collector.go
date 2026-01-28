@@ -4,8 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	"strconv"
-	"strings"
 	"sync"
 	"time"
 
@@ -320,22 +318,12 @@ func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
 	topics := make([]string, len(mc.config.MQTT.Topics))
 	copy(topics, mc.config.MQTT.Topics)
 
-	// Add $SYS/# topic unless disabled
-	if !mc.config.MQTT.DisableSysTopics {
-		topics = append(topics, "$SYS/#")
-
-		slog.Info("$SYS topic monitoring enabled", "topic", "$SYS/#")
-	} else {
-		slog.Info("$SYS topic monitoring disabled")
-	}
-
 	if tracer != nil && tracer.IsEnabled() {
 		span = tracer.NewCollectorSpan(ctx, "mqtt-collector", "subscribe-to-topics")
 
 		span.SetAttributes(
 			attribute.Int("mqtt.topics_count", len(topics)),
 			attribute.Int("mqtt.qos", int(mc.config.MQTT.QoS)),
-			attribute.Bool("mqtt.sys_topics_enabled", !mc.config.MQTT.DisableSysTopics),
 		)
 
 		spanCtx = span.Context()
@@ -495,12 +483,7 @@ func (mc *MQTTCollector) onMessageReceived(client MQTT.Client, msg MQTT.Message)
 		metricsCtx = context.Background()
 	}
 
-	// Check if this is a $SYS topic
-	if len(topic) >= 5 && topic[:5] == "$SYS/" {
-		mc.processSysMessage(metricsCtx, topic, payload)
-	} else {
-		mc.updateMetrics(metricsCtx, topic, payload)
-	}
+	mc.updateMetrics(metricsCtx, topic, payload)
 
 	updateMetricsDuration := time.Since(updateMetricsStart)
 
@@ -516,297 +499,6 @@ func (mc *MQTTCollector) onMessageReceived(client MQTT.Client, msg MQTT.Message)
 			attribute.Int("message_count", int(messageCount)),
 		)
 	}
-}
-
-// processLoadAverageMetrics handles load average metrics with time intervals
-func (mc *MQTTCollector) processLoadAverageMetrics(topic, broker string, value float64) bool {
-	// Extract interval from topic (1min, 5min, 15min)
-	var interval string
-	if strings.HasSuffix(topic, "/1min") {
-		interval = "1min"
-	} else if strings.HasSuffix(topic, "/5min") {
-		interval = "5min"
-	} else if strings.HasSuffix(topic, "/15min") {
-		interval = "15min"
-	}
-
-	if interval == "" {
-		return false
-	}
-
-	loadLabels := prometheus.Labels{"broker": broker, "interval": interval}
-
-	switch {
-	case strings.Contains(topic, "/load/connections/"):
-		mc.metrics.MQTTSysBrokerLoadConnections.With(loadLabels).Set(value)
-		return true
-	case strings.Contains(topic, "/load/bytes/received/"):
-		mc.metrics.MQTTSysBrokerLoadBytesReceived.With(loadLabels).Set(value)
-		return true
-	case strings.Contains(topic, "/load/bytes/sent/"):
-		mc.metrics.MQTTSysBrokerLoadBytesSent.With(loadLabels).Set(value)
-		return true
-	case strings.Contains(topic, "/load/messages/received/"):
-		mc.metrics.MQTTSysBrokerLoadMessagesReceived.With(loadLabels).Set(value)
-		return true
-	case strings.Contains(topic, "/load/messages/sent/"):
-		mc.metrics.MQTTSysBrokerLoadMessagesSent.With(loadLabels).Set(value)
-		return true
-	case strings.Contains(topic, "/load/publish/received/"):
-		mc.metrics.MQTTSysBrokerLoadPublishReceived.With(loadLabels).Set(value)
-		return true
-	case strings.Contains(topic, "/load/publish/sent/"):
-		mc.metrics.MQTTSysBrokerLoadPublishSent.With(loadLabels).Set(value)
-		return true
-	case strings.Contains(topic, "/load/publish/dropped/"):
-		mc.metrics.MQTTSysBrokerLoadPublishDropped.With(loadLabels).Set(value)
-		return true
-	case strings.Contains(topic, "/load/sockets/"):
-		mc.metrics.MQTTSysBrokerLoadSockets.With(loadLabels).Set(value)
-		return true
-	}
-
-	return false
-}
-
-// processClientMetrics handles client connection metrics
-func (mc *MQTTCollector) processClientMetrics(topic string, labels prometheus.Labels, value float64) bool {
-	switch {
-	case strings.HasSuffix(topic, "/broker/clients/connected") || strings.HasSuffix(topic, "/clients/connected") || strings.HasSuffix(topic, "/clients/active"):
-		mc.metrics.MQTTSysBrokerClientsConnected.With(labels).Set(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/clients/disconnected") || strings.HasSuffix(topic, "/clients/disconnected") || strings.HasSuffix(topic, "/clients/inactive"):
-		mc.metrics.MQTTSysBrokerClientsDisconnected.With(labels).Set(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/clients/expired") || strings.HasSuffix(topic, "/clients/expired"):
-		mc.metrics.MQTTSysBrokerClientsExpired.With(labels).Add(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/clients/total") || strings.HasSuffix(topic, "/clients/total"):
-		mc.metrics.MQTTSysBrokerClientsTotal.With(labels).Set(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/clients/maximum") || strings.HasSuffix(topic, "/clients/maximum"):
-		mc.metrics.MQTTSysBrokerClientsMaximum.With(labels).Set(value)
-		return true
-	}
-
-	return false
-}
-
-// processMessageMetrics handles message-related metrics
-func (mc *MQTTCollector) processMessageMetrics(topic string, labels prometheus.Labels, value float64) bool {
-	switch {
-	case strings.HasSuffix(topic, "/broker/messages/received") || strings.HasSuffix(topic, "/messages/received"):
-		mc.metrics.MQTTSysBrokerMessagesReceived.With(labels).Add(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/messages/sent") || strings.HasSuffix(topic, "/messages/sent"):
-		mc.metrics.MQTTSysBrokerMessagesSent.With(labels).Add(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/messages/inflight") || strings.HasSuffix(topic, "/messages/inflight"):
-		mc.metrics.MQTTSysBrokerMessagesInflight.With(labels).Set(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/messages/stored") || strings.HasSuffix(topic, "/messages/stored"):
-		mc.metrics.MQTTSysBrokerStoreMessagesCount.With(labels).Set(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/store/messages/count") || strings.HasSuffix(topic, "/store/messages/count"):
-		mc.metrics.MQTTSysBrokerStoreMessagesCount.With(labels).Set(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/store/messages/bytes") || strings.HasSuffix(topic, "/store/messages/bytes"):
-		mc.metrics.MQTTSysBrokerStoreMessagesBytes.With(labels).Set(value)
-		return true
-	}
-
-	return false
-}
-
-// processByteMetrics handles byte transfer metrics
-func (mc *MQTTCollector) processByteMetrics(topic string, labels prometheus.Labels, value float64) bool {
-	switch {
-	case strings.HasSuffix(topic, "/broker/bytes/received") || strings.HasSuffix(topic, "/bytes/received"):
-		mc.metrics.MQTTSysBrokerBytesReceived.With(labels).Add(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/bytes/sent") || strings.HasSuffix(topic, "/bytes/sent"):
-		mc.metrics.MQTTSysBrokerBytesSent.With(labels).Add(value)
-		return true
-	}
-
-	return false
-}
-
-// processPublishMetrics handles publish-related metrics
-func (mc *MQTTCollector) processPublishMetrics(topic string, labels prometheus.Labels, value float64) bool {
-	switch {
-	case strings.HasSuffix(topic, "/broker/publish/messages/dropped") || strings.HasSuffix(topic, "/publish/messages/dropped"):
-		mc.metrics.MQTTSysBrokerPublishDropped.With(labels).Add(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/publish/messages/received") || strings.HasSuffix(topic, "/publish/messages/received"):
-		mc.metrics.MQTTSysBrokerPublishReceived.With(labels).Add(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/publish/messages/sent") || strings.HasSuffix(topic, "/publish/messages/sent"):
-		mc.metrics.MQTTSysBrokerPublishSent.With(labels).Add(value)
-		return true
-	}
-
-	return false
-}
-
-// processSubscriptionMetrics handles subscription and retained message metrics
-func (mc *MQTTCollector) processSubscriptionMetrics(topic string, labels prometheus.Labels, value float64) bool {
-	switch {
-	case strings.HasSuffix(topic, "/broker/subscriptions/count") || strings.HasSuffix(topic, "/subscriptions/count"):
-		mc.metrics.MQTTSysBrokerSubscriptionsCount.With(labels).Set(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/retained/messages/count") || strings.HasSuffix(topic, "/retained messages/count"):
-		mc.metrics.MQTTSysBrokerRetainedMessagesCount.With(labels).Set(value)
-		return true
-	}
-
-	return false
-}
-
-// processHeapMetrics handles heap memory metrics
-func (mc *MQTTCollector) processHeapMetrics(topic string, labels prometheus.Labels, value float64) bool {
-	switch {
-	case strings.HasSuffix(topic, "/broker/heap/current") || strings.HasSuffix(topic, "/heap/current size"):
-		mc.metrics.MQTTSysBrokerHeapCurrentBytes.With(labels).Set(value)
-		return true
-	case strings.HasSuffix(topic, "/broker/heap/maximum") || strings.HasSuffix(topic, "/heap/maximum size"):
-		mc.metrics.MQTTSysBrokerHeapMaximumBytes.With(labels).Set(value)
-		return true
-	}
-
-	return false
-}
-
-// processSysMessage processes $SYS topic messages and maps them to specific metrics
-func (mc *MQTTCollector) processSysMessage(ctx context.Context, topic string, payload []byte) {
-	tracer := mc.app.GetTracer()
-
-	var span *tracing.CollectorSpan
-
-	if tracer != nil && tracer.IsEnabled() {
-		span = tracer.NewCollectorSpan(ctx, "mqtt-collector", "process-sys-message")
-
-		span.SetAttributes(
-			attribute.String("mqtt.topic", topic),
-			attribute.Int("mqtt.payload_length", len(payload)),
-		)
-
-		defer span.End()
-	}
-
-	updateStart := time.Now()
-
-	// Try to parse the payload as a numeric value
-	payloadStr := string(payload)
-
-	value, err := parseNumericValue(payloadStr)
-	if err != nil {
-		// Not a numeric value, log and skip
-		slog.Debug("Skipping non-numeric $SYS topic",
-			"topic", topic,
-			"payload", payloadStr,
-			"error", err,
-		)
-
-		if span != nil {
-			span.SetAttributes(
-				attribute.Bool("sys.is_numeric", false),
-				attribute.String("sys.payload", payloadStr),
-			)
-		}
-
-		return
-	}
-
-	broker := mc.config.MQTT.Broker
-	labels := prometheus.Labels{"broker": broker}
-
-	// Map $SYS topics to specific metrics
-	// This supports common Mosquito topic patterns
-	updated := false
-
-	// Handle version metric specially (it's a string, not numeric at this point)
-	if strings.HasSuffix(topic, "/broker/version") {
-		// Version is a string, set gauge to 1 with version as label
-		versionLabels := prometheus.Labels{"broker": broker, "version": payloadStr}
-		mc.metrics.MQTTSysBrokerVersion.With(versionLabels).Set(1)
-
-		updated = true
-	}
-
-	// Handle load average metrics with time intervals
-	if !updated && strings.Contains(topic, "/broker/load/") {
-		updated = mc.processLoadAverageMetrics(topic, broker, value)
-	}
-
-	// Handle regular metrics by trying each category
-	if !updated {
-		updated = mc.processClientMetrics(topic, labels, value)
-	}
-
-	if !updated {
-		updated = mc.processMessageMetrics(topic, labels, value)
-	}
-
-	if !updated {
-		updated = mc.processByteMetrics(topic, labels, value)
-	}
-
-	if !updated {
-		updated = mc.processPublishMetrics(topic, labels, value)
-	}
-
-	if !updated {
-		updated = mc.processSubscriptionMetrics(topic, labels, value)
-	}
-
-	if !updated {
-		updated = mc.processHeapMetrics(topic, labels, value)
-	}
-
-	if updated {
-		slog.Debug("Updated $SYS metric",
-			"topic", topic,
-			"value", value,
-		)
-
-		if span != nil {
-			span.SetAttributes(
-				attribute.Bool("sys.is_numeric", true),
-				attribute.Bool("sys.metric_mapped", true),
-				attribute.Float64("sys.value", value),
-				attribute.Float64("metrics.update_duration_seconds", time.Since(updateStart).Seconds()),
-			)
-			span.AddEvent("sys_metric_updated",
-				attribute.String("topic", topic),
-				attribute.Float64("value", value),
-			)
-		}
-	} else {
-		slog.Debug("No metric mapping found for $SYS topic",
-			"topic", topic,
-			"value", value,
-		)
-
-		if span != nil {
-			span.SetAttributes(
-				attribute.Bool("sys.is_numeric", true),
-				attribute.Bool("sys.metric_mapped", false),
-				attribute.String("sys.topic", topic),
-			)
-		}
-	}
-}
-
-// parseNumericValue attempts to parse a string as a numeric value
-func parseNumericValue(s string) (float64, error) {
-	// Try to parse as float64
-	value, err := strconv.ParseFloat(strings.TrimSpace(s), 64)
-	if err != nil {
-		return 0, fmt.Errorf("failed to parse as numeric: %w", err)
-	}
-
-	return value, nil
 }
 
 // updateMetrics updates Prometheus metrics with tracing

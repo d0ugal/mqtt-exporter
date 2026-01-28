@@ -21,4 +21,3 @@ mqtt:
     clean_session: true
     keep_alive: 60
     connect_timeout: 30
-    disable_sys_topics: false # Set to true to disable $SYS topic monitoring
