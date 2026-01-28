@@ -21,16 +21,15 @@ type Config struct {
 }
 
 type MQTTConfig struct {
-	Broker           string   `yaml:"broker"`
-	ClientID         string   `yaml:"client_id"`
-	Username         string   `yaml:"username"`
-	Password         string   `yaml:"password"`
-	Topics           []string `yaml:"topics"`
-	QoS              int      `yaml:"qos"`
-	CleanSession     bool     `yaml:"clean_session"`
-	KeepAlive        Duration `yaml:"keep_alive"`
-	ConnectTimeout   Duration `yaml:"connect_timeout"`
-	DisableSysTopics bool     `yaml:"disable_sys_topics"`
+	Broker         string   `yaml:"broker"`
+	ClientID       string   `yaml:"client_id"`
+	Username       string   `yaml:"username"`
+	Password       string   `yaml:"password"`
+	Topics         []string `yaml:"topics"`
+	QoS            int      `yaml:"qos"`
+	CleanSession   bool     `yaml:"clean_session"`
+	KeepAlive      Duration `yaml:"keep_alive"`
+	ConnectTimeout Duration `yaml:"connect_timeout"`
 }
 
 // LoadConfig loads configuration from either a YAML file or environment variables
@@ -187,14 +186,6 @@ func loadFromEnv() (*Config, error) {
 		}
 	} else {
 		config.MQTT.ConnectTimeout = Duration{Duration: time.Second * 30}
-	}
-
-	if disableSysTopicsStr := os.Getenv("MQTT_EXPORTER_MQTT_DISABLE_SYS_TOPICS"); disableSysTopicsStr != "" {
-		if disableSysTopics, err := strconv.ParseBool(disableSysTopicsStr); err != nil {
-			return nil, fmt.Errorf("invalid MQTT disable sys topics: %w", err)
-		} else {
-			config.MQTT.DisableSysTopics = disableSysTopics
-		}
 	}
 
 	// Set defaults for any missing values
