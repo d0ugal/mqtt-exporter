@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.1](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.0...v1.26.1) (2026-02-06)
+
+
+### Bug Fixes
+
+* update dependency go to v1.25.7 ([3990cae](https://github.com/d0ugal/mqtt-exporter/commit/3990caec9a799a04416f2c5d0ae22e7d45345948))
+* update google.golang.org/genproto/googleapis/api digest to 546029d ([157ed93](https://github.com/d0ugal/mqtt-exporter/commit/157ed93787a3df4d9959fe776f0590f24b75678d))
+* update google.golang.org/genproto/googleapis/api digest to ce8ad4c ([b375f94](https://github.com/d0ugal/mqtt-exporter/commit/b375f944e390b87a94a1321a238af78e78f6df99))
+* update google.golang.org/genproto/googleapis/rpc digest to 546029d ([90e1448](https://github.com/d0ugal/mqtt-exporter/commit/90e1448fbc56eb03bef34715811d5bc00b26e658))
+* update google.golang.org/genproto/googleapis/rpc digest to ce8ad4c ([3826d91](https://github.com/d0ugal/mqtt-exporter/commit/3826d916f1d4db78ec241175caa3ff4c63a4b377))
+* update module github.com/d0ugal/promexporter to v2 ([8c9e6a5](https://github.com/d0ugal/mqtt-exporter/commit/8c9e6a52c60645ce224d8fd6244fa70ae06db2b9))
+* update module github.com/gabriel-vasile/mimetype to v1.4.13 ([45667ea](https://github.com/d0ugal/mqtt-exporter/commit/45667eaf62bfd228a80035e393ba2c392c221d9d))
+* update module github.com/grpc-ecosystem/grpc-gateway/v2 to v2.27.7 ([9c9ba06](https://github.com/d0ugal/mqtt-exporter/commit/9c9ba06bf3328d90a9e2a830c0058522774644a6))
+* update opentelemetry-go monorepo to v1.40.0 ([244e0f0](https://github.com/d0ugal/mqtt-exporter/commit/244e0f07794cc71f634f0d3ed9c84642bc61b157))
+* update opentelemetry-go-contrib monorepo to v0.65.0 ([3f9eb94](https://github.com/d0ugal/mqtt-exporter/commit/3f9eb949d39423fb3ff7a33233f3e4995cff19c1))
+
 ## [1.26.0](https://github.com/d0ugal/mqtt-exporter/compare/v1.25.27...v1.26.0) (2026-01-29)
 
 
