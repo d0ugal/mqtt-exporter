@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.2](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.1...v1.26.2) (2026-02-28)
+
+
+### Bug Fixes
+
+* update dependency go to v1.26.0 ([cd9095f](https://github.com/d0ugal/mqtt-exporter/commit/cd9095f667c8e73f745ab0372b2195e63fcbf2c0))
+* update google.golang.org/genproto/googleapis/api digest to 2f722ef ([c526f9e](https://github.com/d0ugal/mqtt-exporter/commit/c526f9e4173993ddaad99bc23f0465ac96b39173))
+* update google.golang.org/genproto/googleapis/api digest to 42d3e9b ([8413d21](https://github.com/d0ugal/mqtt-exporter/commit/8413d21e64a5248fc660cc1379ad2fe934f874fd))
+* update google.golang.org/genproto/googleapis/api digest to 4cfbd41 ([773eb90](https://github.com/d0ugal/mqtt-exporter/commit/773eb900024951bd085454ff84cfc528c76587a7))
+* update google.golang.org/genproto/googleapis/api digest to a57be14 ([3880829](https://github.com/d0ugal/mqtt-exporter/commit/3880829d66327e78b3ac3afadd562bcab34d6efa))
+* update google.golang.org/genproto/googleapis/rpc digest to 2f722ef ([494c8a6](https://github.com/d0ugal/mqtt-exporter/commit/494c8a665fa8c3d36b7fe0f33ba8461b714071c5))
+* update google.golang.org/genproto/googleapis/rpc digest to 42d3e9b ([3cc6cc3](https://github.com/d0ugal/mqtt-exporter/commit/3cc6cc3c2e0455ea0fd1bd2b50af5a2fd4aa088c))
+* update google.golang.org/genproto/googleapis/rpc digest to 4cfbd41 ([c6572ec](https://github.com/d0ugal/mqtt-exporter/commit/c6572ecb427ce42c24d2714415093be45a5a11fc))
+* update google.golang.org/genproto/googleapis/rpc digest to a57be14 ([abb8f74](https://github.com/d0ugal/mqtt-exporter/commit/abb8f74aa9e5838b5f920f536065d4568c2f77c9))
+* update module github.com/gin-gonic/gin to v1.12.0 ([04af2e8](https://github.com/d0ugal/mqtt-exporter/commit/04af2e8013cc3423c01323c37ceaa6a56ea28ae5))
+* update module github.com/grpc-ecosystem/grpc-gateway/v2 to v2.27.8 ([2d6423d](https://github.com/d0ugal/mqtt-exporter/commit/2d6423dc8fa3019a068324a3cd04ff2878ad14d4))
+* update module github.com/grpc-ecosystem/grpc-gateway/v2 to v2.28.0 ([049514b](https://github.com/d0ugal/mqtt-exporter/commit/049514b06a31076738ea0468efcbc2068661d044))
+* update module github.com/klauspost/compress to v1.18.4 ([f81ab90](https://github.com/d0ugal/mqtt-exporter/commit/f81ab9048875566528ebdb78e7ad3c0dc358abe6))
+* update module github.com/prometheus/procfs to v0.20.0 ([dc0e360](https://github.com/d0ugal/mqtt-exporter/commit/dc0e360426720d380b1bc2983013d53ff98f8f22))
+* update module github.com/prometheus/procfs to v0.20.1 ([f867b1a](https://github.com/d0ugal/mqtt-exporter/commit/f867b1ac84b7c043dead7c5d6025048562ded788))
+* update module golang.org/x/arch to v0.24.0 ([99ef828](https://github.com/d0ugal/mqtt-exporter/commit/99ef8283c254770dbf0584efe08fa05d33b9c901))
+* update module golang.org/x/net to v0.50.0 ([8333916](https://github.com/d0ugal/mqtt-exporter/commit/83339162069e8829ca8970e7dbdbf76a06e8a3b7))
+* update module golang.org/x/net to v0.51.0 ([2e68c60](https://github.com/d0ugal/mqtt-exporter/commit/2e68c6019f32936059cad994b0162ed7b7039b4a))
+* update module golang.org/x/sys to v0.41.0 ([9531df1](https://github.com/d0ugal/mqtt-exporter/commit/9531df1270a26239563e3c9a94d979f392af58d6))
+* update module google.golang.org/grpc to v1.79.0 ([90710b4](https://github.com/d0ugal/mqtt-exporter/commit/90710b42d43f8bb845d9d67fbd3ad395306d85e9))
+* update module google.golang.org/grpc to v1.79.1 ([219cb02](https://github.com/d0ugal/mqtt-exporter/commit/219cb0242c8cb14782d93e66ac5f38d29cbaf33d))
+
 ## [1.26.1](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.0...v1.26.1) (2026-02-06)
 
 
