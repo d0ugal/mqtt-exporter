@@ -39,7 +39,7 @@ func NewMQTTCollector(cfg *config.Config, metricsRegistry *metrics.MQTTRegistry,
 }
 
 func (mc *MQTTCollector) Start(ctx context.Context) {
-	go mc.run(ctx)
+	go mc.run(ctx) //nolint:gosec // G118: ctx is passed to run; context.Background() is only used internally for tracing spans
 }
 
 // run handles the main connection loop with automatic reconnection
@@ -350,7 +350,7 @@ func (mc *MQTTCollector) subscribeToTopics(ctx context.Context) error {
 			defer topicSpan.End()
 		}
 
-		if token := mc.client.Subscribe(topic, byte(mc.config.MQTT.QoS), nil); token.Wait() && token.Error() != nil {
+		if token := mc.client.Subscribe(topic, byte(mc.config.MQTT.QoS), nil); token.Wait() && token.Error() != nil { //nolint:gosec // G115: QoS is always 0, 1, or 2; no overflow possible
 			subscribeDuration := time.Since(subscribeStart)
 
 			if topicSpan != nil {
