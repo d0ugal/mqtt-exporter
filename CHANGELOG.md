@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.3](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.2...v1.26.3) (2026-03-24)
+
+
+### Bug Fixes
+
+* update module github.com/pelletier/go-toml/v2 to v2.3.0 ([fa88042](https://github.com/d0ugal/mqtt-exporter/commit/fa88042be19ea3fb34e08e2710f5e4dc7e043228))
+
 ## [1.26.2](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.1...v1.26.2) (2026-03-23)
 
 
