@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.5](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.4...v1.26.5) (2026-03-26)
+
+
+### Bug Fixes
+
+* update module github.com/grafana/pyroscope-go to v1.2.8 ([df1ea20](https://github.com/d0ugal/mqtt-exporter/commit/df1ea208e6f9d6679accc152b4ce78ac28d55381))
+
 ## [1.26.4](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.3...v1.26.4) (2026-03-25)
 
 
