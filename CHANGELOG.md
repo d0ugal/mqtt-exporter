@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.6](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.5...v1.26.6) (2026-03-28)
+
+
+### Bug Fixes
+
+* update module github.com/bytedance/sonic/loader to v0.5.1 ([b28d76a](https://github.com/d0ugal/mqtt-exporter/commit/b28d76abe6ac97a135164b678cafa74a2b784b62))
+* update module github.com/d0ugal/promexporter to v1.14.29 ([0ac6316](https://github.com/d0ugal/mqtt-exporter/commit/0ac631611e7ef52fbf5fa1c0b78e64c71d65b46f))
+* update module github.com/gin-contrib/sse to v1.1.1 ([c6902fd](https://github.com/d0ugal/mqtt-exporter/commit/c6902fd3daedb749a7d2b48e5bf1cd8a603691bf))
+
 ## [1.26.5](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.4...v1.26.5) (2026-03-26)
 
 
