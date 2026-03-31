@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.8](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.7...v1.26.8) (2026-03-31)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to d5a96ad ([54e3ef0](https://github.com/d0ugal/mqtt-exporter/commit/54e3ef04b3a23fedc90365b16860aeaa9f4e605d))
+* update google.golang.org/genproto/googleapis/rpc digest to d5a96ad ([2765a20](https://github.com/d0ugal/mqtt-exporter/commit/2765a20f5125385dd31a9cc30a0a7f271d21344e))
+* update module github.com/go-playground/validator/v10 to v10.30.2 ([30b2ba7](https://github.com/d0ugal/mqtt-exporter/commit/30b2ba74ef4fc5fa5ae75caad4d1471d3d6568f0))
+
 ## [1.26.7](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.6...v1.26.7) (2026-03-30)
 
 
