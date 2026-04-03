@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.12](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.11...v1.26.12) (2026-04-03)
+
+
+### Bug Fixes
+
+* update opentelemetry-go monorepo to v1.43.0 ([6c021fe](https://github.com/d0ugal/mqtt-exporter/commit/6c021fe9298c3a25d69e7461acdc4ffc116eca5e))
+
 ## [1.26.11](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.10...v1.26.11) (2026-04-02)
 
 
