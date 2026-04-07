@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.15](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.14...v1.26.15) (2026-04-07)
+
+
+### Bug Fixes
+
+* update module github.com/d0ugal/promexporter to v1.14.34 ([34ea247](https://github.com/d0ugal/mqtt-exporter/commit/34ea24714666c58c9677855eba024b99e81cc42d))
+* update opentelemetry-go-contrib monorepo to v0.68.0 ([7560fa8](https://github.com/d0ugal/mqtt-exporter/commit/7560fa880a3c6f042f7c6c7f8527b65d6c307af8))
+
 ## [1.26.14](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.13...v1.26.14) (2026-04-07)
 
 
