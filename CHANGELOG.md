@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.18](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.17...v1.26.18) (2026-04-08)
+
+
+### Bug Fixes
+
+* update module github.com/d0ugal/promexporter to v1.14.36 ([5eb87d2](https://github.com/d0ugal/mqtt-exporter/commit/5eb87d220538422ac7e7b44b1daea4de4ac471f9))
+* update module github.com/mattn/go-isatty to v0.0.21 ([eef6373](https://github.com/d0ugal/mqtt-exporter/commit/eef63736929d2c04f4671ecaa1fa6805b6fb4941))
+* update module golang.org/x/sys to v0.43.0 ([d2779ad](https://github.com/d0ugal/mqtt-exporter/commit/d2779ad10de6cd51851961189fdea4fb7029bdff))
+
 ## [1.26.17](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.16...v1.26.17) (2026-04-08)
 
 
