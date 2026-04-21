@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.26](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.25...v1.26.26) (2026-04-21)
+
+
+### Bug Fixes
+
+* update module github.com/d0ugal/promexporter to v1.14.42 ([9f53ea8](https://github.com/d0ugal/mqtt-exporter/commit/9f53ea87f29683a61a26329c6324eb104cf1efea))
+
 ## [1.26.25](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.24...v1.26.25) (2026-04-21)
 
 
