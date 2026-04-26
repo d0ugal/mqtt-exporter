@@ -69,53 +69,66 @@ func applyEnvVars(cfg *Config) {
 	if host := os.Getenv("MQTT_EXPORTER_SERVER_HOST"); host != "" {
 		cfg.Server.Host = host
 	}
+
 	if portStr := os.Getenv("MQTT_EXPORTER_SERVER_PORT"); portStr != "" {
 		if port, err := strconv.Atoi(portStr); err == nil {
 			cfg.Server.Port = port
 		}
 	}
+
 	if level := os.Getenv("MQTT_EXPORTER_LOG_LEVEL"); level != "" {
 		cfg.Logging.Level = level
 	}
+
 	if format := os.Getenv("MQTT_EXPORTER_LOG_FORMAT"); format != "" {
 		cfg.Logging.Format = format
 	}
+
 	if intervalStr := os.Getenv("MQTT_EXPORTER_METRICS_DEFAULT_INTERVAL"); intervalStr != "" {
 		if interval, err := time.ParseDuration(intervalStr); err == nil {
 			cfg.Metrics.Collection.DefaultInterval = promexporter_config.Duration{Duration: interval}
 			cfg.Metrics.Collection.DefaultIntervalSet = true
 		}
 	}
+
 	if broker := os.Getenv("MQTT_EXPORTER_MQTT_BROKER"); broker != "" {
 		cfg.MQTT.Broker = broker
 	}
+
 	if clientID := os.Getenv("MQTT_EXPORTER_MQTT_CLIENT_ID"); clientID != "" {
 		cfg.MQTT.ClientID = clientID
 	}
+
 	if username := os.Getenv("MQTT_EXPORTER_MQTT_USERNAME"); username != "" {
 		cfg.MQTT.Username = username
 	}
+
 	if password := os.Getenv("MQTT_EXPORTER_MQTT_PASSWORD"); password != "" {
 		cfg.MQTT.Password = password
 	}
+
 	if topicsStr := os.Getenv("MQTT_EXPORTER_MQTT_TOPICS"); topicsStr != "" {
 		cfg.MQTT.Topics = strings.Split(topicsStr, ",")
 	}
+
 	if qosStr := os.Getenv("MQTT_EXPORTER_MQTT_QOS"); qosStr != "" {
 		if qos, err := strconv.Atoi(qosStr); err == nil {
 			cfg.MQTT.QoS = qos
 		}
 	}
+
 	if cleanSessionStr := os.Getenv("MQTT_EXPORTER_MQTT_CLEAN_SESSION"); cleanSessionStr != "" {
 		if cleanSession, err := strconv.ParseBool(cleanSessionStr); err == nil {
 			cfg.MQTT.CleanSession = cleanSession
 		}
 	}
+
 	if keepAliveStr := os.Getenv("MQTT_EXPORTER_MQTT_KEEP_ALIVE"); keepAliveStr != "" {
 		if keepAlive, err := time.ParseDuration(keepAliveStr); err == nil {
 			cfg.MQTT.KeepAlive = Duration{Duration: keepAlive}
 		}
 	}
+
 	if connectTimeoutStr := os.Getenv("MQTT_EXPORTER_MQTT_CONNECT_TIMEOUT"); connectTimeoutStr != "" {
 		if connectTimeout, err := time.ParseDuration(connectTimeoutStr); err == nil {
 			cfg.MQTT.ConnectTimeout = Duration{Duration: connectTimeout}
