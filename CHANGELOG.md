@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.28](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.27...v1.26.28) (2026-04-26)
+
+
+### Bug Fixes
+
+* make yaml optional and always overlay env vars on config ([cee06c4](https://github.com/d0ugal/mqtt-exporter/commit/cee06c437571770baa13215fcf8783f85f5abae8))
+* remove test for deleted hasEnvironmentVariables function ([88a47ed](https://github.com/d0ugal/mqtt-exporter/commit/88a47ed29058622766a60e85b55bd89121596433))
+* use RELEASE_TOKEN in auto-format workflow to trigger CI ([767641f](https://github.com/d0ugal/mqtt-exporter/commit/767641f539793a0bc0dac76d7b3ff09030d4e158))
+
 ## [1.26.27](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.26...v1.26.27) (2026-04-21)
 
 
