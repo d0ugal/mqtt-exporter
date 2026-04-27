@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.29](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.28...v1.26.29) (2026-04-27)
+
+
+### Bug Fixes
+
+* update module github.com/mattn/go-isatty to v0.0.22 ([6654719](https://github.com/d0ugal/mqtt-exporter/commit/66547191ed52ef54491f1170ec6118c9d2730ac7))
+
 ## [1.26.28](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.27...v1.26.28) (2026-04-26)
 
 
