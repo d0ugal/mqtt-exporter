@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.30](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.29...v1.26.30) (2026-04-27)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to 7cedc36 ([666d105](https://github.com/d0ugal/mqtt-exporter/commit/666d10555d3c481328da538978bbe8da23459428))
+* update google.golang.org/genproto/googleapis/rpc digest to 7cedc36 ([d66f980](https://github.com/d0ugal/mqtt-exporter/commit/d66f980c9015f9c363bc911b450dc69650d07ef4))
+* update module github.com/bytedance/sonic to v1.15.1 ([8195afc](https://github.com/d0ugal/mqtt-exporter/commit/8195afc6cad58c948232939634c34de98fa9dbe9))
+* update module github.com/d0ugal/promexporter to v1.14.44 ([a1858e1](https://github.com/d0ugal/mqtt-exporter/commit/a1858e1c4cd127dd9aa6437faeb613e1a3ce5922))
+* update module github.com/d0ugal/promexporter to v1.14.45 ([b8d2926](https://github.com/d0ugal/mqtt-exporter/commit/b8d2926984d1f6b28b07831de7ea580c75cf1226))
+
 ## [1.26.29](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.28...v1.26.29) (2026-04-27)
 
 
