@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.31](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.30...v1.26.31) (2026-04-28)
+
+
+### Bug Fixes
+
+* update module go.mongodb.org/mongo-driver/v2 to v2.6.0 ([215c578](https://github.com/d0ugal/mqtt-exporter/commit/215c578e0b56116f72160c42f7bfd8ea30186534))
+
 ## [1.26.30](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.29...v1.26.30) (2026-04-27)
 
 
