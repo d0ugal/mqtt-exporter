@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.32](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.31...v1.26.32) (2026-04-30)
+
+
+### Bug Fixes
+
+* update module github.com/cloudwego/base64x to v0.1.7 ([32c32b7](https://github.com/d0ugal/mqtt-exporter/commit/32c32b72347a5b5bd9c5f7120665655adabfd3b7))
+* update module github.com/d0ugal/promexporter to v1.14.46 ([8daefb0](https://github.com/d0ugal/mqtt-exporter/commit/8daefb06c48e8974bc2b2627da955580bb577182))
+* update module github.com/klauspost/compress to v1.18.6 ([048adad](https://github.com/d0ugal/mqtt-exporter/commit/048adad05603665ceeb1d109b73ef14d65c40b5e))
+
 ## [1.26.31](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.30...v1.26.31) (2026-04-28)
 
 
