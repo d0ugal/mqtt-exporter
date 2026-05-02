@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.33](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.32...v1.26.33) (2026-05-02)
+
+
+### Bug Fixes
+
+* update module github.com/d0ugal/promexporter to v1.14.47 ([b453179](https://github.com/d0ugal/mqtt-exporter/commit/b4531797d6b22281a638560fefc288c37e755c28))
+* update module github.com/pelletier/go-toml/v2 to v2.3.1 ([f5928b0](https://github.com/d0ugal/mqtt-exporter/commit/f5928b0361f6bcd2d6ea8ded09b80478be42bf73))
+
 ## [1.26.32](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.31...v1.26.32) (2026-04-30)
 
 
