@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.39](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.38...v1.26.39) (2026-05-06)
+
+
+### Bug Fixes
+
+* update module github.com/grafana/pyroscope-go to v1.3.0 ([7623148](https://github.com/d0ugal/mqtt-exporter/commit/7623148eb6be47f45a6b1e1a1ab372dffa24e6d5))
+* update module github.com/grafana/pyroscope-go/godeltaprof to v0.1.10 ([774c9f9](https://github.com/d0ugal/mqtt-exporter/commit/774c9f93a1e3165f4578ef2c0d644c5d677f96d9))
+
 ## [1.26.38](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.37...v1.26.38) (2026-05-05)
 
 
