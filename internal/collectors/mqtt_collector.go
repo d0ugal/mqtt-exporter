@@ -105,8 +105,8 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 				"broker": mc.config.MQTT.Broker,
 			}).Set(0)
 			mc.metrics.MQTTConnectionErrors.With(prometheus.Labels{
-				"broker": mc.config.MQTT.Broker,
-				"reason": "connect",
+				"broker":     mc.config.MQTT.Broker,
+				"error_type": "connect",
 			}).Inc()
 
 			select {
@@ -151,8 +151,8 @@ func (mc *MQTTCollector) run(ctx context.Context) {
 			}
 
 			mc.metrics.MQTTConnectionErrors.With(prometheus.Labels{
-				"broker": mc.config.MQTT.Broker,
-				"reason": "subscribe",
+				"broker":     mc.config.MQTT.Broker,
+				"error_type": "subscribe",
 			}).Inc()
 
 			// Disconnect and retry
@@ -409,8 +409,8 @@ func (mc *MQTTCollector) onConnectionLost(client MQTT.Client, err error) {
 		"broker": mc.config.MQTT.Broker,
 	}).Set(0)
 	mc.metrics.MQTTConnectionErrors.With(prometheus.Labels{
-		"broker": mc.config.MQTT.Broker,
-		"reason": "connection_lost",
+		"broker":     mc.config.MQTT.Broker,
+		"error_type": "connection_lost",
 	}).Inc()
 	mc.metrics.MQTTReconnectsTotal.With(prometheus.Labels{
 		"broker": mc.config.MQTT.Broker,
