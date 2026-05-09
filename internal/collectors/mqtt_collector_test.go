@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/d0ugal/mqtt-exporter/internal/metrics"
+	promexporter_config "github.com/d0ugal/promexporter/config"
 	promexporter_metrics "github.com/d0ugal/promexporter/metrics"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/stretchr/testify/assert"
@@ -31,4 +32,26 @@ func TestMQTTConnectionErrors_LabelsMatchRegistry(t *testing.T) {
 			"error_type": "connection_lost",
 		}).Inc()
 	})
+}
+
+// TestMQTTPassword_RedactsInString locks in that the broker password is
+// stored as a SensitiveString whose String() returns "[REDACTED]" rather
+// than the raw value. Without this, anything that prints the config would
+// leak the broker password.
+func TestMQTTPassword_RedactsInString(t *testing.T) {
+	const secret = "supersecretmqttpw"
+
+	pw := promexporter_config.NewSensitiveString(secret)
+
+	if pw.Value() != secret {
+		t.Fatalf("Value() did not round-trip: want %q, got %q", secret, pw.Value())
+	}
+
+	if got := pw.String(); got == secret {
+		t.Fatalf("String() leaked the raw password: %q", got)
+	}
+
+	if got := pw.String(); got != "[REDACTED]" {
+		t.Fatalf("String() unexpected: want [REDACTED], got %q", got)
+	}
 }

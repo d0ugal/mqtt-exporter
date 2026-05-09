@@ -21,15 +21,15 @@ type Config struct {
 }
 
 type MQTTConfig struct {
-	Broker         string   `yaml:"broker"`
-	ClientID       string   `yaml:"client_id"`
-	Username       string   `yaml:"username"`
-	Password       string   `yaml:"password"`
-	Topics         []string `yaml:"topics"`
-	QoS            int      `yaml:"qos"`
-	CleanSession   bool     `yaml:"clean_session"`
-	KeepAlive      Duration `yaml:"keep_alive"`
-	ConnectTimeout Duration `yaml:"connect_timeout"`
+	Broker         string                              `yaml:"broker"`
+	ClientID       string                              `yaml:"client_id"`
+	Username       string                              `yaml:"username"`
+	Password       promexporter_config.SensitiveString `yaml:"password"`
+	Topics         []string                            `yaml:"topics"`
+	QoS            int                                 `yaml:"qos"`
+	CleanSession   bool                                `yaml:"clean_session"`
+	KeepAlive      Duration                            `yaml:"keep_alive"`
+	ConnectTimeout Duration                            `yaml:"connect_timeout"`
 }
 
 // LoadConfig loads configuration with priority: env vars > yaml file > defaults.
@@ -104,7 +104,7 @@ func applyEnvVars(cfg *Config) {
 	}
 
 	if password := os.Getenv("MQTT_EXPORTER_MQTT_PASSWORD"); password != "" {
-		cfg.MQTT.Password = password
+		cfg.MQTT.Password = promexporter_config.NewSensitiveString(password)
 	}
 
 	if topicsStr := os.Getenv("MQTT_EXPORTER_MQTT_TOPICS"); topicsStr != "" {

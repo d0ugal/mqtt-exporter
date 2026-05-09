@@ -234,7 +234,7 @@ func (mc *MQTTCollector) connect(ctx context.Context) error {
 
 	if mc.config.MQTT.Username != "" {
 		opts.SetUsername(mc.config.MQTT.Username)
-		opts.SetPassword(mc.config.MQTT.Password)
+		opts.SetPassword(mc.config.MQTT.Password.Value())
 	}
 
 	opts.SetCleanSession(mc.config.MQTT.CleanSession)
