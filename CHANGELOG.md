@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.41](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.40...v1.26.41) (2026-05-12)
+
+
+### Bug Fixes
+
+* align MQTTConnectionErrors label with registered name ([20a4bd3](https://github.com/d0ugal/mqtt-exporter/commit/20a4bd373c274ac53648e1d7b9e306b84a5790fb))
+* **security:** store broker password as SensitiveString ([7411fe0](https://github.com/d0ugal/mqtt-exporter/commit/7411fe0bc28bd61874fc4e0665997ebe836c45b2))
+* update go toolchain directive to v1.26.3 ([0dc3773](https://github.com/d0ugal/mqtt-exporter/commit/0dc37738c07bac9e5464039e4b31b052a2ef1b17))
+* update google.golang.org/genproto/googleapis/api digest to 3700d41 ([7573a10](https://github.com/d0ugal/mqtt-exporter/commit/7573a1021b40e5009dd7415bef6c98a62c0936d7))
+* update google.golang.org/genproto/googleapis/rpc digest to 3700d41 ([3b17bdd](https://github.com/d0ugal/mqtt-exporter/commit/3b17bdd9a725eaa5ae1d2d898b09b283c6e7b0a0))
+* update module github.com/d0ugal/promexporter to v1.14.53 ([307c59b](https://github.com/d0ugal/mqtt-exporter/commit/307c59b62d9b5193dd51050338bd669bf5474bdc))
+* update module github.com/d0ugal/promexporter to v1.14.54 ([43f51d1](https://github.com/d0ugal/mqtt-exporter/commit/43f51d11a9a813c2057d989efd66537120ca3e53))
+* update module github.com/quic-go/quic-go to v0.59.1 ([3aa4795](https://github.com/d0ugal/mqtt-exporter/commit/3aa4795b9c8ab03ab49121b4fdfe1d4750722133))
+* update module golang.org/x/arch to v0.27.0 ([acfb088](https://github.com/d0ugal/mqtt-exporter/commit/acfb0885f9592a82246e052826f9277ef8497cdf))
+* update module golang.org/x/crypto to v0.51.0 ([79ddbd7](https://github.com/d0ugal/mqtt-exporter/commit/79ddbd7d5af1866f5ac4dc81919a75ca26cb5745))
+* update module golang.org/x/net to v0.54.0 ([a4c26a6](https://github.com/d0ugal/mqtt-exporter/commit/a4c26a61bd281be9351230916e63f21fb80f03ba))
+* update module golang.org/x/sys to v0.44.0 ([8cac9af](https://github.com/d0ugal/mqtt-exporter/commit/8cac9afa30b549a2a2dd94e5d7b57ba78ceb7743))
+* update module golang.org/x/text to v0.37.0 ([b62ff40](https://github.com/d0ugal/mqtt-exporter/commit/b62ff40134a01962b91ff58080c3b167646f8066))
+
 ## [1.26.40](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.39...v1.26.40) (2026-05-07)
 
 
