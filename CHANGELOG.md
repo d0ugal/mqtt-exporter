@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.43](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.42...v1.26.43) (2026-05-15)
+
+
+### Bug Fixes
+
+* update module google.golang.org/grpc to v1.81.1 ([f60c8f8](https://github.com/d0ugal/mqtt-exporter/commit/f60c8f8925cc79b1cc42a0ac96e3871faf5a1c63))
+
 ## [1.26.42](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.41...v1.26.42) (2026-05-12)
 
 
