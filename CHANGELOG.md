@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.48](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.47...v1.26.48) (2026-05-22)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to 9641223 ([dc2e5d7](https://github.com/d0ugal/mqtt-exporter/commit/dc2e5d7b06979d7906a3b2cd733ce3e84f309c58))
+
 ## [1.26.47](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.46...v1.26.47) (2026-05-22)
 
 
