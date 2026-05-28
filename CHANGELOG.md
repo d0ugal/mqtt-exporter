@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.50](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.49...v1.26.50) (2026-05-28)
+
+
+### Bug Fixes
+
+* update module github.com/d0ugal/promexporter to v1.14.60 ([0b6a15e](https://github.com/d0ugal/mqtt-exporter/commit/0b6a15e0c6b2ebab3fc0add7ae7efdc80cd86f23))
+* update module github.com/grafana/pyroscope-go to v1.3.1 ([4504eec](https://github.com/d0ugal/mqtt-exporter/commit/4504eec15c9d6cef1af16e467e17265308e9e6aa))
+* update module go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin to v0.69.0 ([3bf4072](https://github.com/d0ugal/mqtt-exporter/commit/3bf40723e81a2712c63076e47f19aaf2b05e776c))
+* update module go.opentelemetry.io/contrib/instrumentation/runtime to v0.69.0 ([5927473](https://github.com/d0ugal/mqtt-exporter/commit/59274730e5950b5bd0a048e56212ddca3aab89fa))
+* update opentelemetry-go monorepo to v1.44.0 ([8bb26da](https://github.com/d0ugal/mqtt-exporter/commit/8bb26da5f2fd609e6a8bc1201573029239093545))
+
 ## [1.26.49](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.48...v1.26.49) (2026-05-27)
 
 
