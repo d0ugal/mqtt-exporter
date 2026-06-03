@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.52](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.51...v1.26.52) (2026-06-03)
+
+
+### Bug Fixes
+
+* update go toolchain directive to v1.26.4 ([7540957](https://github.com/d0ugal/mqtt-exporter/commit/75409579d8cbab5e9f3494570e82748e440dc118))
+* update module github.com/d0ugal/promexporter to v1.14.62 ([fd991da](https://github.com/d0ugal/mqtt-exporter/commit/fd991dafef3cee35e79cf51403c8370c47a17ab2))
+* update module github.com/go-playground/validator/v10 to v10.30.3 ([a7b70d2](https://github.com/d0ugal/mqtt-exporter/commit/a7b70d25dc2af385ebf4aac2ec10b0bbb6152499))
+* update module github.com/prometheus/common to v0.68.1 ([7402a00](https://github.com/d0ugal/mqtt-exporter/commit/7402a00208aa8a453c25337be1845503b2d4a9a4))
+
 ## [1.26.51](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.50...v1.26.51) (2026-05-29)
 
 
