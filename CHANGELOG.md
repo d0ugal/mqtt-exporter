@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.54](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.53...v1.26.54) (2026-06-04)
+
+
+### Bug Fixes
+
+* update module github.com/bytedance/sonic to v1.15.2 ([984b56f](https://github.com/d0ugal/mqtt-exporter/commit/984b56f4c726776aa257fda7dcdae5e41171c221))
+
 ## [1.26.53](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.52...v1.26.53) (2026-06-03)
 
 
