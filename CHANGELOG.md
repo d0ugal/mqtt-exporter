@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.56](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.55...v1.26.56) (2026-06-07)
+
+
+### Bug Fixes
+
+* update module github.com/quic-go/quic-go to v0.60.0 ([206d83e](https://github.com/d0ugal/mqtt-exporter/commit/206d83ec78db99ccaf467e840e4a9b017f336915))
+
 ## [1.26.55](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.54...v1.26.55) (2026-06-05)
 
 
