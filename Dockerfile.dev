@@ -5,7 +5,7 @@
 # docker buildx build --build-context promexporter=/home/hoose/Code/promexporter -f Dockerfile.dev -t mqtt-exporter:dev .
 
 # Build stage
-FROM golang:1.26.4-alpine@sha256:bd14630652464086289693533d25b791aa9ae7481e784d7eac5d4c948e9736ea AS builder
+FROM golang:1.26.4-alpine@sha256:a6a091eac01ceac4b97496fe2957a49b6cdd83365337d5f46f6f73710424e805 AS builder
 
 WORKDIR /app
 
