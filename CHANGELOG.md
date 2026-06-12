@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.57](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.56...v1.26.57) (2026-06-12)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to 4308a22 ([08f87bc](https://github.com/d0ugal/mqtt-exporter/commit/08f87bc24cf0646c193eec0489ce1fcaabd2992d))
+* update google.golang.org/genproto/googleapis/api digest to 7ab31c2 ([1256109](https://github.com/d0ugal/mqtt-exporter/commit/12561091091bebb463baf2762739b37ac893c837))
+* update google.golang.org/genproto/googleapis/rpc digest to 4308a22 ([fcf8429](https://github.com/d0ugal/mqtt-exporter/commit/fcf8429c55670c82a4ba7f33c78e77e4b565af35))
+* update google.golang.org/genproto/googleapis/rpc digest to 7ab31c2 ([1912948](https://github.com/d0ugal/mqtt-exporter/commit/19129483fdacaf6d9a564880282fd8da76b8994b))
+* update module golang.org/x/arch to v0.28.0 ([aed8bfa](https://github.com/d0ugal/mqtt-exporter/commit/aed8bfa50c460365cdef7fa7a7d83335c10ba3c2))
+* update module golang.org/x/crypto to v0.53.0 ([5ffc2a2](https://github.com/d0ugal/mqtt-exporter/commit/5ffc2a2ba8732698234e02f0b50c815cbb0d07e3))
+* update module golang.org/x/net to v0.56.0 ([f0ecba5](https://github.com/d0ugal/mqtt-exporter/commit/f0ecba5676e99edbcf21d50d15fe1a299a443db1))
+* update module golang.org/x/sync to v0.21.0 ([0abba2f](https://github.com/d0ugal/mqtt-exporter/commit/0abba2f1a78a14bece4eb05c0a46d7e1a9b17fcb))
+
 ## [1.26.56](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.55...v1.26.56) (2026-06-07)
 
 
