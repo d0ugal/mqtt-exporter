@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.59](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.58...v1.26.59) (2026-06-18)
+
+
+### Bug Fixes
+
+* update module github.com/cenkalti/backoff/v5 to v6 ([93d6cd9](https://github.com/d0ugal/mqtt-exporter/commit/93d6cd906c41af2293f39aa14c1bc43bcc8420b5))
+* update module github.com/pelletier/go-toml/v2 to v2.4.0 ([2ff364f](https://github.com/d0ugal/mqtt-exporter/commit/2ff364f14854d2f77954866272aece86c6ba1121))
+* update module github.com/prometheus/common to v0.69.0 ([396528f](https://github.com/d0ugal/mqtt-exporter/commit/396528fcad1d454b8879baf668cda9ead896ec76))
+* update module go.mongodb.org/mongo-driver/v2 to v2.6.1 ([09d5deb](https://github.com/d0ugal/mqtt-exporter/commit/09d5deb44932f375f514e51d67cc8ab29e3f5da7))
+* update module go.mongodb.org/mongo-driver/v2 to v2.7.0 ([5020e24](https://github.com/d0ugal/mqtt-exporter/commit/5020e2428f994ac70aa5a8de18bae9c31114c8b4))
+
 ## [1.26.58](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.57...v1.26.58) (2026-06-16)
 
 
