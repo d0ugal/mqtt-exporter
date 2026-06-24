@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.62](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.61...v1.26.62) (2026-06-24)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to 1f2690b ([d002a8c](https://github.com/d0ugal/mqtt-exporter/commit/d002a8cf575105cc999fb507f06982c7c7854031))
+* update google.golang.org/genproto/googleapis/api digest to b703f56 ([ac9c428](https://github.com/d0ugal/mqtt-exporter/commit/ac9c428accf6a861c786569a8a085529f6555cb1))
+* update google.golang.org/genproto/googleapis/rpc digest to b703f56 ([fe121da](https://github.com/d0ugal/mqtt-exporter/commit/fe121daa3706584be9e2f95fb254ccf9cb295370))
+* update module github.com/pelletier/go-toml/v2 to v2.4.1 ([e6db957](https://github.com/d0ugal/mqtt-exporter/commit/e6db95762fd4f8fab06dd7980452530d6ba36cc8))
+* update module github.com/pelletier/go-toml/v2 to v2.4.2 ([4305f34](https://github.com/d0ugal/mqtt-exporter/commit/4305f34928700e89d0fd6ad6970b4cd553c95d96))
+
 ## [1.26.61](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.60...v1.26.61) (2026-06-19)
 
 
