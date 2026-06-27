@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.63](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.62...v1.26.63) (2026-06-27)
+
+
+### Bug Fixes
+
+* update module github.com/prometheus/procfs to v0.21.0 ([bcae2db](https://github.com/d0ugal/mqtt-exporter/commit/bcae2dba2b921b0692b92c49af12114162a98a32))
+
 ## [1.26.62](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.61...v1.26.62) (2026-06-24)
 
 
