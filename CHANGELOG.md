@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.64](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.63...v1.26.64) (2026-07-01)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to 925bb5d ([161606d](https://github.com/d0ugal/mqtt-exporter/commit/161606df9d08258bd747cf528516c41b7a1c117b))
+* update google.golang.org/genproto/googleapis/rpc digest to 925bb5d ([4c3267c](https://github.com/d0ugal/mqtt-exporter/commit/4c3267cb234a66b0d5046e7107c4297a37869ecc))
+* update module github.com/cenkalti/backoff/v5 to v7 ([21bef4f](https://github.com/d0ugal/mqtt-exporter/commit/21bef4f6f09dcb638862676a152cf1901a7b3a2c))
+* update module github.com/klauspost/compress to v1.18.7 ([6352cdf](https://github.com/d0ugal/mqtt-exporter/commit/6352cdfdd850d6bd5c61c35b64df401220ccb5de))
+* update module github.com/klauspost/compress to v1.19.0 ([ed06bf1](https://github.com/d0ugal/mqtt-exporter/commit/ed06bf19b60f7b754a8db4e49b31034517599cec))
+* update module github.com/klauspost/cpuid/v2 to v2.4.0 ([998ec7c](https://github.com/d0ugal/mqtt-exporter/commit/998ec7cdb227cbf8477245dddf2c0b13daeed66f))
+* update module github.com/prometheus/procfs to v0.21.1 ([67c9fd5](https://github.com/d0ugal/mqtt-exporter/commit/67c9fd52cabe35ec6c26397d240b8b0564ae917d))
+* update module google.golang.org/grpc to v1.82.0 ([9b771f0](https://github.com/d0ugal/mqtt-exporter/commit/9b771f04022c718742c7699982b876f73e94cf42))
+
 ## [1.26.63](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.62...v1.26.63) (2026-06-27)
 
 
