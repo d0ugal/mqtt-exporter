@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.68](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.67...v1.26.68) (2026-07-10)
+
+
+### Bug Fixes
+
+* update module github.com/d0ugal/promexporter to v1.14.66 ([43b5f60](https://github.com/d0ugal/mqtt-exporter/commit/43b5f6094e758385ff8ddffd42d2e6926908699f))
+* update module github.com/grafana/pyroscope-go to v1.4.1 ([3b7e7b9](https://github.com/d0ugal/mqtt-exporter/commit/3b7e7b9954ae7880fb26ebd5eda613ac84bdc632))
+* update module github.com/grafana/pyroscope-go/godeltaprof to v0.1.12 ([8cbef14](https://github.com/d0ugal/mqtt-exporter/commit/8cbef147692b69804bbc9c7edad1843d685e64c9))
+* update module github.com/prometheus/common to v0.70.0 ([c4c143e](https://github.com/d0ugal/mqtt-exporter/commit/c4c143e8585f9ab09c81898843b5137a48e51b43))
+* update module go.mongodb.org/mongo-driver/v2 to v2.8.0 ([149626d](https://github.com/d0ugal/mqtt-exporter/commit/149626dc557be1351bf1a50f4d0789efb15c4682))
+* update module golang.org/x/arch to v0.29.0 ([3430e31](https://github.com/d0ugal/mqtt-exporter/commit/3430e31ab0e037a5997402d46686708f5f73c560))
+* update module golang.org/x/crypto to v0.54.0 ([24d4288](https://github.com/d0ugal/mqtt-exporter/commit/24d428856a04f20a07555df2f69f22d846be9330))
+* update module golang.org/x/net to v0.57.0 ([04a5b33](https://github.com/d0ugal/mqtt-exporter/commit/04a5b334b84a00755a9e7700c2c9a6f1ba1d2396))
+* update module golang.org/x/sync to v0.22.0 ([3e4b1ba](https://github.com/d0ugal/mqtt-exporter/commit/3e4b1ba08fde376c69804c0c98af2e48895fdab2))
+
 ## [1.26.67](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.66...v1.26.67) (2026-07-08)
 
 
