@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.72](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.71...v1.26.72) (2026-07-24)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to 0afa2a6 ([a239665](https://github.com/d0ugal/mqtt-exporter/commit/a2396651d204b587d0cb7ab4ff5f84be0ce88ef0))
+* update google.golang.org/genproto/googleapis/api digest to 3fe39f3 ([b382703](https://github.com/d0ugal/mqtt-exporter/commit/b3827035b6b9045186604ed46c7005a20c8233b4))
+* update google.golang.org/genproto/googleapis/rpc digest to 0afa2a6 ([8c258b8](https://github.com/d0ugal/mqtt-exporter/commit/8c258b868645541bc5cde4c49f65cb8acc22d7e1))
+* update google.golang.org/genproto/googleapis/rpc digest to 3fe39f3 ([83a4253](https://github.com/d0ugal/mqtt-exporter/commit/83a4253814e7022ae4ad1933be47bc4750c4f779))
+* update module github.com/gabriel-vasile/mimetype to v1.4.14 ([3e13e98](https://github.com/d0ugal/mqtt-exporter/commit/3e13e98725696f6fae054f1e8fd5bc292009bf90))
+* update module github.com/go-logr/logr to v1.4.4 ([c3f4afe](https://github.com/d0ugal/mqtt-exporter/commit/c3f4afe0c9d58b171e8bfe4bdfb7fb3c8982f104))
+* update module github.com/klauspost/compress to v1.19.1 ([210bae1](https://github.com/d0ugal/mqtt-exporter/commit/210bae15e7e54ef6b90f3756f10f219ca16fa06a))
+* update module github.com/leodido/go-urn to v1.5.0 ([e0e7bb5](https://github.com/d0ugal/mqtt-exporter/commit/e0e7bb50714528160295097480018569bc0b0ca4))
+* update module github.com/mattn/go-isatty to v0.0.23 ([c760be5](https://github.com/d0ugal/mqtt-exporter/commit/c760be5a848da483641fb3b6b8431f2e2a58e28e))
+* update module github.com/prometheus/client_golang to v1.24.0 ([97bc797](https://github.com/d0ugal/mqtt-exporter/commit/97bc7970dc281756894e0d1655c41e3567946b1f))
+* update module github.com/prometheus/common to v0.70.1 ([f874c14](https://github.com/d0ugal/mqtt-exporter/commit/f874c1436edc74fa0a64e54f8a0c8ec58f266634))
+* update module go.opentelemetry.io/proto/otlp to v1.11.0 ([a0424a8](https://github.com/d0ugal/mqtt-exporter/commit/a0424a8b34776430fb53f50dd9a06fe540e52bca))
+
 ## [1.26.71](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.70...v1.26.71) (2026-07-16)
 
 
