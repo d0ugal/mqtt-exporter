@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.72](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.71...v1.26.72) (2026-07-30)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to 0afa2a6 ([a239665](https://github.com/d0ugal/mqtt-exporter/commit/a2396651d204b587d0cb7ab4ff5f84be0ce88ef0))
+* update google.golang.org/genproto/googleapis/api digest to 3fe39f3 ([b382703](https://github.com/d0ugal/mqtt-exporter/commit/b3827035b6b9045186604ed46c7005a20c8233b4))
+* update google.golang.org/genproto/googleapis/api digest to 6c54ddd ([15d232d](https://github.com/d0ugal/mqtt-exporter/commit/15d232d22f17715969fccea08d673e45be67b497))
+* update google.golang.org/genproto/googleapis/api digest to 8efbd57 ([cc426c2](https://github.com/d0ugal/mqtt-exporter/commit/cc426c269ba50ebe2ea350695fe9c0cecc188f3c))
+* update google.golang.org/genproto/googleapis/api digest to b2f2020 ([ede414d](https://github.com/d0ugal/mqtt-exporter/commit/ede414d6681a9bd0ce09677a9a2d676b8998e5d0))
+* update google.golang.org/genproto/googleapis/rpc digest to 0afa2a6 ([8c258b8](https://github.com/d0ugal/mqtt-exporter/commit/8c258b868645541bc5cde4c49f65cb8acc22d7e1))
+* update google.golang.org/genproto/googleapis/rpc digest to 3fe39f3 ([83a4253](https://github.com/d0ugal/mqtt-exporter/commit/83a4253814e7022ae4ad1933be47bc4750c4f779))
+* update google.golang.org/genproto/googleapis/rpc digest to 6c54ddd ([3b446e0](https://github.com/d0ugal/mqtt-exporter/commit/3b446e01d97549ba86bb572375b26ff8e8e3b21d))
+* update google.golang.org/genproto/googleapis/rpc digest to 8efbd57 ([7764358](https://github.com/d0ugal/mqtt-exporter/commit/776435826e85952c77b2e9a6cf21a7ae3da4560c))
+* update google.golang.org/genproto/googleapis/rpc digest to b2f2020 ([4aa5081](https://github.com/d0ugal/mqtt-exporter/commit/4aa50813b611575094b533b077f9ed743d867c26))
+* update module github.com/bytedance/sonic/loader to v0.5.2 ([8c8eb13](https://github.com/d0ugal/mqtt-exporter/commit/8c8eb137a68b11a403fe568945bccc7b5a74cc42))
+* update module github.com/gabriel-vasile/mimetype to v1.4.14 ([3e13e98](https://github.com/d0ugal/mqtt-exporter/commit/3e13e98725696f6fae054f1e8fd5bc292009bf90))
+* update module github.com/gabriel-vasile/mimetype to v1.4.15 ([ca3a9f6](https://github.com/d0ugal/mqtt-exporter/commit/ca3a9f6f8641c084a88e276e27f8aef0557076b5))
+* update module github.com/go-logr/logr to v1.4.4 ([c3f4afe](https://github.com/d0ugal/mqtt-exporter/commit/c3f4afe0c9d58b171e8bfe4bdfb7fb3c8982f104))
+* update module github.com/klauspost/compress to v1.19.1 ([210bae1](https://github.com/d0ugal/mqtt-exporter/commit/210bae15e7e54ef6b90f3756f10f219ca16fa06a))
+* update module github.com/leodido/go-urn to v1.5.0 ([e0e7bb5](https://github.com/d0ugal/mqtt-exporter/commit/e0e7bb50714528160295097480018569bc0b0ca4))
+* update module github.com/mattn/go-isatty to v0.0.23 ([c760be5](https://github.com/d0ugal/mqtt-exporter/commit/c760be5a848da483641fb3b6b8431f2e2a58e28e))
+* update module github.com/mattn/go-isatty to v0.0.24 ([c6f036c](https://github.com/d0ugal/mqtt-exporter/commit/c6f036c16bd8781ae8a37065cff39a8df045d607))
+* update module github.com/prometheus/client_golang to v1.24.0 ([97bc797](https://github.com/d0ugal/mqtt-exporter/commit/97bc7970dc281756894e0d1655c41e3567946b1f))
+* update module github.com/prometheus/client_golang to v1.24.1 ([a704217](https://github.com/d0ugal/mqtt-exporter/commit/a7042172c3630f3f673dd0932f645ebb1aff950c))
+* update module github.com/prometheus/common to v0.70.1 ([f874c14](https://github.com/d0ugal/mqtt-exporter/commit/f874c1436edc74fa0a64e54f8a0c8ec58f266634))
+* update module github.com/quic-go/quic-go to v0.61.0 ([9c658ee](https://github.com/d0ugal/mqtt-exporter/commit/9c658eeb081b6ef3a5ec004089a8a7b86b203965))
+* update module go.opentelemetry.io/proto/otlp to v1.11.0 ([a0424a8](https://github.com/d0ugal/mqtt-exporter/commit/a0424a8b34776430fb53f50dd9a06fe540e52bca))
+* update module google.golang.org/grpc to v1.83.0 ([991384e](https://github.com/d0ugal/mqtt-exporter/commit/991384e0d92f37491ef2be9d0f035115065b7f49))
+
 ## [1.26.71](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.70...v1.26.71) (2026-07-16)
 
 
