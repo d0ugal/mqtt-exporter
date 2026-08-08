@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.73](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.72...v1.26.73) (2026-08-08)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to 6ac0973 ([a4866bf](https://github.com/d0ugal/mqtt-exporter/commit/a4866bf92de13f7e3a87aafd7727cfb5dd105927))
+* update google.golang.org/genproto/googleapis/api digest to c8921c7 ([8e7a586](https://github.com/d0ugal/mqtt-exporter/commit/8e7a586deaf5eae70d1bfa5ab67f0bd6433b7fd9))
+* update google.golang.org/genproto/googleapis/rpc digest to 6ac0973 ([5bd1042](https://github.com/d0ugal/mqtt-exporter/commit/5bd104212a2a686d6f127f11d32e52961b110b87))
+* update google.golang.org/genproto/googleapis/rpc digest to c8921c7 ([d1a32ca](https://github.com/d0ugal/mqtt-exporter/commit/d1a32ca4d49577d765daf6a8f34c8e25a82e93ba))
+* update module github.com/d0ugal/promexporter to v1.14.68 ([2711f74](https://github.com/d0ugal/mqtt-exporter/commit/2711f7430e578fd5b49bcc8dedd1a14fa147dc76))
+* update module github.com/grpc-ecosystem/grpc-gateway/v2 to v2.30.0 ([0732ab3](https://github.com/d0ugal/mqtt-exporter/commit/0732ab38e0cba9603fe1567c3fc2edf7cc5ff603))
+* update module github.com/klauspost/compress to v1.19.2 ([ea00de5](https://github.com/d0ugal/mqtt-exporter/commit/ea00de5687ee8491bd0e62f648db3ac2daeca19d))
+* update module github.com/ugorji/go/codec to v1.3.2 ([ac52fb4](https://github.com/d0ugal/mqtt-exporter/commit/ac52fb40740509698134950469b3c9343b97b856))
+* update module golang.org/x/arch to v0.30.0 ([ac66042](https://github.com/d0ugal/mqtt-exporter/commit/ac66042e38a6ce4eb120bec652420dd93b91ada8))
+* update opentelemetry-go monorepo to v1.45.0 ([b20d808](https://github.com/d0ugal/mqtt-exporter/commit/b20d808e9308e9a1f1bdfc6e789236b053d01d52))
+* update opentelemetry-go-contrib monorepo to v0.70.0 ([898a02a](https://github.com/d0ugal/mqtt-exporter/commit/898a02ae80de4e3527e8b1d6ab40274416c77442))
+
 ## [1.26.72](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.71...v1.26.72) (2026-07-30)
 
 
