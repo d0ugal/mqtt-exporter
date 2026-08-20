@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.74](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.73...v1.26.74) (2026-08-20)
+
+
+### Bug Fixes
+
+* update go toolchain directive to v1.26.6 ([991a77e](https://github.com/d0ugal/mqtt-exporter/commit/991a77ed25ae26c753d01b0dad2a8ab0b86ed66e))
+* update go toolchain directive to v1.27.0 ([6daf380](https://github.com/d0ugal/mqtt-exporter/commit/6daf3809d4c401480df77a6bcbbc91f4e703ea1b))
+* update google.golang.org/genproto/googleapis/api digest to 08b0e42 ([cd68a0b](https://github.com/d0ugal/mqtt-exporter/commit/cd68a0b7ec5fc5c3d4406d0374fcf618c860e8a7))
+* update google.golang.org/genproto/googleapis/api digest to 1b09341 ([d7e7939](https://github.com/d0ugal/mqtt-exporter/commit/d7e79390149da163dc4b19346800be6d174cda70))
+* update google.golang.org/genproto/googleapis/api digest to ac3dfec ([7ec87f5](https://github.com/d0ugal/mqtt-exporter/commit/7ec87f52f50836b5a7383761896841223466d4ed))
+* update google.golang.org/genproto/googleapis/rpc digest to 08b0e42 ([7b20498](https://github.com/d0ugal/mqtt-exporter/commit/7b204985b56d50e7291ebc9a1dc73177734ba399))
+* update google.golang.org/genproto/googleapis/rpc digest to 1b09341 ([7ecf0a0](https://github.com/d0ugal/mqtt-exporter/commit/7ecf0a06548de689fcb1252bdecf5250913fa8b5))
+* update google.golang.org/genproto/googleapis/rpc digest to ac3dfec ([d37c3c8](https://github.com/d0ugal/mqtt-exporter/commit/d37c3c8675cbf1a2d857ac176928c64301cdc4ad))
+* update module github.com/d0ugal/promexporter to v1.14.69 ([caa49a8](https://github.com/d0ugal/mqtt-exporter/commit/caa49a812369f60cc8bfd1062d3e722707453723))
+* update module github.com/stretchr/testify to v1.12.0 ([6bbab1e](https://github.com/d0ugal/mqtt-exporter/commit/6bbab1e6692e77b7b5b6fac06f86d360b076476a))
+* update module github.com/stretchr/testify to v1.12.1 ([0929aa7](https://github.com/d0ugal/mqtt-exporter/commit/0929aa78787943eb344b5f8826bc75c3094acbe0))
+* update module golang.org/x/crypto to v0.55.0 ([a81dea7](https://github.com/d0ugal/mqtt-exporter/commit/a81dea73d73509ee71781427b6495fd216e7f2d5))
+* update module golang.org/x/net to v0.58.0 ([88c1e4d](https://github.com/d0ugal/mqtt-exporter/commit/88c1e4d9a8e26f94c633a664c95d10335172558d))
+* update module google.golang.org/grpc to v1.83.1 ([c1684de](https://github.com/d0ugal/mqtt-exporter/commit/c1684dedbc4e872c39a52e2959a4d5d7f52ff960))
+
 ## [1.26.73](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.72...v1.26.73) (2026-08-12)
 
 
