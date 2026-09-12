@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.75](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.74...v1.26.75) (2026-09-12)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to f61a6ca ([1549d10](https://github.com/d0ugal/mqtt-exporter/commit/1549d10f87abeb1b095f9e042e759e3240825ff3))
+* update google.golang.org/genproto/googleapis/api digest to f8649dd ([c0af998](https://github.com/d0ugal/mqtt-exporter/commit/c0af9985849a524837e31091dfba2f2e92867658))
+* update google.golang.org/genproto/googleapis/rpc digest to f61a6ca ([1890cbf](https://github.com/d0ugal/mqtt-exporter/commit/1890cbff3b15b4bf48994d1a852956ff54560761))
+* update google.golang.org/genproto/googleapis/rpc digest to f8649dd ([cdac324](https://github.com/d0ugal/mqtt-exporter/commit/cdac324530da6821ccaddc68d8aab13feea47cc2))
+* update module github.com/bytedance/sonic to v1.15.4 ([71f38bc](https://github.com/d0ugal/mqtt-exporter/commit/71f38bc4e7522fe9f77de51b33ee11f657672b4b))
+* update module go.mongodb.org/mongo-driver/v2 to v2.9.1 ([bc2ef4e](https://github.com/d0ugal/mqtt-exporter/commit/bc2ef4e4622c13b8ae4d396cb4c5b5190b1f2849))
+* update module golang.org/x/arch to v0.31.0 ([03d45b1](https://github.com/d0ugal/mqtt-exporter/commit/03d45b112ff9c609d4e0c9ae3b60d35b5e0419c8))
+* update module golang.org/x/crypto to v0.57.0 ([0578878](https://github.com/d0ugal/mqtt-exporter/commit/05788780b641ecd651fad5f5a0fb2d2a36e55960))
+* update module golang.org/x/net to v0.59.0 ([b5ec271](https://github.com/d0ugal/mqtt-exporter/commit/b5ec27129fca0976b17b5a553addc55c835f0516))
+
 ## [1.26.74](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.73...v1.26.74) (2026-09-05)
 
 
