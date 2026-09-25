@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.77](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.76...v1.26.77) (2026-09-25)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/rpc digest to b142276 ([eea8bd8](https://github.com/d0ugal/mqtt-exporter/commit/eea8bd865f14a66af3fd32d57ae38d002c9e97d1))
+* update module github.com/klauspost/compress to v1.20.1 ([adc726a](https://github.com/d0ugal/mqtt-exporter/commit/adc726adfceefaca50c818a8bdf968f137e587d2))
+* update module github.com/quic-go/quic-go to v0.63.0 ([77426de](https://github.com/d0ugal/mqtt-exporter/commit/77426dece889f1183b5a164f63000d0722c76f0f))
+
 ## [1.26.76](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.75...v1.26.76) (2026-09-22)
 
 
