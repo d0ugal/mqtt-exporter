@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.77](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.76...v1.26.77) (2026-09-29)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to 8a89bd6 ([4110bd7](https://github.com/d0ugal/mqtt-exporter/commit/4110bd7c52f99a0161881c276a76c13b32cf68b7))
+* update google.golang.org/genproto/googleapis/rpc digest to b142276 ([eea8bd8](https://github.com/d0ugal/mqtt-exporter/commit/eea8bd865f14a66af3fd32d57ae38d002c9e97d1))
+* update module github.com/go-playground/locales to v0.14.2 ([a1ea7b3](https://github.com/d0ugal/mqtt-exporter/commit/a1ea7b356b149dd02ebeca26a0eb2ca23e6e2ecf))
+* update module github.com/goccy/go-json to v0.11.1 ([1fd440b](https://github.com/d0ugal/mqtt-exporter/commit/1fd440baf5e306164410d4c43b8566f01da41e31))
+* update module github.com/grpc-ecosystem/grpc-gateway/v2 to v2.31.0 ([35f360e](https://github.com/d0ugal/mqtt-exporter/commit/35f360ebac61885ed2188bf71fac42665bf58f85))
+* update module github.com/klauspost/compress to v1.20.1 ([adc726a](https://github.com/d0ugal/mqtt-exporter/commit/adc726adfceefaca50c818a8bdf968f137e587d2))
+* update module github.com/quic-go/quic-go to v0.63.0 ([77426de](https://github.com/d0ugal/mqtt-exporter/commit/77426dece889f1183b5a164f63000d0722c76f0f))
+
 ## [1.26.76](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.75...v1.26.76) (2026-09-22)
 
 
