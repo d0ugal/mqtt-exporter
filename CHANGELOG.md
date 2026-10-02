@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.78](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.77...v1.26.78) (2026-10-02)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/rpc digest to 8a89bd6 ([8353939](https://github.com/d0ugal/mqtt-exporter/commit/83539395b2c8da94696fa3c5b15159d98cfb4b86))
+* update module github.com/d0ugal/promexporter to v1.14.70 ([df7168f](https://github.com/d0ugal/mqtt-exporter/commit/df7168f25b9a72dc0d9c001bb409661970edd69e))
+* update module github.com/d0ugal/promexporter to v1.14.71 ([6043b5f](https://github.com/d0ugal/mqtt-exporter/commit/6043b5f1919252bb518fed637a7d077a96d68397))
+* update module github.com/goccy/go-json to v0.11.2 ([1281125](https://github.com/d0ugal/mqtt-exporter/commit/1281125d20883b6dd82602168d344b991b11bb0d))
+* update module github.com/grafana/pyroscope-go to v1.4.3 ([e2a53ef](https://github.com/d0ugal/mqtt-exporter/commit/e2a53ef9dc843d127a22a22ab2b42c41bd61790b))
+* update module github.com/prometheus/common to v0.72.0 ([732ef04](https://github.com/d0ugal/mqtt-exporter/commit/732ef0431c4cf82c7ee66aad20582d5299ed0d04))
+* update module go.opentelemetry.io/proto/otlp to v1.11.1 ([e64d82d](https://github.com/d0ugal/mqtt-exporter/commit/e64d82d6f26bfde2c5503b2d790540b3da84c4e5))
+* update opentelemetry-go monorepo to v1.47.0 ([45fb018](https://github.com/d0ugal/mqtt-exporter/commit/45fb0182bd4808a6c24676c943dfedade86d75ac))
+* update opentelemetry-go-contrib monorepo to v0.72.0 ([17f934b](https://github.com/d0ugal/mqtt-exporter/commit/17f934bfbd9e25f3a11d8fd7304db3d1778759f1))
+
 ## [1.26.77](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.76...v1.26.77) (2026-09-29)
 
 
