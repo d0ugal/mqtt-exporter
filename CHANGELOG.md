@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.80](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.79...v1.26.80) (2026-10-10)
+
+
+### Bug Fixes
+
+* update go toolchain directive to v1.27.2 ([32e0dff](https://github.com/d0ugal/mqtt-exporter/commit/32e0dff08332edf16f80f31d5ddfc34a8e2f74d9))
+* update module github.com/prometheus/client_golang to v1.25.0 ([3400a73](https://github.com/d0ugal/mqtt-exporter/commit/3400a73ae1a6d300a9846defedd571fa2ae4c865))
+* update module golang.org/x/arch to v0.32.0 ([e9ee0d7](https://github.com/d0ugal/mqtt-exporter/commit/e9ee0d74df78454e09ff0e2e6777e193329f041a))
+* update module golang.org/x/crypto to v0.58.0 ([2a52e30](https://github.com/d0ugal/mqtt-exporter/commit/2a52e301d90b4a71f095fb39075816dd7f81f5b2))
+* update module golang.org/x/net to v0.60.0 ([4fc6a35](https://github.com/d0ugal/mqtt-exporter/commit/4fc6a3515e294dab1f0a7458b0fa78fabddcf700))
+* update module golang.org/x/net to v0.61.0 ([d535393](https://github.com/d0ugal/mqtt-exporter/commit/d5353938dae6cb388e03c0d3719d33d07ec7634c))
+
 ## [1.26.79](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.78...v1.26.79) (2026-10-07)
 
 
