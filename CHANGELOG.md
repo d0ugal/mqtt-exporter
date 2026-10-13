@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.80](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.79...v1.26.80) (2026-10-13)
+
+
+### Bug Fixes
+
+* update go toolchain directive to v1.27.2 ([32e0dff](https://github.com/d0ugal/mqtt-exporter/commit/32e0dff08332edf16f80f31d5ddfc34a8e2f74d9))
+* update google.golang.org/genproto/googleapis/api digest to 4341edf ([8fe5bd9](https://github.com/d0ugal/mqtt-exporter/commit/8fe5bd9b5e5030f73e62870166dd37711b99ab6e))
+* update google.golang.org/genproto/googleapis/rpc digest to 4341edf ([10f6f6d](https://github.com/d0ugal/mqtt-exporter/commit/10f6f6dc4b00932c02e9db6ef187f0c3d614dfdd))
+* update module github.com/klauspost/compress to v1.20.3 ([6e630d0](https://github.com/d0ugal/mqtt-exporter/commit/6e630d075d07f042b8cb6029427581711128dd11))
+* update module github.com/prometheus/client_golang to v1.25.0 ([3400a73](https://github.com/d0ugal/mqtt-exporter/commit/3400a73ae1a6d300a9846defedd571fa2ae4c865))
+* update module github.com/prometheus/common to v0.72.1 ([d5b7c47](https://github.com/d0ugal/mqtt-exporter/commit/d5b7c473b42ab517980bc123c8dbf0a8e463ea7a))
+* update module golang.org/x/arch to v0.32.0 ([e9ee0d7](https://github.com/d0ugal/mqtt-exporter/commit/e9ee0d74df78454e09ff0e2e6777e193329f041a))
+* update module golang.org/x/crypto to v0.58.0 ([2a52e30](https://github.com/d0ugal/mqtt-exporter/commit/2a52e301d90b4a71f095fb39075816dd7f81f5b2))
+* update module golang.org/x/net to v0.60.0 ([4fc6a35](https://github.com/d0ugal/mqtt-exporter/commit/4fc6a3515e294dab1f0a7458b0fa78fabddcf700))
+* update module golang.org/x/net to v0.61.0 ([d535393](https://github.com/d0ugal/mqtt-exporter/commit/d5353938dae6cb388e03c0d3719d33d07ec7634c))
+
 ## [1.26.79](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.78...v1.26.79) (2026-10-07)
 
 
