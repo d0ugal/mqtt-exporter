@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.81](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.80...v1.26.81) (2026-10-17)
+
+
+### Bug Fixes
+
+* update module github.com/d0ugal/promexporter to v1.14.72 ([7715e1f](https://github.com/d0ugal/mqtt-exporter/commit/7715e1f8b64aaab90272565a736daaa7b4985826))
+* update module github.com/gabriel-vasile/mimetype to v1.4.16 ([95171ee](https://github.com/d0ugal/mqtt-exporter/commit/95171ee44c8c1fb5955f90b33dbb705e714431a3))
+* update module github.com/grpc-ecosystem/grpc-gateway/v2 to v2.32.0 ([db2d888](https://github.com/d0ugal/mqtt-exporter/commit/db2d888c6fd68425603c0d9c00aa12293e7556b9))
+* update module github.com/klauspost/cpuid/v2 to v2.4.1 ([a2780c7](https://github.com/d0ugal/mqtt-exporter/commit/a2780c79c489d2638720bfc84bd556280fe2ac56))
+* update module github.com/quic-go/quic-go to v0.64.0 ([8eb2446](https://github.com/d0ugal/mqtt-exporter/commit/8eb2446d563465865c4fe0456a9d889dd16ba41e))
+
 ## [1.26.80](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.79...v1.26.80) (2026-10-13)
 
 
