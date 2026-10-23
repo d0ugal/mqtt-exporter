@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.82](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.81...v1.26.82) (2026-10-23)
+
+
+### Bug Fixes
+
+* update go toolchain directive to v1.27.3 ([e492b75](https://github.com/d0ugal/mqtt-exporter/commit/e492b75216636303a62827c76d67d5d628be11be))
+* update google.golang.org/genproto/googleapis/api digest to ce908d2 ([1ac2f4c](https://github.com/d0ugal/mqtt-exporter/commit/1ac2f4c835d16ef830d08dc5654526741bd6553d))
+* update google.golang.org/genproto/googleapis/rpc digest to ce908d2 ([f89da1d](https://github.com/d0ugal/mqtt-exporter/commit/f89da1d47653039092bf5c44716cc4d77f66dc94))
+* update module github.com/bytedance/sonic/loader to v0.5.3 ([2d5932b](https://github.com/d0ugal/mqtt-exporter/commit/2d5932bc4a1224c8eba5540aed10393c934b42bf))
+* update module github.com/d0ugal/promexporter to v1.14.73 ([d532150](https://github.com/d0ugal/mqtt-exporter/commit/d5321508f53e7b9aabb43ea3d78794f73c83c3d8))
+* update module github.com/prometheus/procfs to v0.23.0 ([e542081](https://github.com/d0ugal/mqtt-exporter/commit/e5420811adeead51c15e8290e68322a051470941))
+* update module github.com/quic-go/quic-go to v0.64.1 ([6fe021c](https://github.com/d0ugal/mqtt-exporter/commit/6fe021c202bb439cb95054e3dd0bcfadf8e3742a))
+
 ## [1.26.81](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.80...v1.26.81) (2026-10-17)
 
 
