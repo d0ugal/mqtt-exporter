@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.85](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.84...v1.26.85) (2026-10-31)
+
+
+### Bug Fixes
+
+* update module github.com/bytedance/sonic to v1.15.5 ([8402cfc](https://github.com/d0ugal/mqtt-exporter/commit/8402cfc14272ac3de4d36e997581a66adec73ccd))
+* update module github.com/gin-contrib/sse to v1.2.0 ([7c0ac3a](https://github.com/d0ugal/mqtt-exporter/commit/7c0ac3a047f650b4d5572d41f052267cb3d3b65e))
+* update module github.com/goccy/go-json to v0.12.0 ([4d6338c](https://github.com/d0ugal/mqtt-exporter/commit/4d6338c387a13a9f73b6d69b4650a1af166e46cd))
+* update module github.com/grpc-ecosystem/grpc-gateway/v2 to v2.33.0 ([c20e96d](https://github.com/d0ugal/mqtt-exporter/commit/c20e96de6e77e14c2b92051db766f75ec3fa0078))
+* update module github.com/hashicorp/go-uuid to v1.0.4 ([46587a1](https://github.com/d0ugal/mqtt-exporter/commit/46587a153850406d7e79ffb876679ed73ac40e43))
+* update module github.com/pandatix/go-abnf to v0.5.3 ([1bcc803](https://github.com/d0ugal/mqtt-exporter/commit/1bcc80372997d08473379ec8e29ff91894426c58))
+* update module github.com/pandatix/go-abnf to v0.5.4 ([3ee1bc1](https://github.com/d0ugal/mqtt-exporter/commit/3ee1bc14a72b8e8127d6fee0eab66442d6b6a50d))
+* update module github.com/prometheus/common to v0.73.0 ([09074f9](https://github.com/d0ugal/mqtt-exporter/commit/09074f9a660d5dc3c8eb738eb881b05f18eb17ca))
+* update module github.com/prometheus/common to v0.73.1 ([2e5d76d](https://github.com/d0ugal/mqtt-exporter/commit/2e5d76d47a214b74d2bdc70fda55e5dd8930a12d))
+* update module golang.org/x/net to v0.62.0 ([ab8d376](https://github.com/d0ugal/mqtt-exporter/commit/ab8d376a22bfe14485d1acbb76df3efd3bb5fa05))
+* update module google.golang.org/grpc to v1.85.0 ([31f9b7f](https://github.com/d0ugal/mqtt-exporter/commit/31f9b7f1d04bad806df024699ffb8d9ce26a8997))
+
 ## [1.26.84](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.83...v1.26.84) (2026-10-27)
 
 
