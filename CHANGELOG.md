@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.86](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.85...v1.26.86) (2026-11-06)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to d1e00e9 ([5235b6e](https://github.com/d0ugal/mqtt-exporter/commit/5235b6ecaa1dc2082c7a160527117796fe6ce76d))
+* update google.golang.org/genproto/googleapis/rpc digest to d1e00e9 ([a290998](https://github.com/d0ugal/mqtt-exporter/commit/a29099846a2d9501500257256c0903c0f2c90761))
+* update module github.com/klauspost/cpuid/v2 to v2.4.2 ([6808ae4](https://github.com/d0ugal/mqtt-exporter/commit/6808ae46436cd4784a2f48212d87687c8d081687))
+* update module github.com/quic-go/quic-go to v0.65.0 ([c640fb8](https://github.com/d0ugal/mqtt-exporter/commit/c640fb81df5c315fc06ef625610162745e63d352))
+* update module go.mongodb.org/mongo-driver/v2 to v2.9.3 ([4a23b10](https://github.com/d0ugal/mqtt-exporter/commit/4a23b10bba2ca792083bc302412bdb0de368a1da))
+* update module go.yaml.in/yaml/v3 to v3.0.6 ([e25c8a8](https://github.com/d0ugal/mqtt-exporter/commit/e25c8a88bd73327ed34750cd11c386a5a6f7a22a))
+* update module go.yaml.in/yaml/v3 to v4 ([a0c862e](https://github.com/d0ugal/mqtt-exporter/commit/a0c862e705a5203b6a1c521ec1b130973c46e3fc))
+
 ## [1.26.85](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.84...v1.26.85) (2026-11-03)
 
 
