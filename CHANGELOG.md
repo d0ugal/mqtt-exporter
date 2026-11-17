@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.89](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.88...v1.26.89) (2026-11-17)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/rpc digest to fd2c768 ([890320c](https://github.com/d0ugal/mqtt-exporter/commit/890320cfab2a3faa8006efccf6fc94e62b80f7e2))
+* update module github.com/grpc-ecosystem/grpc-gateway/v2 to v2.34.0 ([45d7131](https://github.com/d0ugal/mqtt-exporter/commit/45d71319f8d63b7e7d554371a004d8e93e0e2ddf))
+
 ## [1.26.88](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.87...v1.26.88) (2026-11-17)
 
 
