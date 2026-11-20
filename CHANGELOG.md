@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.90](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.89...v1.26.90) (2026-11-20)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/api digest to c8830f6 ([e5e723f](https://github.com/d0ugal/mqtt-exporter/commit/e5e723f716b86b54cd26386dfe4c29b31d376ce7))
+* update google.golang.org/genproto/googleapis/rpc digest to c8830f6 ([2080094](https://github.com/d0ugal/mqtt-exporter/commit/2080094cbeccaf4b090b9338c31bf1ecbf86782e))
+* update module go.mongodb.org/mongo-driver/v2 to v2.10.1 ([fe92d6a](https://github.com/d0ugal/mqtt-exporter/commit/fe92d6ae30c9d1040cfae8e444de3789de70cb49))
+* update module golang.org/x/net to v0.63.0 ([4426955](https://github.com/d0ugal/mqtt-exporter/commit/4426955995e3d6be8892e35931ac06bcec9191a5))
+
 ## [1.26.89](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.88...v1.26.89) (2026-11-17)
 
 
