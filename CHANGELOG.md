@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.91](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.90...v1.26.91) (2026-11-21)
+
+
+### Bug Fixes
+
+* update module github.com/d0ugal/promexporter to v1.14.78 ([395f87b](https://github.com/d0ugal/mqtt-exporter/commit/395f87be213d83b4ecbd4e4a151222272b147434))
+* update module github.com/klauspost/compress to v1.20.5 ([321c850](https://github.com/d0ugal/mqtt-exporter/commit/321c850a353b9dbb1ea848dcbc17dd6881cfc248))
+* update module go.opentelemetry.io/auto/sdk to v1.2.2 ([54cd7b1](https://github.com/d0ugal/mqtt-exporter/commit/54cd7b17e5372b92e91a64a9a5e6c68288d320ec))
+
 ## [1.26.90](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.89...v1.26.90) (2026-11-20)
 
 
