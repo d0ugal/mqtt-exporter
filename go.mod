@@ -6,7 +6,7 @@ toolchain go1.27.4
 
 require (
 	github.com/d0ugal/promexporter v1.14.78
-	github.com/eclipse/paho.mqtt.golang v1.5.1
+	github.com/eclipse/paho.mqtt.golang v1.5.2
 	github.com/prometheus/client_golang v1.25.0
 	github.com/stretchr/testify v1.12.1
 	go.opentelemetry.io/otel v1.47.0
