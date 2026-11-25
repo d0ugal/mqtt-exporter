@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.26.92](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.91...v1.26.92) (2026-11-25)
+
+
+### Bug Fixes
+
+* update google.golang.org/genproto/googleapis/rpc digest to 1e707ab ([f240d2d](https://github.com/d0ugal/mqtt-exporter/commit/f240d2dae6f8bba144c64dcbd5238688078bcd0b))
+* update module github.com/eclipse/paho.mqtt.golang to v1.5.2 ([14520f8](https://github.com/d0ugal/mqtt-exporter/commit/14520f892d077d9d3babfe189ec0db5535df67d4))
+* update module github.com/quic-go/quic-go to v0.66.0 ([bdd88f4](https://github.com/d0ugal/mqtt-exporter/commit/bdd88f4971571d998bf1c8c57fcf1c6d17b76b04))
+
 ## [1.26.91](https://github.com/d0ugal/mqtt-exporter/compare/v1.26.90...v1.26.91) (2026-11-24)
 
 
